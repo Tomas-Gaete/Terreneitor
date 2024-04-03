@@ -1,6 +1,8 @@
 import Image from "next/image";
 import initTranslations from '../i18n';
 import TranslationsProvider from '@components/TranslationsProvider';
+import Button from '@mui/material/Button';
+import StickyFooter from "./StickyFooter.tsx" 
 
 const i18nNamespaces = ['common'];
 
@@ -18,6 +20,9 @@ export default async  function Home({ params: { locale } }) {
             {t(2)}
             </p>
           </div>
+          <br/>
+          <Button variant="contained">Botón de material UI</Button>
+          <StickyFooter/>
         </main>
     </TranslationsProvider>
   );
