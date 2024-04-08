@@ -2,6 +2,8 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 import i18nConfig from '@/i18nConfig';
 import { dir } from 'i18next';
+import theme from '@/theme';
+import { ThemeProvider } from '@mui/material/styles';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,7 +19,10 @@ export function generateStaticParams() {
 export default function RootLayout({ children, params: { locale } }) {
   return (
     <html lang={locale} dir={dir(locale)}>
-      <body className={inter.className}>{children}</body>
+
+      <ThemeProvider theme={theme}>
+        <body className={inter.className}>{children}</body>
+      </ThemeProvider>
     </html>
   );
 }

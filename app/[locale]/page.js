@@ -1,8 +1,9 @@
+'use server'
 import Image from "next/image";
 import initTranslations from '../i18n';
 import TranslationsProvider from '@components/TranslationsProvider';
 import Button from '@mui/material/Button';
-import StickyFooter from "./StickyFooter.tsx" 
+import StickyFooter from "../components/StickyFooter" 
 
 const i18nNamespaces = ['common'];
 
