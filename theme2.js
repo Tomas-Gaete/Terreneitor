@@ -27,12 +27,24 @@ const theme = createTheme({
     },
   },
 });
-
 const themeLight = createTheme({
-  palette: {
-    background: {
-      default: "#e4f0e2"
-    }
-  }
-});
-export default theme;
+    palette: {
+        mode: 'dark',
+      },
+    typography: {
+      fontFamily: roboto.style.fontFamily,
+    },
+    components: {
+      MuiAlert: {
+        styleOverrides: {
+          root: ({ ownerState }) => ({
+            ...(ownerState.severity === 'info' && {
+              backgroundColor: '#f70223',
+            }),
+          }),
+        },
+      },
+    },
+  });
+
+export default themeLight;
