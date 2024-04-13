@@ -1,5 +1,5 @@
 "use client";
-import * as React from 'react';
+
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,6 +15,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import themeLight from '@/theme2';
 
+import { authenticate } from '@/app/lib/actions';
+import { useFormState, useFormStatus } from 'react-dom';
 
 function Copyright(props) {
   return (
@@ -34,6 +36,9 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+
+  const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -62,7 +67,7 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" action={dispatch} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -87,16 +92,8 @@ export default function SignIn() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="outlined"
-              color='secondary'
-              sx={{ mt: 3, mb: 2 }}
-              href="http://localhost:3000/"
-            >
-              Sign In
-            </Button>
+            <LoginButton />
+
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
@@ -114,5 +111,21 @@ export default function SignIn() {
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
+  );
+}
+
+function LoginButton() {
+  const { pending } = useFormStatus();
+  return (
+    <Button
+    type='submit'
+    fullWidth
+    variant="outlined"
+    color='secondary'
+    sx={{ mt: 3, mb: 2 }}
+    aria-disabled={pending}
+  >
+    Sign In tulaaaa
+  </Button>
   );
 }
