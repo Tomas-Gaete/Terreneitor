@@ -3,16 +3,20 @@ import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
 import { z } from 'zod';
 import { sql } from '@vercel/postgres';
-
+const bcrypt = require("bcryptjs")
 
 async function getUser(email) {
+    let user;
     try {
-        const user = await sql`SELECT * FROM users WHERE email=${email}`;
-        return user.rows[0];
+        user = await sql`SELECT * FROM user_info WHERE email=${email}`;
     } catch (error) {
-        console.error('Failed to fetch user:', error);
-        throw new Error('Failed to fetch user.');
+        throw new Error('genericError');
     }
+    if (user.rowCount === 0) {
+        //mayb it should be wrongCredentials
+        throw new Error('userNotFound');
+    }
+    return user.rows[0];
 }
 
 export const { auth, signIn, signOut } = NextAuth({
@@ -29,11 +33,19 @@ export const { auth, signIn, signOut } = NextAuth({
                 const user = await getUser(email);
                 if (!user) return null;
                 const passwordsMatch = await bcrypt.compare(password, user.password);
-                if (passwordsMatch) return user;
-            }
 
-            console.log('Invalid credentials');
-            return null;
+                if (passwordsMatch){
+                    return user;
+                } else {
+                    // Credentials dont match
+                    throw new Error('credentialsDontMatch');
+                }
+
+            } else {
+                // Credentials are invalid
+                //TODO: add alert to remind the user of the password requirements
+                throw new Error('invalidCredentials');
+            }
         },
     }),
     ],

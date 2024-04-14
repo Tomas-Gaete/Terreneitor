@@ -10,10 +10,13 @@ const roboto = Roboto({
 
 const theme = createTheme({
   palette: {
-    mode: 'light',
+    mode: 'dark',
   },
   typography: {
     fontFamily: roboto.style.fontFamily,
+  },
+  background: {
+    default: 'linear-gradient(to bottom, transparent, rgb(255, 255, 255)) rgb(214, 219, 220)',
   },
   components: {
     MuiAlert: {
@@ -23,16 +26,11 @@ const theme = createTheme({
             backgroundColor: '#eb4034',
           }),
         }),
+
       },
     },
   },
 });
 
-const themeLight = createTheme({
-  palette: {
-    background: {
-      default: "#e4f0e2"
-    }
-  }
-});
+
 export default theme;

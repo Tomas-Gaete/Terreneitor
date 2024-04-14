@@ -1,5 +1,4 @@
 'use server'
-import Image from "next/image";
 import initTranslations from '../i18n';
 import TranslationsProvider from '@components/TranslationsProvider';
 import Button from '@mui/material/Button';
