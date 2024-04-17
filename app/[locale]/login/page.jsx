@@ -33,6 +33,7 @@ function Copyright(props) {
 export default function SignIn() {
 	const [errorMessage, dispatch] = useFormState(authenticate, undefined);
 
+	//TODO: add link for forgot password option
 	return (
 		<Container component="main" maxWidth="xs">
 			<Box
@@ -74,12 +75,12 @@ export default function SignIn() {
 
 					<Grid container>
 						<Grid item xs>
-							<Link href="#" variant="body2">
+							<Link href="http://localhost:3000/es/#" variant="body2"> 
 								Forgot password?
 							</Link>
 						</Grid>
 						<Grid item>
-							<Link href="#" variant="body2">
+							<Link href="http://localhost:3000/es/register" variant="body2">
 								{"Don't have an account? Sign Up"}
 							</Link>
 						</Grid>
