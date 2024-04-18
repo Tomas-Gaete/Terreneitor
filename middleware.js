@@ -1,21 +1,39 @@
-// import { i18nRouter } from 'next-i18n-router';
-// import i18nConfig from './i18nConfig';
+import { i18nRouter } from "next-i18n-router";
+import i18nConfig from "./i18nConfig";
+import { auth } from "./auth";
 
-// export function middleware(request) {
-//   return i18nRouter(request, i18nConfig);
-// }
+const locales = ["es", "en"];
+const publicPages = ["/", "/login"];
 
-// // applies this middleware only to files in the app directory
-// export const config = {
-//   matcher: '/((?!api|static|.*\\..*|_next).*)'
-// };
+const authMiddleware = auth((req)=>{
+    return i18nRouter(req,  i18nConfig);
+});
 
-import NextAuth from 'next-auth';
-import { authConfig } from './auth.config';
- 
-export default NextAuth(authConfig).auth;
- 
+export default function middleware(req) {
+
+    //TODO: remove this when we are done
+    let currentDate = new Date();
+    let logDateString = currentDate.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+    console.log(`[${logDateString}] ------- MIDDLEWARE -------`)
+    console.log(req.nextUrl.pathname)
+
+	const publicPathnameRegex = RegExp(
+		`^(/(${locales.join("|")}))?(${publicPages
+			.flatMap((p) => (p === "/" ? ["", "/"] : p))
+			.join("|")})/?$`,
+		"i",
+	);
+	const isPublicPage = publicPathnameRegex.test(req.nextUrl.pathname);
+
+	if (isPublicPage) {
+        console.log("isPublicPage")
+		return i18nRouter(req, i18nConfig);
+	} else {
+        console.log("isNotPublicPage")
+		return authMiddleware(req);
+	}
+}
+
 export const config = {
-  // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
-  matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
+	matcher: ["/((?!api|_next|.\\..).*)"],
 };

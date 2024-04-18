@@ -1,4 +1,4 @@
-import "./globals.css";
+import "../globals.css";
 import { Inter } from "next/font/google";
 import i18nConfig from "@/i18nConfig";
 import { dir } from "i18next";

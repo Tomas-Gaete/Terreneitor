@@ -75,6 +75,7 @@ export default function SignIn() {
 
 					<Grid container>
 						<Grid item xs>
+                            {/* change the url to dynamic ones */}
 							<Link href="http://localhost:3000/es/#" variant="body2"> 
 								Forgot password?
 							</Link>

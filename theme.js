@@ -18,18 +18,6 @@ const theme = createTheme({
   background: {
     default: 'linear-gradient(to bottom, transparent, rgb(255, 255, 255)) rgb(214, 219, 220)',
   },
-  components: {
-    MuiAlert: {
-      styleOverrides: {
-        root: ({ ownerState }) => ({
-          ...(ownerState.severity === 'info' && {
-            backgroundColor: '#eb4034',
-          }),
-        }),
-
-      },
-    },
-  },
 });
 
 
