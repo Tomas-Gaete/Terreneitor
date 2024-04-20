@@ -1,5 +1,5 @@
 "use server";
-import { signIn } from "@/auth";
+import { signIn , signOut} from "@/auth";
 import { AuthError } from "next-auth";
 import { cookies } from "next/headers";
 
@@ -38,4 +38,8 @@ export async function authenticate(prevState, formData) {
 		}
 		throw error;
 	}
+}
+
+export async function LogOut() {
+    await signOut({ redirectTo: "/login" });
 }

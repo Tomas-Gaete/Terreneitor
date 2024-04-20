@@ -1,1 +1,11 @@
-{"1":"Welcome to Next.js!","2":"Get started by editing pages/index.js"}
+{
+	"dashboard": "Dashboard",
+	"visitors": "Visitors",
+	"delivery": "Delivery",
+	"settings": "Settings",
+	"open_settings": "Open settings",
+	"home": "Home",
+	"logout": "Logout",
+	"profile": "Profile",
+	"change_language": "Change language"
+}

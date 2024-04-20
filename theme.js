@@ -8,17 +8,52 @@ const roboto = Roboto({
   display: 'swap',
 });
 
+const islight = false;
+
 const theme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-  typography: {
-    fontFamily: roboto.style.fontFamily,
-  },
-  background: {
-    default: 'linear-gradient(to bottom, transparent, rgb(255, 255, 255)) rgb(214, 219, 220)',
-  },
+    palette: islight ?{
+        mode: 'light',
+        primary: {
+          main: '#F8BC18',
+        },
+        secondary: {
+          main: '#769A70',
+        },
+        warning: {
+          main: '#ff9800',
+        },
+        error: {
+          main: '#EA453C',
+        },
+        background: {
+          default: '#F8FFEA',
+          paper: '#FFFFFF',
+        },
+      } : {
+        mode: 'dark',
+        primary: {
+          main: '#F8BC18',
+        },
+        secondary: {
+          main: '#769A70',
+        },
+        warning: {
+          main: '#ff9800',
+        },
+        error: {
+          main: '#EA453C',
+        },
+        background: {
+          default: '#17130B',
+          paper: '#353027',
+        },
+      } ,
+    typography: {
+        fontFamily: roboto.style.fontFamily,
+    },
 });
 
 
 export default theme;
+
+// quizas dark primary: F8A818

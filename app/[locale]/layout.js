@@ -1,5 +1,4 @@
 import "../globals.css";
-import { Inter } from "next/font/google";
 import i18nConfig from "@/i18nConfig";
 import { dir } from "i18next";
 import theme from "@/theme";
@@ -8,8 +7,6 @@ import { CssBaseline } from "@mui/material";
 
 import initTranslations from "../i18n";
 import TranslationsProvider from "@components/TranslationsProvider";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
 	title: "Terreneitor",
@@ -34,9 +31,11 @@ export default async function RootLayout({ children, params: { locale } }) {
 			>
 				<ThemeProvider theme={theme}>
 					<CssBaseline />
-					<body className={inter.className}>{children}</body>
+					<body>
+                        {children}
+                    </body>
 				</ThemeProvider>
-			</TranslationsProvider>
+			</TranslationsProvider> 
 		</html>
 	);
 }

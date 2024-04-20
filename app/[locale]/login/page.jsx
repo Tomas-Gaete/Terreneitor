@@ -32,6 +32,7 @@ function Copyright(props) {
 
 export default function SignIn() {
 	const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+    const { i18n } = useTranslation();
 
 	//TODO: add link for forgot password option
 	return (
@@ -81,7 +82,7 @@ export default function SignIn() {
 							</Link>
 						</Grid>
 						<Grid item>
-							<Link href="http://localhost:3000/es/register" variant="body2">
+							<Link href={`http://localhost:3000/${i18n.language}/register`} variant="body2">
 								{"Don't have an account? Sign Up"}
 							</Link>
 						</Grid>
