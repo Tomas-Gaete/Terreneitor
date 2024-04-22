@@ -36,6 +36,7 @@ export const { auth, signIn, signOut } = NextAuth({
 
                 if (passwordsMatch){
                     return user;
+                    //return {...user, name: user.firstname+" "+user.lastname};
                 } else {
                     // Credentials dont match
                     throw new Error('credentialsDontMatch');

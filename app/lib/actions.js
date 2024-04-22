@@ -1,16 +1,16 @@
 "use server";
-import { signIn , signOut} from "@/auth";
+import { auth, signIn, signOut } from "@/auth";
 import { AuthError } from "next-auth";
 import { cookies } from "next/headers";
-
+import { sql } from "@vercel/postgres";
 
 export async function authenticate(prevState, formData) {
 	try {
-        const cookiesHeaders = cookies();
-        const locale = cookiesHeaders.get('NEXT_LOCALE').value;
+		const cookiesHeaders = cookies();
+		const locale = cookiesHeaders.get("NEXT_LOCALE").value;
 		await signIn("credentials", {
-			email: formData.get('email'),
-			password: formData.get('password'),
+			email: formData.get("email"),
+			password: formData.get("password"),
 			redirectTo: `/${locale}/dashboard`,
 		});
 	} catch (error) {
@@ -41,5 +41,28 @@ export async function authenticate(prevState, formData) {
 }
 
 export async function LogOut() {
-    await signOut({ redirectTo: "/login" });
+	await signOut({ redirectTo: "/login" });
 }
+
+export async function getVisitors() {
+	const session = await auth();
+	if (!session?.user || !session?.user?.email) return null;
+
+    const visitors = await sql`WITH community_id_query AS (
+            SELECT community_id
+            FROM user_info
+            WHERE email = ${session.user.email}
+        )
+        SELECT 
+            id,
+            rut, 
+            firstname ||' '|| lastname AS name
+        FROM visitor
+        WHERE community_id = (SELECT community_id FROM community_id_query)
+    `;
+    const visitorsRut = visitors.rows.map((visitor) => ({label: visitor.rut, id: visitor.id}));
+    const visitorsName = visitors.rows.map((visitor) => ({label: visitor.name, id: visitor.id}));
+    
+    return {visitorsRut, visitorsName};
+}
+
