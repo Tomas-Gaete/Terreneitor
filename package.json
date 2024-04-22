@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -26,9 +27,13 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@testing-library/react": "^15.0.2",
+    "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.0.1",
+    "jsdom": "^24.0.0",
     "postcss": "^8",
     "prettier": "3.2.5",
-    "tailwindcss": "^3.3.0"
+    "tailwindcss": "^3.3.0",
+    "vitest": "^1.5.0"
   }
 }
