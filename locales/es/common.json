@@ -1,11 +1,21 @@
 {
     "dashboard": "Dashboard",
-    "visitors": "Visitas",
     "delivery": "Delivery",
     "settings": "Ajustes",
     "open_settings": "Abrir ajustes",
     "home": "Inicio",
     "logout": "Cerrar sesión",
     "profile": "Perfil",
-    "change_language": "Cambiar idioma"
+    "change_language": "Cambiar idioma",
+    "visitors":{
+        "title": "Visitas",
+        "name": "Nombre",
+        "rut": "RUT",
+        "no_visitors": "Visita no registrada",
+        "residence": "Recidencia",
+        "register_visit": "Registrar visita",
+        "scan_id": "Escanear Cédula",
+        "frequent_visitors": "Visitas frecuentes",
+        "parking_space": "Estacionamiento"
+    }
 }

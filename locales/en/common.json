@@ -1,11 +1,22 @@
 {
 	"dashboard": "Dashboard",
-	"visitors": "Visitors",
 	"delivery": "Delivery",
 	"settings": "Settings",
 	"open_settings": "Open settings",
 	"home": "Home",
 	"logout": "Logout",
 	"profile": "Profile",
-	"change_language": "Change language"
+	"change_language": "Change language",
+    "visitors":{
+        "title": "Visitors",
+        "name": "Name",
+        "rut": "RUT",
+        "no_visitors": "Visitor not registered",
+        "residence": "Residence",
+        "register_visit": "Register visit",
+        "scan_id": "Scan ID",
+        "frequent_visitors": "Frequent visitors",
+        "parking_space": "Parking space"
+
+    }
 }

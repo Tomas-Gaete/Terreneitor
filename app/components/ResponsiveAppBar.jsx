@@ -90,7 +90,7 @@ function NavbarSettings({ text, locales }) {
 
 function ResponsiveAppBar() {
 	const { t } = useTranslation("common");
-	const pages = [[t("home"), "/dashboard"], [t("visitors"), "/visitors"], [t("delivery"), "/delivery"], [t("settings"), "/settings"]]
+	const pages = [[t("home"), "/dashboard"], [t("visitors.title"), "/visitors"], [t("delivery"), "/delivery"], [t("settings"), "/settings"]]
     //TODO: make this dynamic also home should dashboard or something
 
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
