@@ -11,12 +11,18 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-
 import { authenticate } from "@/app/lib/actions";
 import { useFormState, useFormStatus } from "react-dom";
-
 import { useTranslation } from "react-i18next";
 
+
+/*
+	* This is the page for the user to log in by entering their email and password.
+	* They can go to the Sign Up page if they don't have an account.
+	* They can go to the Forgot password page if they forgot their password.
+*/
+
+// * This function indicates the copyright, displaying the page name and the year.
 function Copyright(props) {
 	return (
 		<Typography variant="body2" color="white" align="center" {...props}>
@@ -29,6 +35,8 @@ function Copyright(props) {
 		</Typography>
 	);
 }
+
+// * This function displays the login form, requesting values such as email and password in the "<TextField>" sections. It also includes options for "Forgot password?" and "Don't have an account? Sign Up" for greater variability of choices. Additionally, it shows the errorMessage in case the user entered their data incorrectly.
 
 export default function SignIn() {
 	const [errorMessage, dispatch] = useFormState(authenticate, undefined);
@@ -94,7 +102,7 @@ export default function SignIn() {
 		</Container>
 	);
 }
-
+// * This function is used to display the login button, which is used to send the user's data to the server for authentication.
 function LoginButton() {
 	const { pending } = useFormStatus();
 	return (
@@ -111,6 +119,8 @@ function LoginButton() {
 	);
 }
 
+
+// * This function is used to display an error message in case the user entered their data incorrectly.
 //TODO: make the messages locale aware
 function ErrorAlert({ message }) {
 	const { t } = useTranslation('errors');

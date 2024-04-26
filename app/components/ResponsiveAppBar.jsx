@@ -23,6 +23,8 @@ import { Logout, Settings } from "@mui/icons-material";
 
 import { LogOut } from "../lib/actions";
 
+
+// * This function displays the settings menu, which includes options for the user to view their profile, change the language, and log out.
 function NavbarSettings({ text, locales }) {
 	const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -37,7 +39,8 @@ function NavbarSettings({ text, locales }) {
 	return (
 		<Box sx={{ flexGrow: 0 }}>
 			<Tooltip title={text.settings}>
-				{/* quizas cambiar por un gear y poner un menu con weas*/}
+				{/* TODO: maybe change for a gear or put a menu with things*/}
+
 				<Settings
 					fontSize="medium"
 					sx={{ ml: 1 }}
@@ -88,6 +91,8 @@ function NavbarSettings({ text, locales }) {
 	);
 }
 
+
+// * This function displays the responsive app bar, which includes a menu icon that opens a menu with the pages of the app, and a title that links to the home page.
 function ResponsiveAppBar() {
 	const { t } = useTranslation("common");
 	const pages = [t("home"), t("visitors"), t("delivery"), t("settings")];

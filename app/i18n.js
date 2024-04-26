@@ -3,6 +3,9 @@ import { initReactI18next } from 'react-i18next/initReactI18next';
 import resourcesToBackend from 'i18next-resources-to-backend';
 import i18nConfig from '@/i18nConfig';
 
+
+ t
+// * This function is the file where function initTranslations is defined. This function initializes the translations for the app, setting the locale and the namespaces.
 export default async function initTranslations(
   locale,
   namespaces,

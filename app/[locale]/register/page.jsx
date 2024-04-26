@@ -13,6 +13,12 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
+/*
+    * This is the page where the user can sign up, entering their first name, last name, email, and password. 
+*/
+
+
+// * This function is used to display the copyright information at the bottom of the page.
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -26,9 +32,10 @@ function Copyright(props) {
   );
 }
 
+
+// * This function displays the sign up form, requesting values such as first name, last name, email, and password in the "<TextField>" sections. It also includes options for "I want to receive inspiration, marketing promotions and updates via email." and "Already have an account? Sign in" for greater variability of choices.
+
 //TODO: connect the created user properly to the database
-
-
 export default function SignUp() {
   const handleSubmit = (event) => {
     event.preventDefault();

@@ -3,8 +3,11 @@ import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
 import { z } from 'zod';
 import { sql } from '@vercel/postgres';
+
+
 const bcrypt = require("bcryptjs")
 
+// * This function will get the user from the database by the email.
 async function getUser(email) {
     let user;
     try {
@@ -19,6 +22,8 @@ async function getUser(email) {
     return user.rows[0];
 }
 
+
+// * This function will authenticate the user by email and password.
 export const { auth, signIn, signOut } = NextAuth({
     ...authConfig,
     providers: [Credentials({

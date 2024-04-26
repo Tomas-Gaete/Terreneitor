@@ -3,7 +3,7 @@ import { signIn , signOut} from "@/auth";
 import { AuthError } from "next-auth";
 import { cookies } from "next/headers";
 
-
+// * This function authenticates the user with the email and password provided.
 export async function authenticate(prevState, formData) {
 	try {
         const cookiesHeaders = cookies();
@@ -40,6 +40,7 @@ export async function authenticate(prevState, formData) {
 	}
 }
 
+// * This function logs the user out of the app.
 export async function LogOut() {
     await signOut({ redirectTo: "/login" });
 }

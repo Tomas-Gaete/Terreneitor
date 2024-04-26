@@ -9,6 +9,7 @@ const authMiddleware = auth((req)=>{
     return i18nRouter(req,  i18nConfig);
 });
 
+// * This function will check if the page is public or private. If it is public, it will return the i18nRouter function. If it is private, it will return the authMiddleware function.
 export default function middleware(req) {
 
     //TODO: remove this when we are done

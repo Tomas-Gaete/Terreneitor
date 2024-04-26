@@ -7,6 +7,8 @@ import { Box, Typography, Button } from "@mui/material";
 import LanguageIcon from "@mui/icons-material/Language";
 import Image from "next/image";
 
+
+// * This function allows the user to change the language of the page to either English or Spanish.
 export default function LanguageChanger() {
 	const { t, i18n } = useTranslation();
 	const currentLocale = i18n.language;

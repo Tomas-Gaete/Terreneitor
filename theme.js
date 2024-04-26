@@ -2,6 +2,10 @@
 import { Roboto } from 'next/font/google';
 import { createTheme } from '@mui/material/styles';
 
+/*
+    * This is the theme file for the app. It contains the color palette and typography for the app.
+*/
+
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
   subsets: ['latin'],
@@ -56,4 +60,4 @@ const theme = createTheme({
 
 export default theme;
 
-// quizas dark primary: F8A818
+// maybe dark primary: F8A818
