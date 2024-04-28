@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -27,7 +29,12 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@cfaester/enzyme-adapter-react-18": "^0.7.1",
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^15.0.4",
     "autoprefixer": "^10.0.1",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "postcss": "^8",
     "prettier": "3.2.5",
     "tailwindcss": "^3.3.0"
