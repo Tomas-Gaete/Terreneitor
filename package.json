@@ -28,6 +28,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@cfaester/enzyme-adapter-react-18": "^0.7.1",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^15.0.4",
     "autoprefixer": "^10.0.1",

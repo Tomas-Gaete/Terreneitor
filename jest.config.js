@@ -10,7 +10,7 @@ const createJestConfig = nextJest({
   // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
   dir: './',
 })
-
+ 
 const config = {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
@@ -39,6 +39,7 @@ const config = {
   // ],
 
   // Indicates which provider should be used to instrument code for coverage
+  setupTestFrameworkScriptFile: "Terreneitor/enzyme.js",
   coverageProvider: "v8",
   testEnvironment: 'jsdom',
 
