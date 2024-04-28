@@ -75,6 +75,7 @@ function NavbarSettings({ text, locales }) {
 				{/* TODO: add a dark/light mode selector */}
 				{/* TODO: remove weird red border when selected */}
 				<MenuItem onClick={handleCloseUserMenu}>
+					
 					<form
 						action={async () => {
 							await LogOut({ redirectTo: "/login" });

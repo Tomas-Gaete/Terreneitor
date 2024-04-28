@@ -1,0 +1,9 @@
+{
+    "signup" : "Sign up",
+    "signin" : "Already have an account? Sign in",
+    "firstname" : "First Name",
+    "lastname" : "Last Name",
+    "email" : "Email Address",
+    "password" : "Password",
+    "updates" : "I want to receive inspiration, marketing promotions and updates via email."
+}

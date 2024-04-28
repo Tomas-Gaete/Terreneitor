@@ -12,6 +12,9 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { useTranslation } from "react-i18next";
+import LanguageChanger from "@components/LanguageChanger";
+
 
 /*
     * This is the page where the user can sign up, entering their first name, last name, email, and password. 
@@ -20,11 +23,12 @@ import Container from '@mui/material/Container';
 
 // * This function is used to display the copyright information at the bottom of the page.
 function Copyright(props) {
+
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="http://localhost:3000/">
+        Terrenaitor
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -37,6 +41,7 @@ function Copyright(props) {
 
 //TODO: connect the created user properly to the database
 export default function SignUp() {
+  const { t } = useTranslation("translate-register");
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -61,7 +66,7 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            {t("signup")}
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -72,7 +77,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="firstName"
-                  label="First Name"
+                  label={t("firstname")}
                   autoFocus
                 />
               </Grid>
@@ -81,7 +86,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="lastName"
-                  label="Last Name"
+                  label={t("lastname")}
                   name="lastName"
                   autoComplete="family-name"
                 />
@@ -91,7 +96,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="email"
-                  label="Email Address"
+                  label={t("email")}
                   name="email"
                   autoComplete="email"
                 />
@@ -101,7 +106,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label={t("password")}
                   type="password"
                   id="password"
                   autoComplete="new-password"
@@ -110,7 +115,7 @@ export default function SignUp() {
               <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  label= {t("updates")}
                 />
               </Grid>
             </Grid>
@@ -122,16 +127,25 @@ export default function SignUp() {
               href="http://localhost:3000/es/login"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              {t("signup")}
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="http://localhost:3000/es/login" variant="body2">
-                  Already have an account? Sign in
+                {t("signin")}
                 </Link>
               </Grid>
             </Grid>
           </Box>
+        </Box>
+        <Box sx={{ 
+          my: 5,
+          display: 'flex',
+          justifyContent: 'center', 
+          alignItems: 'center'
+         }}>
+
+          <LanguageChanger />
         </Box>
         <Copyright sx={{ mt: 5 }} />
       </Container>

@@ -1,0 +1,10 @@
+{
+    "signup": "Registrarse",
+    "signin": "¿Ya tienes una cuenta? Iniciar sesión",
+    "firstname": "Nombre",
+    "lastname": "Apellido",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "updates": "Quiero recibir inspiración, promociones de marketing y actualizaciones por correo electrónico."
+
+}

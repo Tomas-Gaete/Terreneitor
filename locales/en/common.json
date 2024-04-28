@@ -1,11 +1,12 @@
 {
 	"dashboard": "Dashboard",
 	"visitors": "Visitors",
-	"delivery": "Delivery",
+	"delivery": "Package Reception",
 	"settings": "Settings",
 	"open_settings": "Open settings",
 	"home": "Home",
-	"logout": "Logout",
+	"logout": "Sign Out",
 	"profile": "Profile",
 	"change_language": "Change language"
+
 }

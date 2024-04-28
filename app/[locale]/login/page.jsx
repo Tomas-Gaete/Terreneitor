@@ -13,7 +13,9 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { authenticate } from "@/app/lib/actions";
 import { useFormState, useFormStatus } from "react-dom";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
+import LanguageChanger from "@components/LanguageChanger";
+
 
 
 /*
@@ -39,6 +41,7 @@ function Copyright(props) {
 // * This function displays the login form, requesting values such as email and password in the "<TextField>" sections. It also includes options for "Forgot password?" and "Don't have an account? Sign Up" for greater variability of choices. Additionally, it shows the errorMessage in case the user entered their data incorrectly.
 
 export default function SignIn() {
+    const { t } = useTranslation("translate-login");
 	const [errorMessage, dispatch] = useFormState(authenticate, undefined);
     const { i18n } = useTranslation();
 
@@ -57,15 +60,17 @@ export default function SignIn() {
 					<LockOutlinedIcon />
 				</Avatar>
 				<Typography component="h1" variant="h5">
-					Sign in
+					{t("login")}
 				</Typography>
+				
 				<Box component="form" action={dispatch} noValidate sx={{ mt: 1 }}>
+					
 					<TextField
 						margin="normal"
 						required
 						fullWidth
 						id="email"
-						label="Email Address"
+						label={t("email")}
 						name="email"
 						autoComplete="email"
 						autoFocus
@@ -75,7 +80,7 @@ export default function SignIn() {
 						required
 						fullWidth
 						name="password"
-						label="Password"
+						label={t("password")}
 						type="password"
 						id="password"
 						autoComplete="current-password"
@@ -86,17 +91,24 @@ export default function SignIn() {
 						<Grid item xs>
                             {/* change the url to dynamic ones */}
 							<Link href="http://localhost:3000/es/#" variant="body2"> 
-								Forgot password?
+								{t("forgotpassword")}
 							</Link>
 						</Grid>
 						<Grid item>
 							<Link href={`http://localhost:3000/${i18n.language}/register`} variant="body2">
-								{"Don't have an account? Sign Up"}
+								{t("register")}
 							</Link>
 						</Grid>
 					</Grid>
 				</Box>
+				<Box sx={{ my: 5 }}>
+
+					<LanguageChanger />
+				</Box>
+
 			</Box>
+
+			
 			{errorMessage && <ErrorAlert message={errorMessage} />}
 			<Copyright sx={{ mt: 8, mb: 4 }} />
 		</Container>
@@ -105,6 +117,8 @@ export default function SignIn() {
 // * This function is used to display the login button, which is used to send the user's data to the server for authentication.
 function LoginButton() {
 	const { pending } = useFormStatus();
+	const { t } = useTranslation("translate-login"); 
+
 	return (
 		<Button
 			type="submit"
@@ -114,7 +128,7 @@ function LoginButton() {
 			sx={{ mt: 3, mb: 2 }}
 			aria-disabled={pending}
 		>
-			Sign In
+			{t("login")}
 		</Button>
 	);
 }
