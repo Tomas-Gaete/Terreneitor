@@ -1,5 +1,5 @@
 'use client';
-import { Roboto } from 'next/font/google';
+import { Roboto, Red_Hat_Display } from 'next/font/google';
 import { createTheme } from '@mui/material/styles';
 
 /*
@@ -11,6 +11,12 @@ const roboto = Roboto({
   subsets: ['latin'],
   display: 'swap',
 });
+const ibm_plex_mono = Red_Hat_Display({
+    weight: ['variable'],
+    subsets: ['latin'],
+    display: 'swap',
+    });
+
 
 const islight = false;
 
@@ -39,7 +45,7 @@ const theme = createTheme({
           main: '#F8BC18',
         },
         secondary: {
-          main: '#769A70',
+          main: '#4d9444',
         },
         warning: {
           main: '#ff9800',
@@ -53,7 +59,7 @@ const theme = createTheme({
         },
       } ,
     typography: {
-        fontFamily: roboto.style.fontFamily,
+        fontFamily: ibm_plex_mono.style.fontFamily,
     },
 });
 

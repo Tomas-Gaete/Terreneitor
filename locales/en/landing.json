@@ -1,0 +1,56 @@
+{
+    "login": "Sign In",
+    "title" : {
+        "a": "Manage Your",
+        "b":"Community",
+        "c":"Expertly"
+    },
+    "subtitle" : "Explore our amazing products and services!",
+    "learn": "learn more",
+ 
+    "features": {
+        "title": "Leaders in community management software",
+        "security": {
+            "title": "Uncompromised Security",
+            "description": "Prioritizes the safety and security of your community. Sleep easy knowing our comprehensive security protocols keep your communit safe."
+        },
+        "management": {
+            "title": "Effortless Community Management",
+            "description": "Terreneitor makes community management a breeze with streamlined processes and user-friendly systems. Managing your community has never been easier."
+        },
+        "communication": {
+            "title": "Seamless Communication",
+            "description": "Our proactive communication strategies keep everyone in the loop, ensuring smooth interactions and satisfied residents. No more missed deliveries."
+        }
+
+    },
+    "services":{
+        "title": "Our Services",
+        "packages": {
+            "title": "Package reception",
+            "description": "We offer package reception services for your convenience. Never miss a delivery again!"
+        },
+        "parking":{
+            "title": "Parking Management",
+            "description": "Oversee parking in your community with our parking management system. Keep track of parking spots and manage parking permits."
+        },
+        "visitors":{
+            "title": "Visitor Management",
+            "description": "Manage your visitors with ease. Our visitor management system is designed to keep your community safe."
+        },
+        "notifications":{
+            "title": "Instant Notifications",
+            "description": "Get instant notifications for all community events and updates. Stay informed and connected."
+        }
+    },
+    "contact": {
+        "title": "Get started with Terreneitor today!",
+        "subtitle": "Sign up for our services and start managing your community with ease.",
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "email": "Email",
+        "phone": "Phone Number",
+        "message": "Tell us about your community!",
+        "send": "send"
+    }
+}

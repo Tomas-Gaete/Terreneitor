@@ -19,7 +19,7 @@ export function generateStaticParams() {
 	return i18nConfig.locales.map((locale) => ({ locale }));
 }
 
-const i18nNamespaces = ["common", "errors", "translate-login", "translate-register", "translate-dashboard", "translate-landingpage"];
+const i18nNamespaces = ["common", "errors", "translate-login", "translate-register", "translate-dashboard", "landing"];
 
 // * This function initializes the translations for the page, setting the locale and the namespaces.
 

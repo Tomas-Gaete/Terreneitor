@@ -9,7 +9,7 @@ import Image from "next/image";
 
 
 // * This function allows the user to change the language of the page to either English or Spanish.
-export default function LanguageChanger() {
+export default function LanguageChanger({noMargin = "auto"}) {
 	const { t, i18n } = useTranslation();
 	const currentLocale = i18n.language;
 	const router = useRouter();
@@ -41,10 +41,11 @@ export default function LanguageChanger() {
 	};
 
 	return (
-		<Button sx={{ m: "auto" }} onClick={handleChange}>
+		<Button sx={{ m: noMargin}} onClick={handleChange}>
 			<Box
 				sx={{
 					display: "flex",
+                    alignItems: "center",
 				}}
 			>
 				<LanguageIcon />

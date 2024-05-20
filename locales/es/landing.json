@@ -1,0 +1,50 @@
+{
+	"contact": {
+		"email": "Correo electrónico",
+		"first_name": "Nombre de pila",
+		"last_name": "Apellido",
+		"message": "¡Cuéntanos sobre tu comunidad!",
+		"phone": "Número de teléfono",
+		"send": "enviar",
+		"subtitle": "Regístrese en nuestros servicios y comience a administrar su comunidad con facilidad.",
+		"title": "¡Empiece a utilizar Terreneitor hoy!"
+	},
+	"features": {
+		"communication": {
+			"description": "Nuestras estrategias de comunicación proactiva mantienen a todos informados, garantizando interacciones fluidas y residentes satisfechos. No más entregas perdidas.",
+			"title": "Comunicación perfecta"
+		},
+		"management": {
+			"description": "Terreneitor facilita la gestión comunitaria con procesos optimizados y sistemas fáciles de usar. Administrar su comunidad nunca ha sido tan fácil.",
+			"title": "Gestión comunitaria sin esfuerzo"
+		},
+		"security": {
+			"description": "Prioriza la seguridad y protección de su comunidad. Duerma tranquilo sabiendo que nuestros protocolos de seguridad integrales mantienen su comunidad segura.",
+			"title": "Seguridad sin concesiones"
+		},
+		"title": "Líderes en software de gestión comunitaria"
+	},
+	"learn": "aprende más",
+	"login": "Iniciar sesión",
+	"services": {
+		"notifications": {
+			"description": "Reciba notificaciones instantáneas de todos los eventos y actualizaciones de la comunidad. Manténgase informado y conectado.",
+			"title": "Notificaciones instantáneas"
+		},
+		"packages": {
+			"description": "Ofrecemos servicios de recepción de paquetes para su comodidad. ¡Nunca más te pierdas una entrega!",
+			"title": "Recepción de paquetes"
+		},
+		"parking": {
+			"description": "Supervise el estacionamiento en su comunidad con nuestro sistema de gestión de estacionamiento. Realice un seguimiento de los lugares de estacionamiento y administre los permisos de estacionamiento.",
+			"title": "Gestión de estacionamiento"
+		},
+		"title": "Nuestros servicios",
+		"visitors": {
+			"description": "Administre a sus visitantes con facilidad. Nuestro sistema de gestión de visitantes está diseñado para mantener segura su comunidad.",
+			"title": "Gestión de visitantes"
+		}
+	},
+	"subtitle": "¡Explore nuestros increíbles productos y servicios!",
+	"title": { "a": "Administre su", "b": "Comunidad", "c": "Fácilmente" }
+}

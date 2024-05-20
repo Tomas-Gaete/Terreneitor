@@ -9,6 +9,8 @@ const authMiddleware = auth((req)=>{
     return i18nRouter(req,  i18nConfig);
 });
 
+const media = ["/hero.jpg", "/delivery.jpg", "/visitorManagement.jpg", "/notification.jpg", "/parking.jpg"]
+
 // * This function will check if the page is public or private. If it is public, it will return the i18nRouter function. If it is private, it will return the authMiddleware function.
 export default function middleware(req) {
 
@@ -18,6 +20,8 @@ export default function middleware(req) {
     console.log(`[${logDateString}] ------- MIDDLEWARE -------`)
     console.log(req.nextUrl.pathname)
 
+    if (media.includes( req.nextUrl.pathname)) return;
+    
 	const publicPathnameRegex = RegExp(
 		`^(/(${locales.join("|")}))?(${publicPages
 			.flatMap((p) => (p === "/" ? ["", "/"] : p))
