@@ -86,7 +86,9 @@ export default function SignIn() {
 						autoComplete="current-password"
 					/>
 					<LoginButton />
-
+							<Link href="http://localhost:3000/Google-login">
+								Signin with Google
+							</Link>
 					<Grid container>
 						<Grid item xs>
                             {/* change the url to dynamic ones */}

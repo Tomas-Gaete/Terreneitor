@@ -3,7 +3,7 @@ import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
 import { z } from 'zod';
 import { sql } from '@vercel/postgres';
-
+import Google from "next-auth/providers/google"
 
 const bcrypt = require("bcryptjs")
 
@@ -54,7 +54,7 @@ export const { auth, signIn, signOut } = NextAuth({
             }
         },
     }),
-    ],
+    Google],
 });
 
 
