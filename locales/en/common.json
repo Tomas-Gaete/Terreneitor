@@ -1,6 +1,5 @@
 {
 	"dashboard": "Dashboard",
-	"visitors": "Visitors",
 	"delivery": "Package Reception",
 	"settings": "Settings",
 	"open_settings": "Open settings",
@@ -17,8 +16,12 @@
         "register_visit": "Register visit",
         "scan_id": "Scan ID",
         "frequent_visitors": "Frequent visitors",
-        "parking_space": "Parking space"
-
+        "parking_space": "Parking space",
+        "new_visitor": "New Visitor",
+        "first_name": "First Name",
+        "last_name": "Last Name",
+        "register": "Register New Visitor",
+        "add": "Add: {{input}}",
+        "close": "close"
     }
-
 }
