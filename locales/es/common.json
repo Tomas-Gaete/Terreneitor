@@ -1,6 +1,5 @@
 {
     "dashboard": "Dashboard",
-    "visitors": "Visitas",
     "delivery": "Recepción de Paquetes",
     "settings": "Ajustes",
     "open_settings": "Abrir ajustes",
@@ -17,6 +16,12 @@
         "register_visit": "Registrar visita",
         "scan_id": "Escanear Cédula",
         "frequent_visitors": "Visitas frecuentes",
-        "parking_space": "Estacionamiento"
+        "parking_space": "Estacionamiento",
+        "new_visitor": "Nueva visita",
+        "first_name": "Nombre",
+        "last_name": "Apellido",
+        "register": "Registrar nueva visita",
+        "add": "Añadir: {{input}}",
+        "close": "Cerrar"
     }
 }

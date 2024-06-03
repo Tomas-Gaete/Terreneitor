@@ -9,7 +9,7 @@ const authMiddleware = auth((req)=>{
     return i18nRouter(req,  i18nConfig);
 });
 
-const media = ["/hero.jpg", "/delivery.jpg", "/visitorManagement.jpg", "/notification.jpg", "/parking.jpg"]
+const media = ["/hero.jpg", "/delivery.jpg", "/visitorManagement.jpg", "/notification.jpg", "/parking.jpg", "/qr-frame.svg"]
 
 // * This function will check if the page is public or private. If it is public, it will return the i18nRouter function. If it is private, it will return the authMiddleware function.
 export default function middleware(req) {
