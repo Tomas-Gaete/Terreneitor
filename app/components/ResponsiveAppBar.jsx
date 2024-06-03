@@ -96,7 +96,7 @@ function NavbarSettings({ text, locales }) {
 // * This function displays the responsive app bar, which includes a menu icon that opens a menu with the pages of the app, and a title that links to the home page.
 function ResponsiveAppBar() {
 	const { t } = useTranslation("common");
-	const pages = [[t("home"), "/dashboard"], [t("visitors.title"), "/visitors"], [t("delivery"), "/delivery"], [t("settings"), "/settings"]]
+	const pages = [[t("home"), "/dashboard"], [t("visitors.title"), "/visitors"], [t("delivery"), "/delivery"], [t("settings.title"), "/settings"]]
     //TODO: make this dynamic also home should dashboard or something
 
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -113,7 +113,7 @@ function ResponsiveAppBar() {
 		change_language: t("change_language"),
 		logout: t("logout"),
 		profile: t("profile"),
-		settings: t("settings"),
+		settings: t("settings.title"),
 	};
 
 	return (

@@ -1,7 +1,6 @@
 {
     "dashboard": "Dashboard",
     "delivery": "Recepción de Paquetes",
-    "settings": "Ajustes",
     "open_settings": "Abrir ajustes",
     "home": "Inicio",
     "logout": "Cerrar sesión",
@@ -23,5 +22,16 @@
         "register": "Registrar nueva visita",
         "add": "Añadir: {{input}}",
         "close": "Cerrar"
+    },
+    "settings":{
+        "title": "Ajustes",
+        "cancel": "Cancelar",
+        "save": "Guardar",
+        "messaging": {
+            "title": "Mensajería"
+        },
+        "parking":{
+            "title":"Estacionamientos"
+        }
     }
 }
