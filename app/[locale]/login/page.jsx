@@ -9,11 +9,10 @@ import { redirect } from "next/navigation";
  * With an active session, the user is redirected to the dashboard.
  */
 
-export default function Login() {
-	const session = auth();
+export default async function Login() {
+	const session = await auth();
 	if (session) {
 		redirect("/dashboard");
 	}
-
 	return <SignIn />;
 }
