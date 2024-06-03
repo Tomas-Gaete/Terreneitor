@@ -5,6 +5,7 @@ import { VisitorComp } from "./VisitorComp";
 import { auth } from "@/auth";
 import { sql } from "@vercel/postgres";
 import initTranslations from "@/app/i18n";
+import { logger } from "@/logger";
 
 export default async function Visitors({ params: { locale } }) {
 	const { t } = await initTranslations(locale, ["common"]);
@@ -39,12 +40,12 @@ export default async function Visitors({ params: { locale } }) {
 			id: visitor.id,
 		}));
 	} catch (error) {
-		console.error("Pepepopo");
 		visitors = [];
 		visitorsRut = [];
 		visitorsName = [];
 	}
 
+    logger.debug(`(${visitors?.fields?.length ?? 0}) visitors loaded.`);
 	return (
 		<Container maxWidth="lg" sx={{ mt: 2, flexGrow: 1 }}>
 			<Grid container spacing={2}>

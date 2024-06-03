@@ -2,6 +2,7 @@
 import { auth, signIn, signOut } from "@/auth";
 import { AuthError } from "next-auth";
 import { sql } from "@vercel/postgres";
+import { logger } from "@/logger";
 // * This function authenticates the user with the email and password provided.
 export async function authenticate(prevState, formData) {
 	try {
@@ -18,6 +19,7 @@ export async function authenticate(prevState, formData) {
 					return "genericError";
 
 				case "credentialsDontMatch":
+                    logger.error(`User with email '${formData.get("email")}' tried to log in with wrong credentials.`);
 					// Credentials dont match with the user
 					return "credentialsDontMatch";
 
@@ -41,7 +43,7 @@ export async function authenticate(prevState, formData) {
 export async function LogOut() {
 	await signOut({ redirectTo: "/login" });
 }
-
+//TODO: remove this function
 export async function getVisitors() {
 	const session = await auth();
 	if (!session?.user || !session?.user?.email) return null;
@@ -63,23 +65,3 @@ export async function getVisitors() {
     
     return {visitorsRut, visitorsName};
 }
-
-/**
- * POST
-
-/login
-500
-
-TypeError: Cannot read properties of undefined (reading 'value')
-    at l (/var/task/.next/server/chunks/504.js:1:6242)
-    at s (/var/task/.next/server/chunks/504.js:1:1240)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async /var/task/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:16:406
-    at async rm (/var/task/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:15:6342)
-    at async rq (/var/task/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:18:1249)
-    at async Y (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:16:25520)
-    at async Q.responseCache.get.routeKind (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:17:1025)
-    at async r2.renderToResponseWithComponentsImpl (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:17:507)
-    at async r2.renderPageComponent (/var/task/node_modules/next/dist/compiled/next-server/server.runtime.prod.js:17:4784)
-
- */
