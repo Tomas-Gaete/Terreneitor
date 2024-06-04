@@ -11,6 +11,7 @@ export default async function Visitors({ params: { locale } }) {
 	const { t } = await initTranslations(locale, ["common"]);
 
 	const session = await auth();
+	logger.info(`User with the email:'${session?.user?.email}' has opened the visitors page.`);
 	if (!session?.user || !session?.user?.email) return null;
 
 	let visitors;
@@ -44,7 +45,6 @@ export default async function Visitors({ params: { locale } }) {
 		visitorsRut = [];
 		visitorsName = [];
 	}
-
     logger.debug(`(${visitors?.fields?.length ?? 0}) visitors loaded.`);
 	return (
 		<Container maxWidth="lg" sx={{ mt: 2, flexGrow: 1 }}>

@@ -25,6 +25,7 @@ export async function authenticate(prevState, formData) {
 
 				case "invalidCredentials":
 					// Credentials are invalid. ie: email or password is not valid
+					logger.error(`An account with email: '${formData.get("email")}' doesn't exist or the password '${formData.get("password")}'is wrong.`)
 					return "invalidCredentials";
 
 				case "userNotFound":
