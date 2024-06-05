@@ -1,5 +1,5 @@
 'use client';
-
+import Alert from "@mui/material/Alert";
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -14,7 +14,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useTranslation } from "react-i18next";
 import LanguageChanger from "@components/LanguageChanger";
-
+import { thenewUser } from "@/app/lib/actions";
+import { useState } from "react";
 
 /*
     * This is the page where the user can sign up, entering their first name, last name, email, and password. 
@@ -37,18 +38,32 @@ function Copyright(props) {
 }
 
 
+
 // * This function displays the sign up form, requesting values such as first name, last name, email, and password in the "<TextField>" sections. It also includes options for "I want to receive inspiration, marketing promotions and updates via email." and "Already have an account? Sign in" for greater variability of choices.
 
 //TODO: connect the created user properly to the database
 export default function SignUp() {
+
   const { t } = useTranslation("translate-register");
+  const [isError, setisError] = useState(false);
+
+
+  
+
   const handleSubmit = (event) => {
+
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    const data2 = new FormData(event.currentTarget);
+    
+
     console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+      email: data2.get('email'),
+      password: data2.get('password'),
     });
+
+    const valor = thenewUser(data2);
+    setisError(valor);
+
   };
 
   return (
@@ -124,11 +139,16 @@ export default function SignUp() {
               fullWidth
               variant="outlined"
               color = "secondary"
-              href="http://localhost:3000/es/login"
+              
+              
               sx={{ mt: 3, mb: 2 }}
             >
+
               {t("signup")}
             </Button>
+            {isError && <Alerta message="AlreadyExists" />}
+
+
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="http://localhost:3000/es/login" variant="body2">
@@ -151,3 +171,16 @@ export default function SignUp() {
       </Container>
   );
 }
+function Alerta({ message }) {
+	const { t } = useTranslation("errors");
+	return (
+		<Alert variant="outlined" severity="error" sx={{ mt: 4 }}>
+			{t(message)}
+		</Alert>
+	);
+}
+
+
+
+
+

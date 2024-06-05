@@ -4,5 +4,6 @@
 	"invalidPassword": "Contraseña inválida.",
     "userNotFound": "Usuario no encontrado. Por favor, regístrese.",
 	"credentialsDontMatch": "Email o contraseña incorrectos.",
-    "genericError": "Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde."
+    "genericError": "Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.",
+	"AlreadyExists": "El email ya está en uso"
 }

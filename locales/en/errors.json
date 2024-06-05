@@ -4,5 +4,6 @@
 	"invalidPassword": "Invalid password.",
     "userNotFound": "User not found. Please sign up.",
 	"credentialsDontMatch": "Wrong email or password.",
-    "genericError": "An error occurred. Please try again later."
+    "genericError": "An error occurred. Please try again later.",
+	"AlreadyExists": "Email already exists."
 }
