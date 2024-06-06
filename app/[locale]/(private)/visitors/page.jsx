@@ -1,7 +1,9 @@
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Container, Typography, Button, Alert } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import Link from "next/link";
+
 import { VisitorComp } from "./VisitorComp";
+
+import Link from "next/link";
 import { auth } from "@/auth";
 import { sql } from "@vercel/postgres";
 import initTranslations from "@/app/i18n";
@@ -17,6 +19,7 @@ export default async function Visitors({ params: { locale } }) {
 	let visitors;
 	let visitorsRut;
 	let visitorsName;
+    let alert;
 
 	try {
 		visitors = await sql`WITH community_id_query AS (
@@ -41,47 +44,65 @@ export default async function Visitors({ params: { locale } }) {
 			id: visitor.id,
 		}));
 	} catch (error) {
+        alert = "Error loading visitors."
 		visitors = [];
 		visitorsRut = [];
 		visitorsName = [];
 	}
     logger.debug(`(${visitors?.fields?.length ?? 0}) visitors loaded.`);
-	return (
+    return (
 		<Container maxWidth="lg" sx={{ mt: 2, flexGrow: 1 }}>
-			<Grid container spacing={2}>
+            {alert && <Alert severity="error">{alert}</Alert>}
+			<Grid container spacing={2} height="100%">
 				<VisitorComp visitorsRut={visitorsRut} visitorsName={visitorsName} />
 
-				<Grid xs={12} md={6}>
-					<Box
-						sx={{
-							width: "100%",
-							border: 0.1,
-							borderRadius: 1,
-							borderColor: "text.secondary",
-							textAlign: "center",
-						}}
+				<Grid item="true" xs={12} md={6} sx={{ height: "100%" }}>
+					<Link
+						href="/visitors/frequent-visitor"
+						style={{ textDecoration: "none" }}
 					>
-						<Typography variant="h4" color="text.secondary">
-							{t("visitors.frequent_visitors")}
-						</Typography>
-					</Box>
-				</Grid>
-				<Grid xs={12} md={6}>
-					<Link href="#">
-						<Box
+						<Button
+							variant="outlined"
+							color="primary"
 							sx={{
 								width: "100%",
-								border: 0.1,
-								borderRadius: 1,
-								borderColor: "text.secondary",
 								textAlign: "center",
+								display: "flex",
+								flexDirection: "column",
+								border: "1px solid",
+								textTransform: "none",
 							}}
 						>
-							<Typography variant="h4" color="text.secondary">
-								{t("visitors.parking_space")}
+							<Typography variant="h4" color="primary">
+								{t("visitors.frequent_visitors")}
 							</Typography>
-						</Box>
+							<Typography variant="p" color="secondary">
+								{t("visitors.frequent_visitors_description")}
+							</Typography>
+						</Button>
 					</Link>
+				</Grid>
+
+				<Grid item="true" xs={12} md={6} sx={{ height: "100%" }}>
+					<Button
+						variant="outlined"
+						color="primary"
+						sx={{
+							width: "100%",
+							textAlign: "center",
+							display: "flex",
+							flexDirection: "column",
+							border: "1px solid",
+							textTransform: "none",
+						}}
+					>
+						<Typography variant="h4" color="primary">
+							Parking
+						</Typography>
+						<Typography variant="p" color="secondary">
+							Manage parking for visitors
+						</Typography>
+					</Button>
 				</Grid>
 			</Grid>
 		</Container>
