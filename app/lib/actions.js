@@ -85,32 +85,28 @@ export async function thenewUser(data) {
 	const community_id = 1;
 	const hasaccount = true;
 	const password = await bcrypt.hash(ps,rondasdesal);
-	
+	logger.debug(`Received data: ${email}, ${firstname}, ${lastname}, ${password}, ${roleid}, ${community_id}, ${hasaccount}`);	
 	const dbemail = await sql`SELECT COUNT(*) FROM user_info WHERE email = ${email}`;
-	console.log(email);
-	console.log(dbemail.rows);
-	console.log(dbemail.rows[0].count)
+
 	if (dbemail.rows[0].count > 0) {
+		logger.info(`User with email:'${email}' tried creating a new user again.`);
+
 		return true;	
 	}else{
 		try {
-			console.log("Creating user...");
 			await sql`INSERT INTO user_info (role_id,community_id,firstname,lastname,has_account,email,password)
 			 VALUES (${roleid},${community_id},${firstname},${lastname},${hasaccount},${email},${password});`;
 		} catch (error) {
-			return console.log({
-				error: "User not created",
-				message: error.message,
-				email: email,
-				password: password,
-				firstname: firstname,
-				lastname: lastname,
-	  
-	  
 			
-			});
+
+
+
+
+			return 	logger.error(`following error:'${error.message}' has occurred while creating a new user.`);
+
 		  }
-		  console.log("User created successfully!");
-		  await authenticate(null, data);
+		logger.info(`New user has been created with the email:'${email}'.`);
+
+		await authenticate(null, data);
 	}
 	}

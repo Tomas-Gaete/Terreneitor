@@ -54,15 +54,12 @@ export default function SignUp() {
 
     event.preventDefault();
     const data2 = new FormData(event.currentTarget);
-    
-
-    console.log({
-      email: data2.get('email'),
-      password: data2.get('password'),
-    });
-
     const valor = thenewUser(data2);
-    setisError(valor);
+    if (valor){
+      setisError(valor);
+
+    }
+    
 
   };
 
