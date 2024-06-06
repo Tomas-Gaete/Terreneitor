@@ -15,11 +15,13 @@
         "register_visit": "Registrar visita",
         "scan_id": "Escanear Cédula",
         "frequent_visitors": "Visitas frecuentes",
+        "frequent_visitors_description": "añadir nueva visita frecuentes",
         "parking_space": "Estacionamiento",
         "new_visitor": "Nueva visita",
         "first_name": "Nombre",
         "last_name": "Apellido",
         "register": "Registrar nueva visita",
+        "register_frequent": "Registrar nueva visita frecuente",
         "add": "Añadir: {{input}}",
         "close": "Cerrar"
     },

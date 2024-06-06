@@ -31,7 +31,7 @@ const filter = createFilterOptions();
 export const VisitorComp = ({ visitorsRut, visitorsName }) => {
 	const { t } = useTranslation("common", { keyPrefix: "visitors" });
 	//Form state
-	const [rut, setRut] = useState(""); // MUI doesnt like null values
+	const [rut, setRut] = useState("");
 	const [name, setName] = useState("");
 	const [openRut, setOpenRut] = useState(false);
 	const [openName, setOpenName] = useState(false);
@@ -71,12 +71,12 @@ export const VisitorComp = ({ visitorsRut, visitorsName }) => {
 
 	return (
 		<>
-			<Grid xs={12} sx={{ my: 2 }}>
-				<Typography variant="h4" color="text.secondary" align="center">
+			<Grid xs={12}>
+				<Typography variant="h3" color="primary" align="center">
 					{t("title")}
 				</Typography>
 
-				<Grid container sx={{ width: 1 }} spacing={2}>
+				<Grid container sx={{ minWidth: 1 }} spacing={2}>
 					<Grid xs={12} md={6}>
 						<Autocomplete
 							id="autocomplete-name"
@@ -154,7 +154,7 @@ export const VisitorComp = ({ visitorsRut, visitorsName }) => {
 					<Grid xs={12} md={6}>
 						<Autocomplete
 							id="autocomplete-rut"
-							sx={{ mt: 2 }}
+							sx={{ mt: 2, width: 1}}
 							disablePortal
 							forcePopupIcon={false}
 							noOptionsText={t("no_visitors")}
@@ -218,6 +218,7 @@ export const VisitorComp = ({ visitorsRut, visitorsName }) => {
 					<Grid xs={12}>
 						{rut && name && (
 							<>
+                            //TODO: add reason for visit
 								<Container
 									sx={{
 										mt: 2,
@@ -248,7 +249,7 @@ export const VisitorComp = ({ visitorsRut, visitorsName }) => {
 											flexGrow: 1,
 										}}
 									>
-										{t("register_visitor")}
+										{t("register_visit")}
 									</Button>
 								</Container>
 							</>
@@ -264,10 +265,11 @@ export const VisitorComp = ({ visitorsRut, visitorsName }) => {
 					sx={{
 						width: "100%",
 						textAlign: "center",
+                        border: "1px solid",
 						p: 2,
 					}}
 				>
-					<Typography variant="h4">{t("scan_id")}</Typography>
+					<Typography variant="h4" fontWeight={500} >{t("scan_id")}</Typography>
 				</Button>
 				<Modal
 					open={newVisitorModal}
