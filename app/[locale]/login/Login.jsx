@@ -143,7 +143,6 @@ function LoginButton() {
 }
 
 // * This function is used to display an error message in case the user entered their data incorrectly.
-//TODO: make the messages locale aware
 function ErrorAlert({ message }) {
 	const { t } = useTranslation("errors");
 	return (

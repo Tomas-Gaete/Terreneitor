@@ -5,5 +5,6 @@
     "userNotFound": "User not found. Please sign up.",
 	"credentialsDontMatch": "Wrong email or password.",
     "genericError": "An error occurred. Please try again later.",
-	"AlreadyExists": "Email already exists."
+	"AlreadyExists": "Email already exists.",
+	"Successinsert": "The visitor has been added correctly"
 }

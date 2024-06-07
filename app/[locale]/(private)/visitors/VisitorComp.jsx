@@ -9,10 +9,13 @@ import {
 	Modal,
 	Box,
 } from "@mui/material";
+import Alert from "@mui/material/Alert";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useTranslation } from "react-i18next";
 import QrReader from "@/app/components/QrReader";
 import { createFilterOptions } from "@mui/material/Autocomplete";
+import { useFormState, useFormStatus } from "react-dom";
+import {addVisitor} from "@/app/lib/actions";
 
 const style = {
 	position: "absolute",
@@ -26,8 +29,10 @@ const style = {
 	boxShadow: 24,
 	p: 4,
 };
+function success() {
+    alert("success!");
+  }
 const filter = createFilterOptions();
-
 export const VisitorComp = ({ visitorsRut, visitorsName }) => {
 	const { t } = useTranslation("common", { keyPrefix: "visitors" });
 	//Form state
@@ -50,7 +55,7 @@ export const VisitorComp = ({ visitorsRut, visitorsName }) => {
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
-
+	const [errorMessage, dispatch] = useFormState(addVisitor, undefined);
 	const handleRead = (result) => {
 		const urlObj = new URL(result.data);
 		const run = urlObj.searchParams.get("RUN");
@@ -68,7 +73,7 @@ export const VisitorComp = ({ visitorsRut, visitorsName }) => {
 		}
 		handleClose();
 	};
-
+	//addVisitor(newVisitor);
 	return (
 		<>
 			<Grid xs={12} sx={{ my: 2 }}>
@@ -202,6 +207,7 @@ export const VisitorComp = ({ visitorsRut, visitorsName }) => {
 									setName(newVisitor);
 								}
 							}}
+							
 							filterOptions={(options, params) => {
 								const filtered = filter(options, params);
 
@@ -280,7 +286,11 @@ export const VisitorComp = ({ visitorsRut, visitorsName }) => {
 						justifyContent: "center",
 					}}
 				>
-					<Box sx={style}>
+					<Box component="form"
+					
+					action={dispatch}
+					noValidate
+					sx={style}>
 						<Typography variant="h4" color="primary" align="center">
 							{t("new_visitor")}
 						</Typography>
@@ -290,6 +300,8 @@ export const VisitorComp = ({ visitorsRut, visitorsName }) => {
 							onChange={(e) =>
 								setNewVisitor({ ...newVisitor, firstName: e.target.value })
 							}
+							id="firstName"
+							name="firstName"
 							sx={{ mt: 2, width: 1 }}
 						/>
 						<TextField
@@ -298,6 +310,8 @@ export const VisitorComp = ({ visitorsRut, visitorsName }) => {
 							onChange={(e) =>
 								setNewVisitor({ ...newVisitor, lastName: e.target.value })
 							}
+							id="lastName"
+							name="lastName"
 							sx={{ mt: 2, width: 1 }}
 						/>
 						<TextField
@@ -306,16 +320,19 @@ export const VisitorComp = ({ visitorsRut, visitorsName }) => {
 							onChange={(e) =>
 								setNewVisitor({ ...newVisitor, rut: e.target.value })
 							}
+							id="rut"
+							name="rut"
 							sx={{ mt: 2, width: 1 }}
 						/>
 						<Button
 							variant="outlined"
 							color="secondary"
+							type = "submit"
 							sx={{
 								mt: 2,
 								width: "100%",
 							}}
-							onClick={closeNewVisitorModal}
+							onClick={success}
 						>
 							{t("register")}
 						</Button>
@@ -340,7 +357,11 @@ export const VisitorComp = ({ visitorsRut, visitorsName }) => {
 							variant="outlined"
 						>
 							{t("close")}
+							
 						</Button>
+						<Alert variant="outlined" severity="success">
+							This is an outlined success Alert.
+						</Alert>
 					</Box>
 				</Modal>
 			</Grid>
