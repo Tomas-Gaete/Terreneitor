@@ -23,7 +23,10 @@
         "register": "Registrar nueva visita",
         "register_frequent": "Registrar nueva visita frecuente",
         "add": "Añadir: {{input}}",
-        "close": "Cerrar"
+        "close": "Cerrar",
+        "success": "Visita  frecuente ingresada con éxito",
+        "error": "Error al ingresar visita frecuente",
+        "repeated": "Visita frecuente ya ingresada"
     },
     "settings":{
         "title": "Ajustes",

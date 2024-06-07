@@ -7,14 +7,17 @@ import {
 	Autocomplete,
 	TextField,
 	Button,
+	Alert,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { createFilterOptions } from "@mui/material/Autocomplete";
 
-import { useTranslation } from "react-i18next";
-import { useState, useEffect } from "react";
+import { addNewFrequentVisitor } from "@/app/lib/actions";
 
-//TODO: usar free solo on autocomplete
+import { useTranslation } from "react-i18next";
+import { useState } from "react";
+import { useFormState } from "react-dom";
+
 const filter = createFilterOptions();
 
 export default function FrequentVisitor({
@@ -42,20 +45,28 @@ export default function FrequentVisitor({
 		lastname: "",
 	});
 
-	useEffect(() => {
-		console.log(frequentVisitor);
-	}, [frequentVisitor]);
+	const [errorMessage, dispatch] = useFormState(
+		addNewFrequentVisitor,
+		undefined,
+	);
 
-	const visitorsName = null ?? [];
-	visitorsRut = visitorsRut ?? [];
 	const { t } = useTranslation("common", { keyPrefix: "visitors" });
+
+	visitorsRut = visitorsRut ?? [];
 	return (
 		<Container>
-			<Typography textAlign="center" variant="h3" color="primary" textTransform="capitalize" gutterBottom>
-            {t("frequent_visitors_description")}
+			<Typography
+				textAlign="center"
+				variant="h3"
+				color="primary"
+				textTransform="capitalize"
+				gutterBottom
+			>
+				{t("frequent_visitors_description")}
 			</Typography>
 			<Box
 				component="form"
+				action={dispatch}
 				sx={{
 					maxWidth: { md: "50%", xs: "100%" },
 					margin: "auto",
@@ -70,9 +81,12 @@ export default function FrequentVisitor({
 					</Grid>
 					<Grid xs={12}>
 						<Autocomplete
-							id="autocomplete-name"
+							id="visitor-rut"
+							name="visitor-rut"
+							inputProps={{ name: "visitor-rut" }}
 							sx={{ mt: 2, width: 1 }}
 							disablePortal
+							freeSolo
 							forcePopupIcon={false}
 							noOptionsText={t("no_visitors")}
 							value={visitorRut}
@@ -83,6 +97,7 @@ export default function FrequentVisitor({
 								<TextField
 									{...params}
 									label={t("rut")}
+									name="visitor-rut"
 									InputLabelProps={{ color: "secondary" }}
 								/>
 							)}
@@ -145,7 +160,8 @@ export default function FrequentVisitor({
 					</Grid>
 					<Grid xs={12} md={6}>
 						<TextField
-							id="resident-rut"
+							id="visitor-first-name"
+							name="visitor-first-name"
 							label={t("first_name")}
 							value={frequentVisitor.firstname}
 							onChange={(event) =>
@@ -159,7 +175,8 @@ export default function FrequentVisitor({
 					</Grid>
 					<Grid xs={12} md={6}>
 						<TextField
-							id="visitor-name"
+							id="visitor-last-name"
+							name="visitor-last-name"
 							label={t("last_name")}
 							value={frequentVisitor.lastname}
 							onChange={(event) =>
@@ -179,7 +196,8 @@ export default function FrequentVisitor({
 					</Grid>
 					<Grid xs={12}>
 						<Autocomplete
-							id="autocomplete-name"
+							id="autocomplete-ResidentRut"
+							name="resident-rut"
 							sx={{ mt: 2, width: 1 }}
 							disablePortal
 							forcePopupIcon={false}
@@ -192,6 +210,7 @@ export default function FrequentVisitor({
 								<TextField
 									{...params}
 									label={t("rut")}
+									name="resident-rut"
 									InputLabelProps={{ color: "secondary" }}
 								/>
 							)}
@@ -217,7 +236,6 @@ export default function FrequentVisitor({
 									});
 								}
 
-								//Keep both fields in sync
 								if (!value) {
 									setResident({
 										rut: "",
@@ -250,23 +268,21 @@ export default function FrequentVisitor({
 					</Grid>
 					<Grid xs={12} md={6}>
 						<TextField
-							id="resident-rut"
+							id="resident-first-name"
+							name="resident-first-name"
 							label={t("first_name")}
 							value={resident.firstname}
-							onChange={(event) =>
-								setResiden({ ...resident, firstname: event.target.value })
-							}
+							inputProps={{ readOnly: true }}
 							fullWidth
 						/>
 					</Grid>
 					<Grid xs={12} md={6}>
 						<TextField
-							id="visitor-name"
+							id="resident-last-name"
+							name="resident-last-name"
 							label={t("last_name")}
 							value={resident.lastname}
-							onChange={(event) =>
-								setName({ ...resident, lastname: event.target.value })
-							}
+							inputProps={{ readOnly: true }}
 							fullWidth
 						/>
 					</Grid>
@@ -281,6 +297,21 @@ export default function FrequentVisitor({
 				>
 					{t("register_frequent")}
 				</Button>
+				{errorMessage === "repeated" && (
+					<Alert sx={{ mt: 2 }} severity="error">
+						{t("repeated")}
+					</Alert>
+				)}
+				{errorMessage === true && (
+					<Alert sx={{ mt: 2 }} severity="error">
+						{t("error")}
+					</Alert>
+				)}
+				{errorMessage === false && (
+					<Alert sx={{ mt: 2 }} severity="success">
+						{t("success")}
+					</Alert>
+				)}
 			</Box>
 		</Container>
 	);

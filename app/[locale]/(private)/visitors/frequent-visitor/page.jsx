@@ -62,9 +62,9 @@ export default async function Page() {
         residentRut = [];
 	}
 
+    //TODO: add check to see if is already a frequent visitor
 	return (
 		<>
-			<Alert severity="error">{alert}</Alert>
 			<FrequentVisitor visitorsRut={rut ?? []} visitors={visitors.rows ?? []} residentRut={residentRut} residents={residents.rows ?? []} />
 		</>
 	);

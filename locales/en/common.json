@@ -23,7 +23,10 @@
         "register": "Register New Visitor",
         "register_frequent": "Register New Frequent Visitor",
         "add": "Add: {{input}}",
-        "close": "close"
+        "close": "close",
+        "success": "Frequent visitor registered successfully",
+        "error": "Error registering frequent visitor",
+        "repeated": "Frequent visitor already registered"
     },
     "settings":{
         "title": "Settings",
