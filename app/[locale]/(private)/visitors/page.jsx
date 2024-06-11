@@ -17,6 +17,9 @@ export default async function Visitors({ params: { locale } }) {
 	let visitors;
 	let visitorsRut;
 	let visitorsName;
+    let visitorLicensePlates;
+    let alert;
+    let residences;
 
 	try {
 		visitors = await sql`WITH community_id_query AS (
@@ -30,7 +33,7 @@ export default async function Visitors({ params: { locale } }) {
             firstname ||' '|| lastname AS name
         FROM visitor
         WHERE community_id = (SELECT community_id FROM community_id_query)
-    `;
+      `;
 
 		visitorsRut = visitors.rows.map((visitor) => ({
 			label: visitor.rut,
@@ -40,16 +43,62 @@ export default async function Visitors({ params: { locale } }) {
 			label: visitor.name,
 			id: visitor.id,
 		}));
+
+        residences = await sql`WITH community_id_query AS (
+        SELECT community_id
+        FROM user_info
+        WHERE email = ${session.user.email})
+        SELECT
+            id,
+            community_address
+        FROM 
+            residence
+        WHERE
+            community_id = (SELECT community_id FROM community_id_query)
+        `;
+        residences = residences.rows.map((residence) => ({
+            label: residence.community_address,
+            id: residence.id
+        }));
+
+
+        visitorLicensePlates = await sql`WITH community_id_query AS (
+        SELECT community_id
+        FROM user_info
+        WHERE email = ${session.user.email})
+        SELECT
+            vv.id,
+            vv.license_plate
+        FROM
+            visitor_vehicle vv
+        JOIN
+            visitor v ON v.id = vv.visitor_id
+        WHERE
+            v.community_id = (SELECT community_id FROM community_id_query)
+        `;
+        visitorLicensePlates = visitorLicensePlates.rows.map((visitor) => ({
+            label: visitor.license_plate,
+            id: visitor.id
+        }));
+        console.log(visitorLicensePlates);
+
 	} catch (error) {
 		visitors = [];
 		visitorsRut = [];
 		visitorsName = [];
+        residences = [];
+        visitorLicensePlates = [];
 	}
     logger.debug(`(${visitors?.fields?.length ?? 0}) visitors loaded.`);
 	return (
 		<Container maxWidth="lg" sx={{ mt: 2, flexGrow: 1 }}>
-			<Grid container spacing={2}>
-				<VisitorComp visitorsRut={visitorsRut} visitorsName={visitorsName} />
+            {alert && <Alert severity="error">{alert}</Alert>}
+			<Grid container spacing={2} height="100%">
+				<VisitorComp
+                    visitorsRut={visitorsRut}
+                    visitorsName={visitorsName}
+                    residences={residences}
+                    visitorLicense={visitorLicensePlates}/>
 
 				<Grid xs={12} md={6}>
 					<Box

@@ -21,7 +21,11 @@
         "last_name": "Last Name",
         "register": "Register New Visitor",
         "add": "Add: {{input}}",
-        "close": "close"
+        "close": "close",
+        "success": "Frequent visitor registered successfully",
+        "error": "Error registering frequent visitor",
+        "repeated": "Frequent visitor already registered",
+        "licence_plate": "Licence plate"
     },
     "settings":{
         "title": "Settings",

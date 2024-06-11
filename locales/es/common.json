@@ -11,7 +11,7 @@
         "name": "Nombre",
         "rut": "RUT",
         "no_visitors": "Visita no registrada",
-        "residence": "Recidencia",
+        "residence": "Residencia",
         "register_visit": "Registrar visita",
         "scan_id": "Escanear Cédula",
         "frequent_visitors": "Visitas frecuentes",
@@ -21,7 +21,11 @@
         "last_name": "Apellido",
         "register": "Registrar nueva visita",
         "add": "Añadir: {{input}}",
-        "close": "Cerrar"
+        "close": "Cerrar",
+        "success": "Visita  frecuente ingresada con éxito",
+        "error": "Error al ingresar visita frecuente",
+        "repeated": "Visita frecuente ya ingresada",
+        "licence_plate": "Patente"
     },
     "settings":{
         "title": "Ajustes",

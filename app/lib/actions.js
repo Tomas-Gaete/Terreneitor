@@ -3,12 +3,7 @@ import { auth, signIn, signOut } from "@/auth";
 import { AuthError } from "next-auth";
 import { sql } from "@vercel/postgres";
 import { logger } from "@/logger";
-import { Pool } from 'pg';
 
-// Create a new pool instance using the connection string from your .env.local file
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
 // * This function authenticates the user with the email and password provided.
 export async function authenticate(prevState, formData) {
 	try {
@@ -115,7 +110,7 @@ export async function thenewUser(data) {
 
 		await authenticate(null, data);
 	}
-	}
+}
 
 export async function addVisitor(prevState, formData){
 	const firstname = formData.get("firstName");
