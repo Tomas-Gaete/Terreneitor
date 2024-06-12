@@ -80,7 +80,6 @@ export default async function Visitors({ params: { locale } }) {
             label: visitor.license_plate,
             id: visitor.id
         }));
-        console.log(visitorLicensePlates);
 
 	} catch (error) {
 		visitors = [];

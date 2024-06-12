@@ -116,8 +116,14 @@ export async function addVisitor(prevState, formData){
 	const firstname = formData.get("firstName");
 	const lastname = formData.get("lastName");
 	const rut = formData.get("rut");
+    const residence = formData.get("residence");
+    const license_plate = formData.get("license_plate");
 	const community_id = 1;
-	console.log("a")
+    //TODO: validate that the visitor doesn't exist and show an error message if it does
+    //also rut
+    //also consider community id
+    //maybe add it to the session
+
 	try{
 		await sql`INSERT INTO visitor (rut, community_id, firstname, lastname)
 			 VALUES (${rut},${community_id},${firstname}, ${lastname});`;
@@ -128,3 +134,19 @@ export async function addVisitor(prevState, formData){
 	}
 }
 
+
+export async function addVisitorVehicle(prevState, formData){
+    const visitor_id = formData.get("visitor_id");
+    const license_plate = formData.get("license_plate");
+    const brand = formData.get("brand");
+    const model = formData.get("model");
+    const color = formData.get("color");
+    
+    try{
+        await sql`INSERT INTO visitor_vehicle (visitor_id, license_plate, brand, model, color)
+        VALUES (${visitor_id}, ${license_plate}, ${brand}, ${model}, ${color})`;
+    } catch (error){
+        return "error_adding_vehicle";
+    }
+    return false;
+}

@@ -25,7 +25,12 @@
         "success": "Visita  frecuente ingresada con éxito",
         "error": "Error al ingresar visita frecuente",
         "repeated": "Visita frecuente ya ingresada",
-        "licence_plate": "Patente"
+        "licence_plate": "Patente",
+        "new_vehicle": "Nuevo vehículo",
+        "add_vehicle": "Añadir vehículo",
+        "brand": "Marca",
+        "model": "Modelo",
+        "color": "Color"
     },
     "settings":{
         "title": "Ajustes",

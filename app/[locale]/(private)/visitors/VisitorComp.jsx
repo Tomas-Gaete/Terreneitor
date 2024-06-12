@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	Button,
 	Autocomplete,
@@ -7,13 +7,15 @@ import {
 	Typography,
 	Modal,
 	Box,
+    Alert
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useTranslation } from "react-i18next";
 import QrReader from "@/app/components/QrReader";
 import { createFilterOptions } from "@mui/material/Autocomplete";
 import { useFormState, useFormStatus } from "react-dom";
-import { addVisitor } from "@/app/lib/actions";
+import { addVisitor, addVisitorVehicle } from "@/app/lib/actions";
+import { set } from "zod";
 
 const style = {
 	position: "absolute",
@@ -47,10 +49,10 @@ export const VisitorComp = ({
 
     //form handlers
 	const [errorMessage, dispatch] = useFormState(addVisitor, undefined);
+    const [errorMessageVehicle, dispatchVehicle] = useFormState(addVisitorVehicle, undefined); 
 
 	// New visitor states
 	const [newVisitorModal, setNewVisitorModal] = useState(false);
-	const openNewVisitorModal = () => setNewVisitorModal(true);
 	const closeNewVisitorModal = () => setNewVisitorModal(false);
 	const [newVisitor, setNewVisitor] = useState({
 		firstName: "",
@@ -66,9 +68,7 @@ export const VisitorComp = ({
 	const handleClose = () => setOpen(false);
 	//License Modal state
 	const [openLicenseModal, setOpenLicenseModal] = useState(false);
-	const handleOpenLicense = () => setOpenLicenseModal(true);
 	const handleCloseLicense = () => {
-		//TODO: Add vehicle to the database
 		setLicense(visitorVehicle.license_plate);
 		setOpenLicenseModal(false)
 	};
@@ -97,7 +97,7 @@ export const VisitorComp = ({
 				<Typography variant="h4" color="text.secondary" align="center">
 					{t("title")}
 				</Typography>
-
+                {errorMessageVehicle && <Alert severity="error">{errorMessageVehicle}</Alert>}
 				<Grid container sx={{ width: 1 }} spacing={2}>
 					<Grid xs={12} md={6}>
 						<Autocomplete
@@ -458,10 +458,15 @@ export const VisitorComp = ({
 						justifyContent: "center",
 					}}
 				>
-					<Box sx={style}>
+					<Box 
+                        sx={style}
+                        component="form"
+                        action={dispatchVehicle}    
+                    >
 						<Typography variant="h4" color="primary" align="center">
 							{t("new_vehicle")}
 						</Typography>
+                        <input type="hidden" name="visitor_id" value={visitorVehicle?.visitor_id} />
 						<TextField
                             name="license_plate"
 							label={t("licence_plate")}
@@ -473,6 +478,8 @@ export const VisitorComp = ({
 								})
 							}
 							sx={{ mt: 2, width: 1 }}
+                            InputLabelProps={{ color: "secondary" }}
+                            required
 						/>
 						<TextField
                             name="brand"
@@ -482,6 +489,8 @@ export const VisitorComp = ({
 								setVisitorVehicle({ ...visitorVehicle, brand: e.target.value })
 							}
 							sx={{ mt: 2, width: 1 }}
+                            InputLabelProps={{ color: "secondary" }}
+                            required
 						/>
 						<TextField
                             name="model"
@@ -491,6 +500,8 @@ export const VisitorComp = ({
 								setVisitorVehicle({ ...visitorVehicle, model: e.target.value })
 							}
 							sx={{ mt: 2, width: 1 }}
+                            InputLabelProps={{ color: "secondary" }}
+                            required
 						/>
 						<TextField
                             name="color"
@@ -500,17 +511,20 @@ export const VisitorComp = ({
 								setVisitorVehicle({ ...visitorVehicle, color: e.target.value })
 							}
 							sx={{ mt: 2, width: 1 }}
+                            InputLabelProps={{ color: "secondary" }}
+                            required
 						/>
 						<Button
+                            type="submit"
 							variant="outlined"
 							color="secondary"
+                            onClick={handleCloseLicense}
 							sx={{
 								mt: 2,
 								width: "100%",
 							}}
-							onClick={handleCloseLicense}
 						>
-							{t("register")}
+							{t("add_vehicle")}
 						</Button>
 					</Box>
 				</Modal>
