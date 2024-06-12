@@ -30,7 +30,8 @@
         "add_vehicle": "Add vehicle",
         "brand": "Brand",
         "model": "Model",
-        "color": "Color"
+        "color": "Color",
+        "visit_reason": "Visit reason (optional)"
     },
     "settings":{
         "title": "Settings",

@@ -98,26 +98,37 @@ export async function thenewUser(data) {
 			await sql`INSERT INTO user_info (role_id,community_id,firstname,lastname,has_account,email,password)
 			 VALUES (${roleid},${community_id},${firstname},${lastname},${hasaccount},${email},${password});`;
 		} catch (error) {
-			
-
-
-
 
 			return 	logger.error(`following error:'${error.message}' has occurred while creating a new user.`);
-
-		  }
+		}
 		logger.info(`New user has been created with the email:'${email}'.`);
 
 		await authenticate(null, data);
 	}
 }
 
+
+export async function addVisit(prevState, formData){
+    const residence_id = formData.get("residence_id");
+    const visitor_id = formData.get("visitor_id");
+    const reason = formData.get("visit_reason");
+
+    //TODO: considerar el estacionamiento dps
+    const license_plate = formData.get("license_plate");
+
+    try{
+        await sql`INSERT INTO visit_to_residence (residence_id,visitor_id,arrival, departure, reason)
+        VALUES (${residence_id}, ${visitor_id},current_timestamp AT TIME ZONE 'America/Santiago', NULL, ${reason})`;
+    } catch (error){
+        return "error_adding_visit";
+    }
+    return "success";
+} 
+
 export async function addVisitor(prevState, formData){
 	const firstname = formData.get("firstName");
 	const lastname = formData.get("lastName");
 	const rut = formData.get("rut");
-    const residence = formData.get("residence");
-    const license_plate = formData.get("license_plate");
 	const community_id = 1;
     //TODO: validate that the visitor doesn't exist and show an error message if it does
     //also rut
@@ -146,7 +157,8 @@ export async function addVisitorVehicle(prevState, formData){
         await sql`INSERT INTO visitor_vehicle (visitor_id, license_plate, brand, model, color)
         VALUES (${visitor_id}, ${license_plate}, ${brand}, ${model}, ${color})`;
     } catch (error){
-        return "error_adding_vehicle";
+        //TODO: add lang
+        return "error adding vehicle";
     }
     return false;
 }

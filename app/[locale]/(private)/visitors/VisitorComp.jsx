@@ -7,15 +7,14 @@ import {
 	Typography,
 	Modal,
 	Box,
-    Alert
+	Alert,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useTranslation } from "react-i18next";
 import QrReader from "@/app/components/QrReader";
 import { createFilterOptions } from "@mui/material/Autocomplete";
 import { useFormState, useFormStatus } from "react-dom";
-import { addVisitor, addVisitorVehicle } from "@/app/lib/actions";
-import { set } from "zod";
+import { addVisitor, addVisitorVehicle, addVisit } from "@/app/lib/actions";
 
 const style = {
 	position: "absolute",
@@ -47,13 +46,15 @@ export const VisitorComp = ({
 	const [openRut, setOpenRut] = useState(false);
 	const [openName, setOpenName] = useState(false);
 
-    //form handlers
+	//form handlers
 	const [errorMessage, dispatch] = useFormState(addVisitor, undefined);
-    const [errorMessageVehicle, dispatchVehicle] = useFormState(addVisitorVehicle, undefined); 
+	const [errorMessageVehicle, dispatchVehicle] = useFormState( addVisitorVehicle,undefined);
+    const [errorMessageVisit, dispatchVisit] = useFormState(addVisit, undefined);
 
 	// New visitor states
 	const [newVisitorModal, setNewVisitorModal] = useState(false);
 	const closeNewVisitorModal = () => setNewVisitorModal(false);
+	// Data to add a non registered visitor
 	const [newVisitor, setNewVisitor] = useState({
 		firstName: "",
 		lastName: "",
@@ -70,7 +71,7 @@ export const VisitorComp = ({
 	const [openLicenseModal, setOpenLicenseModal] = useState(false);
 	const handleCloseLicense = () => {
 		setLicense(visitorVehicle.license_plate);
-		setOpenLicenseModal(false)
+		setOpenLicenseModal(false);
 	};
 
 	const handleRead = (result) => {
@@ -91,14 +92,27 @@ export const VisitorComp = ({
 		handleClose();
 	};
 
+
+    const handleSubmitVisitor = () => {
+       setTimeout(() => {
+           //we reload the page to update the visitors list using plain js
+           window.location.reload();
+        }, 3000);
+    }
+
 	return (
 		<>
 			<Grid xs={12} sx={{ my: 2 }}>
 				<Typography variant="h4" color="text.secondary" align="center">
 					{t("title")}
 				</Typography>
-                {errorMessageVehicle && <Alert severity="error">{errorMessageVehicle}</Alert>}
-				<Grid container sx={{ width: 1 }} spacing={2}>
+				{errorMessageVehicle && (
+					<Alert severity="error">{errorMessageVehicle}</Alert>
+				)}
+                {errorMessageVisit &&  (
+                    <Alert security="success">{errorMessageVisit}</Alert>
+                )}
+				<Grid container sx={{ width: 1 }} spacing={2} component="form" action={dispatchVisit}>
 					<Grid xs={12} md={6}>
 						<Autocomplete
 							id="autocomplete-name"
@@ -134,10 +148,11 @@ export const VisitorComp = ({
 									return;
 								}
 								setName(value.inputValue ?? value.label);
-								let newVisitor = visitorsRut.find(
+								let newVisitorRut = visitorsRut.find(
 									(visitor) => visitor.id === value.id,
 								)?.label;
-								if (!newVisitor) {
+								if (!newVisitorRut) {
+									//User Clicked add...
 									setTimeout(() => {
 										setNewVisitorModal(true);
 										let newVisitorObj;
@@ -158,7 +173,7 @@ export const VisitorComp = ({
 										setNewVisitor(newVisitorObj);
 									});
 								} else {
-									setRut(newVisitor);
+									setRut(newVisitorRut);
 								}
 							}}
 							filterOptions={(options, params) => {
@@ -208,10 +223,11 @@ export const VisitorComp = ({
 								}
 								setRut(value.inputValue ?? value.label);
 
-								let newVisitor = visitorsName.find(
+								let newVisitorName = visitorsName.find(
 									(visitor) => visitor.id === value.id,
 								)?.label;
-								if (!newVisitor) {
+								if (!newVisitorName) {
+									//User Clicked add...
 									setTimeout(() => {
 										setNewVisitorModal(true);
 										setNewVisitor({
@@ -221,7 +237,7 @@ export const VisitorComp = ({
 										});
 									});
 								} else {
-									setName(newVisitor);
+									setName(newVisitorName);
 								}
 							}}
 							filterOptions={(options, params) => {
@@ -240,21 +256,28 @@ export const VisitorComp = ({
 					<Grid xs={12}>
 						{rut && name && (
 							<>
+								<input type="hidden" name="visitor_id" value={ visitorsRut.find((visitor) => visitor.label === rut).id} />
+                                <input type="hidden" name="residence_id" id="residence_id"/>
+
 								<Grid container spacing={2}>
 									<Grid xs={12} md={6}>
 										<Autocomplete
+											id="autocomplete-residence"
 											disablePortal
 											fullWidth
 											forcePopupIcon={false}
-											id="combo-box-demo"
 											options={residences}
 											renderInput={(params) => (
 												<TextField
 													{...params}
 													label={t("residence")}
-													InputLabelProps={{ color: "secondary" }}
+                                                    inputProps={{ ...params.inputProps, name: "residence" }}
+													InputLabelProps={{ color:"secondary" }}
 												/>
 											)}
+                                            onChange={(event, value) => {
+                                                document.getElementById("residence_id").value = value.id;
+                                            }}
 										/>
 									</Grid>
 									<Grid xs={12} md={6}>
@@ -269,6 +292,7 @@ export const VisitorComp = ({
 												<TextField
 													{...params}
 													label={t("licence_plate")}
+                                                    inputProps={{ ...params.inputProps, name: "license_plate" }}
 													InputLabelProps={{ color: "secondary" }}
 												/>
 											)}
@@ -279,7 +303,7 @@ export const VisitorComp = ({
 											)}
 											onChange={(event, value) => {
 												if (!value) return;
-												setLicense(value?.inputValue ?? value?.label);
+							
 												let newVisitorLicense = visitorLicense.find(
 													(license) => license.id === value.id,
 												)?.label;
@@ -316,6 +340,14 @@ export const VisitorComp = ({
 										/>
 									</Grid>
 
+									<TextField
+										id="visit_reason"
+										name="visit_reason"
+										label={t("visit_reason")}
+										multiline
+										rows={4}
+										sx={{ mt: 2, width: 1 }}
+									></TextField>
 									<Grid
 										xs={12}
 										sx={{
@@ -327,17 +359,16 @@ export const VisitorComp = ({
 										<Button
 											variant="outlined"
 											size="large"
+                                            type="submit"
+                                            onClick={handleSubmitVisitor}
 											sx={{
 												mt: 2,
-												alignItems: "center",
-												display: "flex",
-												flexDirection: "row",
-												flexGrow: 1,
 											}}
 										>
 											{t("register_visit")}
 										</Button>
 									</Grid>
+									<Grid xs={12}></Grid>
 								</Grid>
 							</>
 						)}
@@ -371,12 +402,7 @@ export const VisitorComp = ({
 						justifyContent: "center",
 					}}
 				>
-					<Box 
-                        component="form" 
-                        action={dispatch} 
-                        sx={style}
-                        noValidate 
-                    >
+					<Box component="form" action={dispatch} sx={style} noValidate>
 						<Typography variant="h4" color="primary" align="center">
 							{t("new_visitor")}
 						</Typography>
@@ -446,7 +472,6 @@ export const VisitorComp = ({
 						</Button>
 					</Box>
 				</Modal>
-
 				<Modal
 					open={openLicenseModal}
 					onClose={handleCloseLicense}
@@ -458,17 +483,17 @@ export const VisitorComp = ({
 						justifyContent: "center",
 					}}
 				>
-					<Box 
-                        sx={style}
-                        component="form"
-                        action={dispatchVehicle}    
-                    >
+					<Box sx={style} component="form" action={dispatchVehicle}>
 						<Typography variant="h4" color="primary" align="center">
 							{t("new_vehicle")}
 						</Typography>
-                        <input type="hidden" name="visitor_id" value={visitorVehicle?.visitor_id} />
+						<input
+							type="hidden"
+							name="visitor_id"
+							value={visitorVehicle?.visitor_id}
+						/>
 						<TextField
-                            name="license_plate"
+							name="license_plate"
 							label={t("licence_plate")}
 							value={visitorVehicle?.license_plate}
 							onChange={(e) =>
@@ -478,47 +503,47 @@ export const VisitorComp = ({
 								})
 							}
 							sx={{ mt: 2, width: 1 }}
-                            InputLabelProps={{ color: "secondary" }}
-                            required
+							InputLabelProps={{ color: "secondary" }}
+							required
 						/>
 						<TextField
-                            name="brand"
+							name="brand"
 							label={t("brand")}
 							value={visitorVehicle?.brand}
 							onChange={(e) =>
 								setVisitorVehicle({ ...visitorVehicle, brand: e.target.value })
 							}
 							sx={{ mt: 2, width: 1 }}
-                            InputLabelProps={{ color: "secondary" }}
-                            required
+							InputLabelProps={{ color: "secondary" }}
+							required
 						/>
 						<TextField
-                            name="model"
+							name="model"
 							label={t("model")}
 							value={visitorVehicle?.model}
 							onChange={(e) =>
 								setVisitorVehicle({ ...visitorVehicle, model: e.target.value })
 							}
 							sx={{ mt: 2, width: 1 }}
-                            InputLabelProps={{ color: "secondary" }}
-                            required
+							InputLabelProps={{ color: "secondary" }}
+							required
 						/>
 						<TextField
-                            name="color"
+							name="color"
 							label={t("color")}
 							value={visitorVehicle?.color}
 							onChange={(e) =>
 								setVisitorVehicle({ ...visitorVehicle, color: e.target.value })
 							}
 							sx={{ mt: 2, width: 1 }}
-                            InputLabelProps={{ color: "secondary" }}
-                            required
+							InputLabelProps={{ color: "secondary" }}
+							required
 						/>
 						<Button
-                            type="submit"
+							type="submit"
 							variant="outlined"
 							color="secondary"
-                            onClick={handleCloseLicense}
+							onClick={handleCloseLicense}
 							sx={{
 								mt: 2,
 								width: "100%",

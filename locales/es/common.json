@@ -30,7 +30,8 @@
         "add_vehicle": "Añadir vehículo",
         "brand": "Marca",
         "model": "Modelo",
-        "color": "Color"
+        "color": "Color",
+        "visit_reason": "Motivo de visita (opcional)"
     },
     "settings":{
         "title": "Ajustes",
