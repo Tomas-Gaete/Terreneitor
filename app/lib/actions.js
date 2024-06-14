@@ -3,6 +3,12 @@ import { auth, signIn, signOut } from "@/auth";
 import { AuthError } from "next-auth";
 import { sql } from "@vercel/postgres";
 import { logger } from "@/logger";
+import { Pool } from 'pg';
+
+// Create a new pool instance using the connection string from your .env.local file
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
 // * This function authenticates the user with the email and password provided.
 export async function authenticate(prevState, formData) {
 	try {
@@ -149,3 +155,20 @@ export async function addNewFrequentVisitor(prevState, formData) {
 		return true;
 	}
 }
+
+export async function addVisitor(prevState, formData){
+	const firstname = formData.get("firstName");
+	const lastname = formData.get("lastName");
+	const rut = formData.get("rut");
+	const community_id = 1;
+	console.log("a")
+	try{
+		await sql`INSERT INTO visitor (rut, community_id, firstname, lastname)
+			 VALUES (${rut},${community_id},${firstname}, ${lastname});`;
+	}
+	catch (error){
+
+		return 	logger.error(`following error:'${error.message}' has occurred while creating the new visitor.`);
+	}
+}
+
