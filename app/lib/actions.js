@@ -3,12 +3,7 @@ import { auth, signIn, signOut } from "@/auth";
 import { AuthError } from "next-auth";
 import { sql } from "@vercel/postgres";
 import { logger } from "@/logger";
-import { Pool } from 'pg';
 
-// Create a new pool instance using the connection string from your .env.local file
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
 // * This function authenticates the user with the email and password provided.
 export async function authenticate(prevState, formData) {
 	try {
@@ -156,12 +151,33 @@ export async function addNewFrequentVisitor(prevState, formData) {
 	}
 }
 
+export async function addVisit(prevState, formData){
+    const residence_id = formData.get("residence_id");
+    const visitor_id = formData.get("visitor_id");
+    const reason = formData.get("visit_reason");
+
+    //TODO: considerar el estacionamiento dps
+    const license_plate = formData.get("license_plate");
+
+    try{
+        await sql`INSERT INTO visit_to_residence (residence_id,visitor_id,arrival, departure, reason)
+        VALUES (${residence_id}, ${visitor_id},current_timestamp AT TIME ZONE 'America/Santiago', NULL, ${reason})`;
+    } catch (error){
+        return "error_adding_visit";
+    }
+    return "success";
+} 
+
 export async function addVisitor(prevState, formData){
 	const firstname = formData.get("firstName");
 	const lastname = formData.get("lastName");
 	const rut = formData.get("rut");
 	const community_id = 1;
-	console.log("a")
+    //TODO: validate that the visitor doesn't exist and show an error message if it does
+    //also rut
+    //also consider community id
+    //maybe add it to the session
+
 	try{
 		await sql`INSERT INTO visitor (rut, community_id, firstname, lastname)
 			 VALUES (${rut},${community_id},${firstname}, ${lastname});`;
@@ -172,3 +188,20 @@ export async function addVisitor(prevState, formData){
 	}
 }
 
+
+export async function addVisitorVehicle(prevState, formData){
+    const visitor_id = formData.get("visitor_id");
+    const license_plate = formData.get("license_plate");
+    const brand = formData.get("brand");
+    const model = formData.get("model");
+    const color = formData.get("color");
+    
+    try{
+        await sql`INSERT INTO visitor_vehicle (visitor_id, license_plate, brand, model, color)
+        VALUES (${visitor_id}, ${license_plate}, ${brand}, ${model}, ${color})`;
+    } catch (error){
+        //TODO: add lang
+        return "error adding vehicle";
+    }
+    return false;
+}

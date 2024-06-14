@@ -11,7 +11,7 @@
         "name": "Nombre",
         "rut": "RUT",
         "no_visitors": "Visita no registrada",
-        "residence": "Recidencia",
+        "residence": "Residencia",
         "register_visit": "Registrar visita",
         "scan_id": "Escanear Cédula",
         "frequent_visitors": "Visitas frecuentes",
@@ -26,7 +26,14 @@
         "close": "Cerrar",
         "success": "Visita  frecuente ingresada con éxito",
         "error": "Error al ingresar visita frecuente",
-        "repeated": "Visita frecuente ya ingresada"
+        "repeated": "Visita frecuente ya ingresada",
+        "licence_plate": "Patente",
+        "new_vehicle": "Nuevo vehículo",
+        "add_vehicle": "Añadir vehículo",
+        "brand": "Marca",
+        "model": "Modelo",
+        "color": "Color",
+        "visit_reason": "Motivo de visita (opcional)"
     },
     "settings":{
         "title": "Ajustes",

@@ -26,7 +26,14 @@
         "close": "close",
         "success": "Frequent visitor registered successfully",
         "error": "Error registering frequent visitor",
-        "repeated": "Frequent visitor already registered"
+        "repeated": "Frequent visitor already registered",
+        "licence_plate": "Licence plate",
+        "new_vehicle": "New vehicle",
+        "add_vehicle": "Add vehicle",
+        "brand": "Brand",
+        "model": "Model",
+        "color": "Color",
+        "visit_reason": "Visit reason (optional)"
     },
     "settings":{
         "title": "Settings",
