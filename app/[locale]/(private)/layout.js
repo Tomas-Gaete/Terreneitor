@@ -1,5 +1,5 @@
 import ResponsiveAppBar from "@components/ResponsiveAppBar";
-import {auth } from "@/auth";
+import { auth } from "@/auth";
 import { redirect } from 'next/navigation'
 
 // * This will show the title and description of the page. for dashboard page in this case
@@ -21,7 +21,7 @@ export default async function PrivateLayout({ children }) {
 	return (
 		<>
 			<section>
-				<ResponsiveAppBar />
+				<ResponsiveAppBar role={session?.user?.role}/>
 				{children}
 			</section>
 		</>

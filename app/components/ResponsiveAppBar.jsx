@@ -1,5 +1,5 @@
 "use client";
-import * as React from "react";
+import {useState} from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -12,21 +12,20 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-
+import {Settings } from "@mui/icons-material";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 import LanguageChanger from "./LanguageChanger";
 
 import { useTranslation } from "react-i18next";
-import {Settings } from "@mui/icons-material";
 
 import { LogOut } from "../lib/actions";
 import Link from "next/link";
 
 
 // * This function displays the settings menu, which includes options for the user to view their profile, change the language, and log out.
-function NavbarSettings({ text, locales }) {
-	const [anchorElUser, setAnchorElUser] = React.useState(null);
+function NavbarSettings({ text }) {
+	const [anchorElUser, setAnchorElUser] = useState(null);
 
 	const handleOpenUserMenu = (event) => {
 		setAnchorElUser(event.currentTarget);
@@ -39,8 +38,6 @@ function NavbarSettings({ text, locales }) {
 	return (
 		<Box sx={{ flexGrow: 0 }}>
 			<Tooltip title={text.settings}>
-				{/* TODO: maybe change for a gear or put a menu with things*/}
-
 				<Settings
 					fontSize="medium"
 					sx={{ ml: 1 }}
@@ -94,12 +91,15 @@ function NavbarSettings({ text, locales }) {
 
 
 // * This function displays the responsive app bar, which includes a menu icon that opens a menu with the pages of the app, and a title that links to the home page.
-function ResponsiveAppBar() {
+function ResponsiveAppBar({role}) {
 	const { t } = useTranslation("common");
-	const pages = [[t("home"), "/dashboard"], [t("visitors.title"), "/visitors"], [t("delivery"), "/delivery"], [t("settings.title"), "/settings"]]
-    //TODO: make this dynamic also home should dashboard or something
+	const pages = [[t("home"), "/dashboard"], [t("visitors.title"), "/visitors"], [t("delivery"), "/delivery"]]
 
-	const [anchorElNav, setAnchorElNav] = React.useState(null);
+    if(role === "admin" || role === "concierge") {
+        pages.push([t("settings.title"), "/settings"])
+    }
+
+	const [anchorElNav, setAnchorElNav] = useState(null);
 
 	const handleOpenNavMenu = (event) => {
 		setAnchorElNav(event.currentTarget);
@@ -120,19 +120,19 @@ function ResponsiveAppBar() {
 		<AppBar position="static" color="transparent">
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
-					<AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+					<AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} color="secondary" />
 					<Typography
 						variant="h6"
 						noWrap
 						component="a"
-						href="#app-bar-with-responsive-menu" // TODO: change href
+						href="/dashboard"
+                        color="primary"
 						sx={{
 							mr: 2,
 							display: { xs: "none", md: "flex" },
 							fontFamily: "monospace",
 							fontWeight: 700,
 							letterSpacing: ".3rem",
-							color: "inherit",
 							textDecoration: "none",
 						}}
 					>
@@ -181,7 +181,8 @@ function ResponsiveAppBar() {
 						variant="h5"
 						noWrap
 						component="a"
-						href="#app-bar-with-responsive-menu" // TODO: change href
+						href="/dashboard"
+                        color="primary"
 						sx={{
 							mr: 2,
 							display: { xs: "flex", md: "none" },
@@ -189,7 +190,6 @@ function ResponsiveAppBar() {
 							fontFamily: "monospace",
 							fontWeight: 700,
 							letterSpacing: ".3rem",
-							color: "inherit",
 							textDecoration: "none",
 						}}
 					>
