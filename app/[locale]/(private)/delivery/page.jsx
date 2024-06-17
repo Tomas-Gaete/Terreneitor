@@ -1,6 +1,6 @@
 import { logger } from "@/logger"
 import { auth } from "@/auth";
-import {Deliverycomponent} from "@/app/components/deliver_component.js";
+import {Deliverycomponent} from "@components/deliver_component.js";
 
 /*
     * This is the page the user sees upon logging in. This dashboard will be private, meaning it will only be visible once logged in with email and password.

@@ -17,13 +17,13 @@ logger.debug(`cheking metadata => title: (${metadata.title ? metadata.title : 'x
 
 export default async function RootLayout({ children}) {
 	return (
-		<html >
+		< >
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <body>
                     {children}
                 </body>
             </ThemeProvider>
-		</html>
+		</>
 	);
 }

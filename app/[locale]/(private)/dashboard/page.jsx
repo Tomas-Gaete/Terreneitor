@@ -1,4 +1,4 @@
-import Dashboard_component from "@/app/components/dashboard_component";
+import Dashboard_component from "@components/dashboard_component";
 import { logger } from "@/logger"
 import { auth } from "@/auth";
 /*
