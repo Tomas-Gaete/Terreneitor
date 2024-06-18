@@ -22,9 +22,5 @@ export const authConfig = {
 			}
 			return true;
 		},
-	},
-	providers: [ GoogleProvider({
-        clientId: process.env.GOOGLE_ID,
-        clientSecret: process.env.GOOGLE_SECRET,
-      }),], // Add providers with an empty array for now
+	}, // Add providers with an empty array for now
 }
