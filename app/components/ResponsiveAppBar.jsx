@@ -21,6 +21,7 @@ import { useTranslation } from "react-i18next";
 
 import { LogOut } from "../lib/actions";
 import Link from "next/link";
+import ThemeSelector from "./ThemeSelector";
 
 
 // * This function displays the settings menu, which includes options for the user to view their profile, change the language, and log out.
@@ -69,7 +70,9 @@ function NavbarSettings({ text }) {
 				<MenuItem onClick={handleCloseUserMenu}>
 					<LanguageChanger />
 				</MenuItem>
-				{/* TODO: add a dark/light mode selector */}
+				<MenuItem>
+                    <ThemeSelector />
+                </MenuItem>
 				{/* TODO: remove weird red border when selected */}
 				<MenuItem onClick={handleCloseUserMenu}>
 					
@@ -199,7 +202,7 @@ function ResponsiveAppBar({role}) {
 						{pages.map((page) => (
                             <Link key={page} href={page[1]} style={{textDecoration: "none"}}>
 							<Button
-								sx={{ my: 2, color: "white", display: "block" }}
+								sx={{ my: 2, color: "primary.contrastText", display: "block" }}
 							>
 								{page[0]}
 							</Button>

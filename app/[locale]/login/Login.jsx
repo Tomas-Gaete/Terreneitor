@@ -13,7 +13,9 @@ import Container from "@mui/material/Container";
 import { authenticate } from "@/app/lib/actions";
 import { useFormState, useFormStatus } from "react-dom";
 import { useTranslation } from "react-i18next";
+
 import LanguageChanger from "@components/LanguageChanger";
+import ThemeSelector from "@components/ThemeSelector";
 
 export default function SignIn() {
 	const { t } = useTranslation("translate-login");
@@ -72,12 +74,6 @@ export default function SignIn() {
 					/>
 					<LoginButton />
 					{errorMessage && <ErrorAlert message={errorMessage} />}
-					<Copyright
-						sx={{
-							mt: 8,
-							mb: 4,
-						}}
-					/>
 					<Grid container>
 						<Grid item xs>
 							{/* change the url to dynamic ones */}
@@ -97,11 +93,21 @@ export default function SignIn() {
 				</Box>
 				<Box
 					sx={{
-						my: 5,
+						my: 3,
+						display: "flex",
+						justifyContent: "space-between",
+						width: "100%",
 					}}
 				>
-					<LanguageChanger />
+					<LanguageChanger noMargin />
+					<ThemeSelector noMargin />
 				</Box>
+				<Copyright
+					sx={{
+						mt: 8,
+						mb: 4,
+					}}
+				/>
 			</Box>
 		</Container>
 	);
