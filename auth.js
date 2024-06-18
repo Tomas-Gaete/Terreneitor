@@ -24,7 +24,7 @@ async function getUser(email) {
 
 
 // * This function will authenticate the user by email and password.
-export const { auth, signIn, signOut } = NextAuth({
+export const {  handlers:{GET,POST}, auth, signIn, signOut } = NextAuth({
     ...authConfig,
     providers: [Credentials({
         async authorize(credentials, request) {
@@ -54,7 +54,7 @@ export const { auth, signIn, signOut } = NextAuth({
             }
         },
     }),
-    Google],
+    Google]
 });
 
 
