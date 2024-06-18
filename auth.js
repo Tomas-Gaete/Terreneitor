@@ -3,7 +3,7 @@ import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
 import { z } from 'zod';
 import { sql } from '@vercel/postgres';
-
+import Google from "next-auth/providers/google"
 
 const bcrypt = require("bcryptjs")
 
@@ -24,7 +24,7 @@ async function getUser(email) {
 
 
 // * This function will authenticate the user by email and password.
-export const { auth, signIn, signOut } = NextAuth({
+export const {  handlers:{GET,POST}, auth, signIn, signOut } = NextAuth({
     ...authConfig,
     providers: [Credentials({
         async authorize(credentials, request) {
@@ -54,7 +54,7 @@ export const { auth, signIn, signOut } = NextAuth({
             }
         },
     }),
-    ],
+    Google]
 });
 
 
