@@ -1,6 +1,7 @@
 import ResponsiveAppBar from "@components/ResponsiveAppBar";
 import { auth } from "@/auth";
 import { redirect } from 'next/navigation'
+import { sql } from "@vercel/postgres";
 
 // * This will show the title and description of the page. for dashboard page in this case
 export const metadata = {
@@ -15,13 +16,16 @@ export default async function PrivateLayout({ children }) {
     const session = await auth();
     if (!session) {
         redirect("/login");
-        //TODO: Maybe show a loading screen and log this
     }
+
+    const communityResult = await sql`SELECT c.name FROM community c 
+        JOIN user_info u ON c.id = u.community_id 
+        WHERE u.id = ${session?.user?.id}`;
 
 	return (
 		<>
 			<section>
-				<ResponsiveAppBar role={session?.user?.role}/>
+				<ResponsiveAppBar role={session?.user?.role} community={communityResult.rows[0].name}/>
 				{children}
 			</section>
 		</>

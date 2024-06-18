@@ -11,9 +11,6 @@ export default function ThemeSelector({noMargin = "auto"}) {
     const { theme, setTheme } = useContext(ThemeContext);
     const [isLight, setIsLight] = useState(theme === lightTheme);
 
-    console.log("isLight", isLight);
-    console.log("theme", theme.palette.mode);
-
     const toggleTheme = () => {
         setTheme(isLight ? darkTheme : lightTheme);
         setIsLight(!isLight);
