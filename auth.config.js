@@ -1,6 +1,3 @@
-import { NextResponse } from "next/server";
-import { cookies } from 'next/headers'
-import GoogleProvider from "next-auth/providers/google"
 import { sql } from "@vercel/postgres";
 
 // * This is the configuration for the authentication of the app. It will redirect the user to the login page if they are not logged in.

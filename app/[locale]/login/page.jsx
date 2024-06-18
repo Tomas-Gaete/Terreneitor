@@ -1,6 +1,7 @@
 import SignIn from "./Login";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import {Signin} from "@/app/components/Google_component.js";
 
 /*
  * This is the page for the user to log in by entering their email and password.
@@ -14,5 +15,9 @@ export default async function Login() {
 	if (session) {
 		redirect("/dashboard");
 	}
-	return <SignIn />;
+	return(
+	<>
+		<SignIn/>
+		<Signin/>
+	</> );
 }

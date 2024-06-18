@@ -6,6 +6,7 @@ export function Signin() {
           "use server"
           await signIn("google")
         }}
+        align="center"
       >
         <button type="submit">Signin with Google</button>
       </form>
