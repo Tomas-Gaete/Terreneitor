@@ -17,7 +17,9 @@ export default async function Login() {
 	}
 	return(
 	<>
-		<SignIn/>
-		<Signin/>
+		<SignIn>
+			<Signin/>
+		</SignIn>
+
 	</> );
 }

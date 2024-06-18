@@ -13,11 +13,10 @@ import Container from "@mui/material/Container";
 import { authenticate } from "@/app/lib/actions";
 import { useFormState, useFormStatus } from "react-dom";
 import { useTranslation } from "react-i18next";
-
 import LanguageChanger from "@components/LanguageChanger";
-import ThemeSelector from "@components/ThemeSelector";
+import ThemeSelector from "@/app/components/ThemeSelector";
 
-export default function SignIn() {
+export default function SignIn({ children}) {
 	const { t } = useTranslation("translate-login");
 	const [errorMessage, dispatch] = useFormState(authenticate, undefined);
 	const { i18n } = useTranslation(); //TODO: add link for forgot password option
@@ -74,7 +73,9 @@ export default function SignIn() {
 					/>
 					<LoginButton />
 					{errorMessage && <ErrorAlert message={errorMessage} />}
-					<Grid container>
+				</Box>
+				{children}
+				<Grid container>
 						<Grid item xs>
 							{/* change the url to dynamic ones */}
 							<Link href="http://localhost:3000/es/#" variant="body2">
@@ -90,25 +91,21 @@ export default function SignIn() {
 							</Link>
 						</Grid>
 					</Grid>
-				</Box>
 				<Box
 					sx={{
-						my: 3,
-						display: "flex",
-						justifyContent: "space-between",
-						width: "100%",
+						my: 5,
 					}}
 				>
-					<LanguageChanger noMargin />
-					<ThemeSelector noMargin />
+					<LanguageChanger />
 				</Box>
-				<Copyright
-					sx={{
-						mt: 8,
-						mb: 4,
-					}}
-				/>
 			</Box>
+			<ThemeSelector />
+			<Copyright
+						sx={{
+							mt: 8,
+							mb: 4,
+						}}
+					/>
 		</Container>
 	);
 }
@@ -139,7 +136,7 @@ function LoginButton() {
 			type="submit"
 			fullWidth
 			variant="outlined"
-			color="secondary"
+			color="primary"
 			sx={{ mt: 3, mb: 2 }}
 			aria-disabled={pending}
 		>
