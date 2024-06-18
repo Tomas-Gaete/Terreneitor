@@ -14,7 +14,7 @@ function GoogleIcon(props) {
     </SvgIcon>
   );
 }
-export function Signin() {
+export function GoogleSignin() {
   return (
     <Box
     component="form"
