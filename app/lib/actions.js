@@ -2,7 +2,7 @@
 import { auth, signIn, signOut } from "@/auth";
 import { AuthError } from "next-auth";
 import { sql } from "@vercel/postgres";
-import { validateRut } from "./common";
+import { validateRut } from "./ common";
 import { logger } from "@/logger";
 
 // * This function authenticates the user with the email and password provided.

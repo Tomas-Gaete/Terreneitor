@@ -10,13 +10,15 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+
 import { authenticate } from "@/app/lib/actions";
 import { useFormState, useFormStatus } from "react-dom";
 import { useTranslation } from "react-i18next";
+
 import LanguageChanger from "@components/LanguageChanger";
 import ThemeSelector from "@/app/components/ThemeSelector";
 
-export default function SignIn({ children}) {
+export default function SignIn({ children }) {
 	const { t } = useTranslation("translate-login");
 	const [errorMessage, dispatch] = useFormState(authenticate, undefined);
 	const { i18n } = useTranslation(); //TODO: add link for forgot password option
@@ -76,36 +78,39 @@ export default function SignIn({ children}) {
 				</Box>
 				{children}
 				<Grid container>
-						<Grid item xs>
-							{/* change the url to dynamic ones */}
-							<Link href="http://localhost:3000/es/#" variant="body2">
-								{t("forgotpassword")}
-							</Link>
-						</Grid>
-						<Grid item>
-							<Link
-								href={`http://localhost:3000/${i18n.language}/register`}
-								variant="body2"
-							>
-								{t("register")}
-							</Link>
-						</Grid>
+					<Grid item xs>
+						{/* change the url to dynamic ones */}
+						<Link href="http://localhost:3000/es/#" variant="body2">
+							{t("forgotpassword")}
+						</Link>
 					</Grid>
-				<Box
+					<Grid item>
+						<Link
+							href={`http://localhost:3000/${i18n.language}/register`}
+							variant="body2"
+						>
+							{t("register")}
+						</Link>
+					</Grid>
+				</Grid>
+                <Box
 					sx={{
-						my: 5,
+						my: 3,
+						display: "flex",
+						justifyContent: "space-between",
+						width: "100%",
 					}}
 				>
-					<LanguageChanger />
+					<LanguageChanger noMargin />
+					<ThemeSelector noMargin />
 				</Box>
 			</Box>
-			<ThemeSelector />
 			<Copyright
-						sx={{
-							mt: 8,
-							mb: 4,
-						}}
-					/>
+				sx={{
+					mt: 8,
+					mb: 4,
+				}}
+			/>
 		</Container>
 	);
 }
