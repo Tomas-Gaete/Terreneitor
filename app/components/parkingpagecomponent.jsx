@@ -9,24 +9,19 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import Typography from "@mui/material/Typography";
 
-const ParkingManagement = () => {
+const ParkingManagement = ({parking_state, parking_DB}) => {
 
-  
+  const [parkingSpaces, setParkingSpaces] = useState(
+    Object.entries(parking_DB).map(([id, parking]) => (
+      { id: id, visitor: parking.firstname + " " + parking.lastname, car: parking.brand +"/" + parking.model, resident: parking.resident_firstname + " " + parking.resident_lastname, number: parking.number, status: "available" }
+    ))
+  );
+
+ 
 
 
 
 
-
-  const [parkingSpaces, setParkingSpaces] = useState([
-    { id: 1, number: "A1", status: "available" },
-    { id: 2, number: "A2", status: "available" },
-    { id: 3, number: "A3", status: "occupied" },
-    { id: 4, number: "A4", status: "available" },
-    { id: 5, number: "B1", status: "occupied" },
-    { id: 6, number: "B2", status: "available" },
-    { id: 7, number: "B3", status: "available" },
-    { id: 8, number: "B4", status: "occupied" },
-  ]);
   const [sortBy, setSortBy] = useState("number");
   const [sortDirection, setSortDirection] = useState("asc");
   const [filterStatus, setFilterStatus] = useState("all");
@@ -66,6 +61,7 @@ const ParkingManagement = () => {
       <Typography variant="h4" component="h1" gutterBottom>
         Parking Space Management
       </Typography>
+      
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Button variant={filterStatus === "all" ? "contained" : "outlined"} onClick={() => handleFilterStatus("all")}>
@@ -96,19 +92,41 @@ const ParkingManagement = () => {
           </Button>
         </div>
       </div>
+      <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full bg-green-500" />
+            <span className="text-gray-500 dark:text-gray-400">Available: {parking_state.available_spaces}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full bg-red-500" />
+            <span className="text-gray-500 dark:text-gray-400">Occupied: {parking_state.ocupied_spaces}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full bg-gray-500" />
+            <span className="text-gray-500 dark:text-gray-400">Total: {parking_state.total_spaces}</span>
+          </div>
+        </div>
       <div className="overflow-x-auto">
         <Table>
           <TableHead>
             <TableRow>
               <TableCell>Number</TableCell>
+              <TableCell>Visitor</TableCell>
+              <TableCell>Car</TableCell>
+              <TableCell>Resident</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Action</TableCell>
+              <TableCell></TableCell>
+              
             </TableRow>
           </TableHead>
           <TableBody>
             {filteredAndSortedSpaces.map((space) => (
               <TableRow key={space.id}>
                 <TableCell>{space.number}</TableCell>
+                <TableCell>{space.visitor}</TableCell>
+                <TableCell>{space.car}</TableCell>
+                <TableCell>{space.resident}</TableCell>
                 <TableCell>
                   <div
                     className={`px-3 py-1 rounded-full text-xs font-medium ${
@@ -130,6 +148,9 @@ const ParkingManagement = () => {
                   >
                     {space.status === "available" ? "Mark as Occupied" : "Mark as Available"}
                   </Button>
+                </TableCell>
+                <TableCell>
+                  Configuracion
                 </TableCell>
               </TableRow>
             ))}
