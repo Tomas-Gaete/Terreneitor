@@ -2,6 +2,7 @@
 import { auth, signIn, signOut } from "@/auth";
 import { AuthError } from "next-auth";
 import { sql } from "@vercel/postgres";
+import { validateRut } from "./common";
 import { logger } from "@/logger";
 
 // * This function authenticates the user with the email and password provided.
@@ -50,34 +51,6 @@ export async function LogOut() {
 	await signOut({ redirectTo: "/login" });
 }
 
-//TODO: remove this function
-export async function getVisitors() {
-	const session = await auth();
-	if (!session?.user || !session?.user?.email) return null;
-
-	const visitors = await sql`WITH community_id_query AS (
-            SELECT community_id
-            FROM user_info
-            WHERE email = ${session.user.email}
-        )
-        SELECT 
-            id,
-            rut, 
-            firstname ||' '|| lastname AS name
-        FROM visitor
-        WHERE community_id = (SELECT community_id FROM community_id_query)
-    `;
-	const visitorsRut = visitors.rows.map((visitor) => ({
-		label: visitor.rut,
-		id: visitor.id,
-	}));
-	const visitorsName = visitors.rows.map((visitor) => ({
-		label: visitor.name,
-		id: visitor.id,
-	}));
-
-	return { visitorsRut, visitorsName };
-}
 
 export async function thenewUser(data) {
 	const bcrypt = require("bcryptjs");
@@ -120,10 +93,10 @@ export async function addNewFrequentVisitor(prevState, formData) {
 	const session = await auth();
 	if (!session?.user || !session?.user?.email) return null;
 
-	const visitor_rut = formData.get("visitor-rut");
+	let visitor_rut = formData.get("visitor-rut");
 	const visitor_firstname = formData.get("visitor-first-name");
 	const visitor_lastname = formData.get("visitor-last-name");
-	const resident_rut = formData.get("resident-rut");
+	let resident_rut = formData.get("resident-rut");
 
 	if (
 		!visitor_rut
@@ -133,9 +106,12 @@ export async function addNewFrequentVisitor(prevState, formData) {
 	) {
 		return true;
 	}
-	//here validate rut
-    //TODO: validate rut
-	//bla vla bla
+	visitor_rut = validateRut(visitor_rut);
+    if (!visitor_rut) return true; //true means invalid rut
+    resident_rut = validateRut(resident_rut);
+    if (!resident_rut) return true; //true means invalid rut
+
+
 	try {
 		console.log("Creando nuevo visitante frecuente");
 		const result =
@@ -171,12 +147,14 @@ export async function addVisit(prevState, formData){
 export async function addVisitor(prevState, formData){
 	const firstname = formData.get("firstName");
 	const lastname = formData.get("lastName");
-	const rut = formData.get("rut");
+	let rut = formData.get("rut");
 	const community_id = 1;
     //TODO: validate that the visitor doesn't exist and show an error message if it does
-    //also rut
     //also consider community id
     //maybe add it to the session
+
+    rut = validateRut(rut);
+    if (!rut) return "invalid_rut";
 
 	try{
 		await sql`INSERT INTO visitor (rut, community_id, firstname, lastname)

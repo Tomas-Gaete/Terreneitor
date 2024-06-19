@@ -25,7 +25,7 @@ export default function ThemeSelector({noMargin = "auto"}) {
                 m:noMargin,
             }}
         >
-            <LightModeIcon sx={{visibility:!isLight? "hidden" : "visible"}}/>
+            <LightModeIcon color="primary" sx={{visibility:!isLight? "hidden" : "visible"}}/>
             <Switch checked={!isLight} onChange={toggleTheme} />
             <DarkModeIcon sx={{visibility:isLight? "hidden" : "visible"}}/>
         </Box>
