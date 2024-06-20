@@ -9,7 +9,7 @@ export function send_message() {
       to: phoneNbr,
       type: 'template',
       template: {
-        name:'hello_world',
+        name:'confirmacion',
         language:{ code: 'en_US' }
       }
     };
