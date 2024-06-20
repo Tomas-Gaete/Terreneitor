@@ -1,15 +1,31 @@
 {
-	"welcome": "Welcome to the Resident Portal",
-	"subtitle": "Manage your building information and stay connected with your community.",
-	"pending_packages": "Packages Pending Pickup",
-	"visitors": "Visitors",
-	"parking_ocupancy": "Parking Space Occupancy",
-	"visitor_parking": "Visitor Parking",
-	"overdue_parking": "Overdue Parking",
-	"percentage": "{{percentage}}% Full",
-	"overdue": "{{overdue}} vehicles overdue",
-	"package_for": "Package for",
-	"sent_by": "Sent by",
-	"arrived_on": "Arrived on",
-	"visiting": "Visiting"
+	"concierge": {
+		"welcome": "Welcome to the Concierge Portal",
+		"subtitle": "Manage your building information and stay connected with your community.",
+		"pending_packages": "Packages Pending Pickup",
+        "no_packages": "No packages pending pickup",
+		"visitors": "Visitors",
+        "no_visitors": "No recent visitors",
+		"parking_ocupancy": "Parking Space Occupancy",
+		"visitor_parking": "Visitor Parking",
+		"overdue_parking": "Overdue Parking",
+		"percentage": "{{percentage}}% Full",
+		"overdue": "{{overdue}} vehicles overdue",
+		"package_for": "Package for",
+		"sent_by": "Sent by",
+		"arrived_on": "Arrived on",
+		"visiting": "Visiting"
+	},
+    "resident": {
+        "welcome": "Welcome to the Resident Portal",
+        "subtitle": "Access your building information and manage your resident services.",
+        "pending_packages": "Packages Pending Pickup",
+        "no_packages": "No packages pending pickup",
+        "visitors": "Visitors",
+        "no_visitors": "No visitors",
+        "package_for": "Package for",
+        "sent_by": "Sent by",
+        "arrived_on": "Arrived on",
+        "visiting": "Visited on {{date}} at {{time}}"
+    }
 }

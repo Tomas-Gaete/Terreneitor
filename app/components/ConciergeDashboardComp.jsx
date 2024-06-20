@@ -20,7 +20,9 @@ export default function ConciergeDashboardComp({
 	overdueParking,
 	latestVisitors,
 }) {
-	const { t } = useTranslation("translate-dashboard");
+	const { t } = useTranslation("translate-dashboard", {
+		keyPrefix: "concierge",
+	});
 	return (
 		<Container component="main" style={{ flex: 1, padding: "16px" }}>
 			<div style={{ textAlign: "center", marginBottom: "32px" }}>
@@ -42,9 +44,15 @@ export default function ConciergeDashboardComp({
 								overflowY: "scroll",
 							}}
 						>
-							{pendingPackages.map((packageitem) => (
-								<PackageItem key={packageitem.id} data={packageitem} />
-							))}
+							{pendingPackages.length === 0 ? (
+								<Typography variant="body2" color="textSecondary">
+									{t("no_packages")}
+								</Typography>
+							) : (
+								pendingPackages.map((packageitem) => (
+									<PackageItem key={packageitem.id} data={packageitem} />
+								))
+							)}
 						</CardContent>
 					</Card>
 				</Grid>
@@ -99,9 +107,15 @@ export default function ConciergeDashboardComp({
 								overflowY: "scroll",
 							}}
 						>
-							{latestVisitors.map((visitor) => (
-								<VisitorItem key={visitor.id} data={visitor} />
-							))}
+							{latestVisitors.length === 0 ? (
+								<Typography variant="body2" color="textSecondary">
+									{t("no_visitors")}
+								</Typography>
+							) : (
+								latestVisitors.map((visitor) => (
+									<VisitorItem key={visitor.id} data={visitor} />
+								))
+							)}
 						</CardContent>
 					</Card>
 				</Grid>
@@ -111,7 +125,9 @@ export default function ConciergeDashboardComp({
 }
 
 function PackageItem({ data }) {
-	const { t } = useTranslation("translate-dashboard");
+	const { t } = useTranslation("translate-dashboard", {
+		keyPrefix: "concierge",
+	});
 	return (
 		<div
 			style={{
@@ -137,7 +153,9 @@ function PackageItem({ data }) {
 }
 
 function VisitorItem({ data }) {
-	const { t } = useTranslation("translate-dashboard");
+	const { t } = useTranslation("translate-dashboard", {
+		keyPrefix: "concierge",
+	});
 	return (
 		<div
 			style={{

@@ -93,7 +93,6 @@ export default async function ConciergeDashboard() {
 	} finally {
 		client.release();
 	}
-
 	logger.info(
 		`User with email '${session?.user?.email}' has opened the dashboard.`,
 	);

@@ -1,15 +1,32 @@
 {
-    "welcome": "Bienvenido al Portal de Residentes",
-    "subtitle": "Administra la información de tu edificio y mantente conectado con tu comunidad.",
-    "pending_packages": "Encomiendas Pendientes",
-    "visitors": "Visitantes",
-    "parking_ocupancy": "Ocupación de Estacionamiento",
-    "visitor_parking": "Estacionamiento para Visitantes",
-    "overdue_parking": "Estacionamiento Excedido",
-    "percentage": "{{percentage}}% Ocupado",
-    "overdue": "{{overdue}} vehículos excedidos, deben ser removidos",
-    "package_for": "Paquete para",
-    "sent_by": "Enviado por",
-    "arrived_on": "Llegado el",
-    "visiting": "Visitando"
+    "concierge":{
+
+        "welcome": "Bienvenido al Portal de Conserjes",
+        "subtitle": "Administra la información de tu edificio y mantente conectado con tu comunidad.",
+        "pending_packages": "Encomiendas Pendientes",
+        "no_packages": "No hay encomiendas pendientes de recoger",
+        "visitors": "Visitas",
+        "no_visitors": "No hay visitas recientes",
+        "parking_ocupancy": "Ocupación del Estacionamiento",
+        "visitor_parking": "Estacionamiento para Visitas",
+        "overdue_parking": "Estacionamiento Excedido",
+        "percentage": "{{percentage}}% Ocupado",
+        "overdue": "{{overdue}} vehículos excedidos, deben ser removidos",
+        "package_for": "Paquete para",
+        "sent_by": "Enviado por",
+        "arrived_on": "Llegado el",
+        "visiting": "Visitando"
+    },
+    "resident":{
+        "welcome": "Bienvenido al Portal de Residentes",
+        "subtitle": "Accede a la información de tu edificio y gestiona tus servicios de residente.",
+        "pending_packages": "Encomiendas Pendientes de Recoger",
+        "no_packages": "No hay encomiendas pendientes de recoger",
+        "visitors": "Visitantes",
+        "no_visitors": "No hay visitantes",
+        "package_for": "Paquete para",
+        "sent_by": "Enviado por",
+        "arrived_on": "Recibido el",
+        "visiting": "Visitado el {{date}} a las {{time}}"
+    } 
 }
