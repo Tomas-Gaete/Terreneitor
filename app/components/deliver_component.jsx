@@ -6,7 +6,7 @@ import { Box, Container, Grid, Typography, List, ListItem, TextField, Button, Ap
 import { useTranslation } from "react-i18next";
 
 export const Deliverycomponent = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common", { keyPrefix: "deliverys" });
 
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh">
@@ -16,34 +16,33 @@ export const Deliverycomponent = () => {
           <Grid container spacing={8}>
             <Grid item lg={6}>
               <Typography variant="h4" component="h2" gutterBottom>
-                Delivery Instructions
+              {t("title")}
               </Typography>
               <Typography variant="body1" color="textSecondary" gutterBottom>
-                Please follow these instructions when delivering packages to the building:
+                {t("general_info")}
               </Typography>
               <List>
                 <ListItem>
                   <Box>
-                    <Typography variant="h6">Front Desk</Typography>
+                    <Typography variant="h6">{t("front_desk")}</Typography>
                     <Typography variant="body1">
-                      All packages must be dropped off at the front desk. The concierge will log and hold the package until
-                      the resident retrieves it.
+                      {t("front_desk_info")}
                     </Typography>
                   </Box>
                 </ListItem>
                 <ListItem>
                   <Box>
-                    <Typography variant="h6">Resident Notification</Typography>
+                    <Typography variant="h6">{t("resident_notification")}</Typography>
                     <Typography variant="body1">
-                      The concierge will notify the resident via whatsapp message when recieved.
+                      {t("resident_notification_info")}
                     </Typography>
                   </Box>
                 </ListItem>
                 <ListItem>
                   <Box>
-                    <Typography variant="h6">Pickup Hours</Typography>
+                    <Typography variant="h6">{t("pickup")}</Typography>
                     <Typography variant="body1">
-                      Packages can be picked up from the front desk 24/7.
+                      {t("pickup_info")}
                     </Typography>
                   </Box>
                 </ListItem>
@@ -51,16 +50,16 @@ export const Deliverycomponent = () => {
             </Grid>
             <Grid item lg={6}>
               <Typography variant="h4" component="h2" gutterBottom>
-                Delivery Notification
+                {t("notification")}
               </Typography>
               <Typography variant="body1" color="textSecondary" gutterBottom>
-                Insert the information regarding the package owner:
+                {t("notification_info")}
               </Typography>
               <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <TextField label="Name" id="name" placeholder="Enter resident name" fullWidth />
-                <TextField label="Apartment Number" id="apartment" placeholder="Enter apartment number" fullWidth />
-                <Button type="submit" variant="contained" fullWidth>
-                  Submit
+                <TextField label={t("owner_name")} id="name" placeholder={t("name_instruction")} fullWidth />
+                <TextField label={t("owner_apartment")} id="apartment" placeholder={t("apartment_instruction")} fullWidth />
+                <Button type={t("apartment_instruction")} variant="contained" fullWidth>
+                  {t("button")}
                 </Button>
               </Box>
             </Grid>

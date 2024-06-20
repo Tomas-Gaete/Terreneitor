@@ -45,5 +45,22 @@
         "parking":{
             "title":"Estacionamientos"
         }
-    }
+    },
+    "deliverys":{
+        "title":"Instrucciones de Entrega",
+        "general_info": "Por favor, siga estas instrucciones al recibir paquetes en el edificio:",
+        "front_desk":"Recepción",
+        "front_desk_info": "Todos los paquetes deben ser entregados en la recepción. El conserje registrará y guardará el paquete hasta que el residente lo recoja.",
+        "resident_notification": "Notificación al Residente",
+        "resident_notification_info": "El conserje notificará al residente a través de un mensaje de WhatsApp cuando lo reciba.",
+        "pickup": "Horario de Retiro",
+        "pickup_info": "Los paquetes se pueden retirar en la recepción las 24 horas del día, los 7 días de la semana.",
+        "notification": "Notificación de Entrega",
+        "notification_info": "Inserte la información del propietario del paquete para mandarle un mensaje:",
+        "owner_name": "Nombre del destinatario",
+        "name_instruction":"Ingrese el nombre del residente",
+        "owner_apartment":"Número de departamento",
+        "apartment_instruction":"Ingrese el número de departamento",
+        "button":"enviar"
+        }
 }

@@ -45,5 +45,22 @@
         "parking":{
             "title":"Parking"
         }
+    },
+    "deliverys":{
+        "title":"Delivery Instructions",
+        "general_info": "Please follow these instructions when recieving delivery packages in the building:",
+        "front_desk":"Front Desk",
+        "front_desk_info": "All packages must be dropped off at the front desk. The concierge will log and hold the package until the resident retrieves it.",
+        "resident_notification": "Resident Notification",
+        "resident_notification_info": "The concierge will notify the resident via whatsapp message when recieved.",
+        "pickup": "Pickup Hours",
+        "pickup_info": "Packages can be picked up from the front desk 24/7.",
+        "notification": "Delivery Notification",
+        "notification_info": "Insert the information regarding the package owner to send them a message:",
+        "owner_name": "Adressed name",
+        "name_instruction":"Enter resident name",
+        "owner_apartment":"Apartment number",
+        "apartment_instruction":"Enter apartment number",
+        "button":"submit"
     }
 }
