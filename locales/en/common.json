@@ -35,6 +35,18 @@
         "color": "Color",
         "visit_reason": "Visit reason (optional)"
     },
+    "resident_visitors": {
+        "welcome": "Visitor Management",
+        "subtitle": "Here you can view and manage the visitors you have received at your residence.",
+        "visitor_history": "Visitor History",
+        "no_visitors": "You have no registered visitors",
+        "authorized_by": "Authorized by {{name}}",
+        "remove": "Remove",
+        "add_frequent": "Add to frequent visitors",
+        "frequent_visitors": "Frequent Visitors",
+        "no_frequent_visitors": "You have no registered frequent visitors",
+        "visiting": "Visited on {{date}} at {{time}}"
+    },    
     "settings":{
         "title": "Settings",
         "cancel": "Cancel",

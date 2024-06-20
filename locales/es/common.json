@@ -15,7 +15,7 @@
         "register_visit": "Registrar visita",
         "scan_id": "Escanear Cédula",
         "frequent_visitors": "Visitas frecuentes",
-        "frequent_visitors_description": "añadir nueva visita frecuentes",
+        "frequent_visitors_description": "añadir nueva visita frecuente",
         "parking_space": "Estacionamiento",
         "new_visitor": "Nueva visita",
         "first_name": "Nombre",
@@ -34,6 +34,18 @@
         "model": "Modelo",
         "color": "Color",
         "visit_reason": "Motivo de visita (opcional)"
+    },
+    "resident_visitors":{
+        "welcome": "Gestión de Visitas",
+        "subtitle": "Aquí puedes ver y gestionar las visitas que has recibido en tu residencia.",
+        "visitor_history": "Historial de Visitas",
+        "no_visitors": "No tienes visitas registradas",
+        "authorized_by": "Autorizado por {{name}}",
+        "remove": "Eliminar",
+        "add_frequent": "Añadir a visita frecuente",
+        "frequent_visitors": "Visitas frecuentes",
+        "no_frequent_visitors": "No tienes visitas frecuentes registradas",
+        "visiting": "Visitó el {{date}} a las  {{time}}"
     },
     "settings":{
         "title": "Ajustes",
