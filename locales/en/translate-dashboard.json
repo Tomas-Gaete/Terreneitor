@@ -1,4 +1,15 @@
 {
-    "welcome": "Welcome to the Dashboard!"
-    
+	"welcome": "Welcome to the Resident Portal",
+	"subtitle": "Manage your building information and stay connected with your community.",
+	"pending_packages": "Packages Pending Pickup",
+	"visitors": "Visitors",
+	"parking_ocupancy": "Parking Space Occupancy",
+	"visitor_parking": "Visitor Parking",
+	"overdue_parking": "Overdue Parking",
+	"percentage": "{{percentage}}% Full",
+	"overdue": "{{overdue}} vehicles overdue",
+	"package_for": "Package for",
+	"sent_by": "Sent by",
+	"arrived_on": "Arrived on",
+	"visiting": "Visiting"
 }

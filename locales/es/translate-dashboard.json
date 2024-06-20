@@ -1,2 +1,15 @@
 {
-    "welcome": "¡Bienvenido al Tablero!"}
+    "welcome": "Bienvenido al Portal de Residentes",
+    "subtitle": "Administra la información de tu edificio y mantente conectado con tu comunidad.",
+    "pending_packages": "Encomiendas Pendientes",
+    "visitors": "Visitantes",
+    "parking_ocupancy": "Ocupación de Estacionamiento",
+    "visitor_parking": "Estacionamiento para Visitantes",
+    "overdue_parking": "Estacionamiento Excedido",
+    "percentage": "{{percentage}}% Ocupado",
+    "overdue": "{{overdue}} vehículos excedidos, deben ser removidos",
+    "package_for": "Paquete para",
+    "sent_by": "Enviado por",
+    "arrived_on": "Llegado el",
+    "visiting": "Visitando"
+}
