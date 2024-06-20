@@ -10,9 +10,12 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { InputAdornment, IconButton } from "@mui/material";
+import { VisibilityOff, Visibility } from "@mui/icons-material";
 
 import { authenticate } from "@/app/lib/actions";
 import { useFormState, useFormStatus } from "react-dom";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import LanguageChanger from "@components/LanguageChanger";
@@ -22,7 +25,12 @@ export default function SignIn({ children }) {
 	const { t } = useTranslation("translate-login");
 	const [errorMessage, dispatch] = useFormState(authenticate, undefined);
 	const { i18n } = useTranslation(); //TODO: add link for forgot password option
+	const [showPassword, setShowPassword] = useState(false);
 
+	const handleClickShowPassword = () => setShowPassword((show) => !show);
+	const handleMouseDownPassword = (event) => {
+		event.preventDefault();
+	};
 	return (
 		<Container component="main" maxWidth="xs">
 			<Box
@@ -69,11 +77,25 @@ export default function SignIn({ children }) {
 						fullWidth
 						name="password"
 						label={t("password")}
-						type="password"
+						type={showPassword ? "text" : "password"}
 						id="password"
 						autoComplete="current-password"
+						InputProps={{
+							endAdornment: (
+								<InputAdornment position="end">
+									<IconButton
+										aria-label="toggle password visibility"
+										onClick={handleClickShowPassword}
+										onMouseDown={handleMouseDownPassword}
+										edge="end"
+									>
+										{showPassword ? <VisibilityOff  /> : <Visibility />}
+									</IconButton>
+								</InputAdornment>
+							),
+						}}
 					/>
-                {errorMessage && <ErrorAlert message={errorMessage} />}
+					{errorMessage && <ErrorAlert message={errorMessage} />}
 					<LoginButton />
 				</Box>
 				{children}
@@ -93,7 +115,7 @@ export default function SignIn({ children }) {
 						</Link>
 					</Grid>
 				</Grid>
-                <Box
+				<Box
 					sx={{
 						my: 3,
 						display: "flex",
