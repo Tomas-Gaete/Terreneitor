@@ -73,8 +73,8 @@ export default function SignIn({ children }) {
 						id="password"
 						autoComplete="current-password"
 					/>
+                {errorMessage && <ErrorAlert message={errorMessage} />}
 					<LoginButton />
-					{errorMessage && <ErrorAlert message={errorMessage} />}
 				</Box>
 				{children}
 				<Grid container>

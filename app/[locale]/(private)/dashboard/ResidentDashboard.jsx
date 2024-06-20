@@ -1,4 +1,4 @@
-import ResidentConciergeComp from "@/app/components/ResidentDashboardComp";
+import ResidentDashboardComp from "@components/ResidentDashboardComp";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { db } from "@vercel/postgres";
@@ -60,7 +60,7 @@ export default async function ResidentDashboard() {
 	}
 
 	return (
-		<ResidentConciergeComp
+		<ResidentDashboardComp
 			pendingPackages={pendingPackages}
 			latestVisitors={latestVisitors}
 		/>

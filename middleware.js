@@ -31,10 +31,10 @@ export default function middleware(req) {
 	const isPublicPage = publicPathnameRegex.test(req.nextUrl.pathname);
 
 	if (isPublicPage) {
-        console.log("isPublicPage")
+        //console.log("isPublicPage")
 		return i18nRouter(req, i18nConfig);
 	} else {
-        console.log("isNotPublicPage")
+        //console.log("isNotPublicPage")
 		return authMiddleware(req);
 	}
 }

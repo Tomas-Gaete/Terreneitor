@@ -29,9 +29,6 @@ export default function FrequentVisitor({
 	const [openVisitor, setOpenVisitor] = useState(false);
 	const [openResident, setOpenResident] = useState(false);
 
-	console.log("visitorsRut");
-	console.log(residentRut);
-
 	const [visitorRut, setVisitorRut] = useState("");
 
 	const [frequentVisitor, setFrequentVisitor] = useState({

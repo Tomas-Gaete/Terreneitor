@@ -2,8 +2,45 @@
 import { auth, signIn, signOut } from "@/auth";
 import { AuthError } from "next-auth";
 import { sql } from "@vercel/postgres";
-import { validateRut } from "./ common";
 import { logger } from "@/logger";
+
+function validateRut(rut) {
+    // Despejar puntos y guion
+    var valor = rut.replace(/\./g, '').replace('-', '');
+    
+    // Separar RUT y dígito verificador
+    var cuerpo = valor.slice(0, -1);
+    var digitoVerificador = valor.slice(-1).toUpperCase();
+
+    // Validar que el RUT contiene solo números
+    if (!/^\d+$/.test(cuerpo)) {
+        return false;
+    }
+
+    // Calcular dígito verificador
+    const arrRut = cuerpo.split('').reverse();
+    let sum = 0;
+    let multiplo = 2;
+
+    for (let i = 0; i < arrRut.length; i++) {
+        sum += parseInt(arrRut[i]) * multiplo;
+        multiplo = multiplo < 7 ? multiplo + 1 : 2;
+    }
+
+    const digvCalculado = 11 - (sum % 11);
+    let digv;
+
+    if (digvCalculado === 11) {
+        digv = '0';
+    } else if (digvCalculado === 10) {
+        digv = 'K';
+    } else {
+        digv = digvCalculado.toString();
+    }
+
+    // Comparar dígito verificador calculado con el ingresado
+    return (digv === digitoVerificador) ? cuerpo+"-"+digv : false;
+}
 
 // * This function authenticates the user with the email and password provided.
 export async function authenticate(prevState, formData) {
@@ -188,17 +225,23 @@ export async function addVisitorVehicle(prevState, formData){
 	export async function searchParking() {
 		const session = await auth();
 		//const user_community_id = session?.user?.community_id; Este seria el ideal, pero hay usuarios que no tienen definido el community_id para el estacionamientod de cada community
-		
-
+	
 		const db_parking_space= await sql`SELECT * FROM parking_space`;
 		logger.info(`Total parking spaces: ${db_parking_space.rows.count}`);
 		const parking_spaces_list = db_parking_space.rows
 
-		
-	
-	
-
-
-		return parking_spaces_list[0].id;
-		
+		return parking_spaces_list[0].id;	
 	}
+
+
+    export async function removeFrequentVisitor(prevState, formData){
+        console.log("Eliminando visitante");
+        const fv_id = formData.get("frequent_visitor_id");
+        console.log(fv_id);
+        try{
+            await sql`DELETE FROM frequent_visitor where id = ${fv_id}`;
+        } catch (error){
+            return "error_removing_visitor";
+        }
+        return true;
+    }
