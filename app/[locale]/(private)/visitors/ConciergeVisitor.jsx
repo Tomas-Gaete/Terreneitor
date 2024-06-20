@@ -130,6 +130,10 @@ export default async function ConciergeVisitors({ locale }) {
 				</Grid>
 
 				<Grid item="true" xs={12} md={6} sx={{ height: "100%" }}>
+				<Link
+						href="/parking"
+						style={{ textDecoration: "none" }}
+					>
 					<Button
 						variant="outlined"
 						color="primary"
@@ -149,6 +153,7 @@ export default async function ConciergeVisitors({ locale }) {
 							Manage parking for visitors
 						</Typography>
 					</Button>
+					</Link>
 				</Grid>
 			</Grid>
 		</Container>
