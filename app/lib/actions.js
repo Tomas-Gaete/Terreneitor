@@ -183,3 +183,22 @@ export async function addVisitorVehicle(prevState, formData){
     }
     return false;
 }
+
+
+	export async function searchParking() {
+		const session = await auth();
+		//const user_community_id = session?.user?.community_id; Este seria el ideal, pero hay usuarios que no tienen definido el community_id para el estacionamientod de cada community
+		
+
+		const db_parking_space= await sql`SELECT * FROM parking_space`;
+		logger.info(`Total parking spaces: ${db_parking_space.rows.count}`);
+		const parking_spaces_list = db_parking_space.rows
+
+		
+	
+	
+
+
+		return parking_spaces_list[0].id;
+		
+	}
