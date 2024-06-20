@@ -4,13 +4,13 @@ import React from "react";
 import Link from "next/link";
 import { Box, Container, Grid, Typography, List, ListItem, TextField, Button, AppBar, Toolbar } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import {send_message} from "@components/whatsapp_component";
 
 export const Deliverycomponent = () => {
   const { t } = useTranslation("common", { keyPrefix: "deliverys" });
 
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh">
-      
       <Box component="main" flex="1" py={12} px={6}>
         <Container maxWidth="lg">
           <Grid container spacing={8}>
@@ -58,7 +58,11 @@ export const Deliverycomponent = () => {
               <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <TextField label={t("owner_name")} id="name" placeholder={t("name_instruction")} fullWidth />
                 <TextField label={t("owner_apartment")} id="apartment" placeholder={t("apartment_instruction")} fullWidth />
-                <Button type={t("apartment_instruction")} variant="contained" fullWidth>
+                <Button  
+                variant="contained" 
+                fullWidth 
+                onClick={send_message}
+                >
                   {t("button")}
                 </Button>
               </Box>
