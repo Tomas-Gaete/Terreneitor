@@ -27,13 +27,15 @@
         "success": "Visita  frecuente ingresada con éxito",
         "error": "Error al ingresar visita frecuente",
         "repeated": "Visita frecuente ya ingresada",
+        "invalid_rut": "RUT Inválido",
         "licence_plate": "Patente",
         "new_vehicle": "Nuevo vehículo",
         "add_vehicle": "Añadir vehículo",
         "brand": "Marca",
         "model": "Modelo",
         "color": "Color",
-        "visit_reason": "Motivo de visita (opcional)"
+        "visit_reason": "Motivo de visita (opcional)",
+        "visitor_info": "Información del visitante"
     },
     "resident_visitors":{
         "welcome": "Gestión de Visitas",

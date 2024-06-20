@@ -27,13 +27,15 @@
         "success": "Frequent visitor registered successfully",
         "error": "Error registering frequent visitor",
         "repeated": "Frequent visitor already registered",
+        "invalid_rut": "Invalid RUT",
         "licence_plate": "Licence plate",
         "new_vehicle": "New vehicle",
         "add_vehicle": "Add vehicle",
         "brand": "Brand",
         "model": "Model",
         "color": "Color",
-        "visit_reason": "Visit reason (optional)"
+        "visit_reason": "Visit reason (optional)",
+        "visitor_info": "Visitor information"
     },
     "resident_visitors": {
         "welcome": "Visitor Management",

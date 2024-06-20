@@ -144,9 +144,9 @@ export async function addNewFrequentVisitor(prevState, formData) {
 		return true;
 	}
 	visitor_rut = validateRut(visitor_rut);
-    if (!visitor_rut) return true; //true means invalid rut
+    if (!visitor_rut) return "invalid_rut"; 
     resident_rut = validateRut(resident_rut);
-    if (!resident_rut) return true; //true means invalid rut
+    if (!resident_rut) return "invalid_rut"; 
 
 
 	try {
