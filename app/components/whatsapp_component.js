@@ -1,4 +1,11 @@
+import { sql } from '@vercel/postgres';
 
+//WITH name_query AS(
+//  SELECT id
+//  FROM user_info
+//  WHERE firstname = 'Tomás')
+//  SELECT cellphone FROM resident
+//  WHERE user_id = (SELECT id FROM name_query);
 export function send_message() {
     var botId = '337115706152549';
     var phoneNbr = '56950989946';
