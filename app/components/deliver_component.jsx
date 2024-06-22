@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 
 const filter = createFilterOptions();
 
-export const Deliverycomponent = ({ residentName = [] }) => {
+export const Deliverycomponent = ({ residentName = [],}) => {
   const { t } = useTranslation("common", { keyPrefix: "deliverys" });
 
   const [resident_Name, setResidentName] = useState("");
@@ -19,6 +19,9 @@ export const Deliverycomponent = ({ residentName = [] }) => {
     user_id: "",
     firstname: "",
     lastname: "",
+    residence_id: "",
+    community_address: "",
+    cellphone: "",
   });
 
   return (
@@ -112,6 +115,9 @@ export const Deliverycomponent = ({ residentName = [] }) => {
                         user_id: "",
                         firstname: "",
                         lastname: "",
+                        residence_id: "",
+                        community_address: "",
+                        cellphone: "",
                       });
                       return;
                     }
@@ -128,6 +134,9 @@ export const Deliverycomponent = ({ residentName = [] }) => {
                           user_id: value.inputValue ?? value.label,
                           firstname: "",
                           lastname: "",
+                          residence_id: "",
+                          community_address: "",
+                          cellphone: "",
                         });
                       });
                     }
@@ -135,16 +144,11 @@ export const Deliverycomponent = ({ residentName = [] }) => {
                   }}
                   filterOptions={(options, params) => {
                     const filtered = filter(options, params);
-                    if (params.inputValue !== "") {
-                      filtered.push({
-                        inputValue: params.inputValue,
-                        label: t("add", { input: params.inputValue }),
-                      });
-                    }
                     return filtered;
                   }}
                 />
                 <TextField label={t("owner_apartment")} id="apartment" placeholder={t("apartment_instruction")} fullWidth />
+                
                 <Button  
                   variant="contained" 
                   fullWidth 

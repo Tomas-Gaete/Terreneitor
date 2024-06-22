@@ -6,10 +6,10 @@ import { sql } from '@vercel/postgres';
 //  WHERE firstname = 'Tomás')
 //  SELECT cellphone FROM resident
 //  WHERE user_id = (SELECT id FROM name_query);
-export function send_message() {
+export async function send_message() {
     var botId = '337115706152549';
     var phoneNbr = '56950989946';
-    var bearerToken = 'EAASfq36BeLUBO5FGv9ZCOVtIj4ZATsPQYZAFHMc7HGR5kWNbpyq3CzQ88ZC8OAo1YKJdrzUFrAt9naMIyFWlnb4eAOFhZAJ0mpoafJtHJ336pi8TRrXMnk9FZBGK2IkdjZAUItOm8ab7MmKdJmY6tjA1hZCD5URGB0a3yLkeJtG7EhJseuVddRknarRQ2WlSTEYGjQMnWj8DmEEmEEWVnL8ZD';
+    var bearerToken = 'EAASfq36BeLUBO5J3CXytZBiLvjhHGXzBMwUmgEg4rx9sfOFlarqJXd2Mkwa7C6RCCQPBDBYbUnd3oZBHn96VzCyKiRL7PrdfyR7pmNgUoA5r4HZBmCfdcEEbCHyUclegC5mh9BadJdcEn4e0oEtCFWa08VWnlEWoZAapo0N3YSY0qpGZCxSDh0S2QOiTd1iaCemTlmTPQgjhf837dYCkZD';
     var url = 'https://graph.facebook.com/v15.0/' + botId + '/messages';
     var data = {
       messaging_product: 'whatsapp',

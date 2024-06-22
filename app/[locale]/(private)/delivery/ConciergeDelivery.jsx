@@ -11,28 +11,40 @@ export default async function ConciergeDelivery (){
     if (!session?.user || !session?.user?.email) return null;
 
     let names;
+    let num;
 
 	try {
 		const result = await sql`WITH community_id_query AS (
-            SELECT community_id
-            FROM user_info
-            WHERE email = ${session.user.email}
-        )
-       SELECT id,
-       firstname,
-       lastname
-       FROM user_info
-       WHERE id IN (SELECT user_id FROM resident)
-  AND community_id = (SELECT community_id FROM community_id_query);
+    SELECT community_id
+    FROM user_info
+    WHERE email = ${session.user.email}
+)
+SELECT ui.id,
+       ui.firstname,
+       ui.lastname,
+       r.id as residence_id,
+       r.community_address,
+       res.cellphone
+FROM user_info ui
+JOIN resident res ON ui.id = res.user_id
+JOIN residence r ON res.residence_id = r.id
+JOIN community_id_query cq ON ui.community_id = cq.community_id;
       `;
+      const residence_query = await sql`SELECT community_address from residence;`;
+      const number = await sql`SELECT cellphone FROM resident WHERE user_id = 41;`;
+      num = number.rows[0].cellphone;
+      
       names = result.rows.map(row => ({
         id: row.id,
         label: `${row.firstname} ${row.lastname}`
+        
     }));
+    
     } catch (error) {
         console.error("Error loading names:", error);
         names = [];
 	}
+    
     
     return ( 
         <div>
