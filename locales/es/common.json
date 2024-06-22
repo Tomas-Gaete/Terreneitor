@@ -35,7 +35,8 @@
         "model": "Modelo",
         "color": "Color",
         "visit_reason": "Motivo de visita (opcional)",
-        "visitor_info": "Información del visitante"
+        "visitor_info": "Información del visitante",
+        "is_frequent": "{{name}} es una visita frecuente."
     },
     "resident_visitors":{
         "welcome": "Gestión de Visitas",

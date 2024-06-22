@@ -381,7 +381,7 @@ export const VisitorComp = ({
 											<Grid xs={12}>
 												<Alert severity="info" color="secondary">
 													<Typography color={"primary"}>
-														{name} es Visita Frequente
+														{t("is_frequent", {name: name})}
 													</Typography>
 												</Alert>
 											</Grid>
@@ -417,7 +417,6 @@ export const VisitorComp = ({
 											{t("register_visit")}
 										</Button>
 									</Grid>
-									<Grid xs={12}></Grid>
 								</Grid>
 							</>
 						)}
