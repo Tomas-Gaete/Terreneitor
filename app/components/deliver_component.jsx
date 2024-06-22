@@ -14,7 +14,10 @@ export const Deliverycomponent = ({ residentName = [],}) => {
   const { t } = useTranslation("common", { keyPrefix: "deliverys" });
 
   const [resident_Name, setResidentName] = useState("");
+  const [resident_Address, setResidentAddress] = useState("");
   const [openName, setOpenName] = useState(false);
+  const [openAddress, setOpenAddress] = useState(false);
+
   const [resident, setResident] = useState({
     user_id: "",
     firstname: "",
@@ -147,8 +150,85 @@ export const Deliverycomponent = ({ residentName = [],}) => {
                     return filtered;
                   }}
                 />
-                <TextField label={t("owner_apartment")} id="apartment" placeholder={t("apartment_instruction")} fullWidth />
-                
+                <Autocomplete
+                  id="apartment"
+                  name="residentapartment"
+                  inputProps={{ name: "residentName" }}
+                  sx={{ mt: 2, width: 1 }}
+                  disablePortal
+                  freeSolo
+                  forcePopupIcon={false}
+                  noOptionsText={t("name_instruction")}
+                  value={resident_Address}
+                  open={openAddress}
+                  onClose={() => setOpenAddress(false)}
+                  options={residentName}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label={t("owner_apartment")}
+                      id="name"
+                      placeholder={t("apartment_instruction")}
+                      InputLabelProps={{ color: "secondary" }}
+                      fullWidth
+                    />
+                  )}
+                  renderOption={(props, option) => (
+                    <li {...props} key={option.id}>
+                      {option.address}
+                    </li>
+                  )}
+                  onInputChange={(event, value) => {
+                    setOpenAddress(value?.length > 0); // Set open to true when there's input
+                  }}
+                  onChange={(event, value) => {
+                    if (value) {
+                      setResidentAddress(value.inputValue ?? value.address);
+                    } else {
+                      setResidentAddress("");
+                    }
+
+                    // Keep both fields in sync
+                    if (!value) {
+                      setResident({
+                        user_id: "",
+                        firstname: "",
+                        lastname: "",
+                        residence_id: "",
+                        community_address: "",
+                        cellphone: "",
+                      });
+                      return;
+                    }
+                    const exists = residentName.find((resident) => resident.id === value.id);
+                    if (exists) {
+                      setResident({
+                        user_id: exists.id,
+                        firstname: exists.label.split(' ')[0],
+                        lastname: exists.label.split(' ')[1],
+                        residence_id: exists.residence_id,
+                        community_address: exists.address,
+                        cellphone: exists.cellphone,
+                      });
+                    } else {
+                      setTimeout(() => {
+                        setResident({
+                          user_id: value.inputValue ?? value.address,
+                          firstname: "",
+                          lastname: "",
+                          residence_id: "",
+                          community_address: "",
+                          cellphone: "",
+                        });
+                      });
+                    }
+                    setOpenAddress(false);
+                  }}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+                    return filtered;
+                  }}
+                />
                 <Button  
                   variant="contained" 
                   fullWidth 
