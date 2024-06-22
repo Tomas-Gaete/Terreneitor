@@ -38,19 +38,15 @@ export const VisitorComp = ({
 	visitorsName,
 	residences,
 	visitorLicense,
+	frequentVisitors,
 }) => {
 	const { t } = useTranslation("common", { keyPrefix: "visitors" });
-	//Autocomplete states and values
+	//Autocomplete values
 	const [rut, setRut] = useState("");
 	const [name, setName] = useState("");
+	//autocomplete States
 	const [openRut, setOpenRut] = useState(false);
 	const [openName, setOpenName] = useState(false);
-
-	//form handlers
-	const [errorMessage, dispatch] = useFormState(addVisitor, undefined);
-	const [errorMessageVehicle, dispatchVehicle] = useFormState( addVisitorVehicle,undefined);
-    const [errorMessageVisit, dispatchVisit] = useFormState(addVisit, undefined);
-
 	// New visitor states
 	const [newVisitorModal, setNewVisitorModal] = useState(false);
 	const closeNewVisitorModal = () => setNewVisitorModal(false);
@@ -62,7 +58,6 @@ export const VisitorComp = ({
 	});
 	const [license, setLicense] = useState("");
 	const [visitorVehicle, setVisitorVehicle] = useState();
-
 	//Visitor Modal state
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
@@ -73,6 +68,15 @@ export const VisitorComp = ({
 		setLicense(visitorVehicle.license_plate);
 		setOpenLicenseModal(false);
 	};
+	//Frequewnt Visitor state
+	const [frequentVisitor, setFrequentVisitor] = useState(false);
+	//form handlers
+	const [errorMessage, dispatch] = useFormState(addVisitor, undefined);
+	const [errorMessageVehicle, dispatchVehicle] = useFormState(
+		addVisitorVehicle,
+		undefined,
+	);
+	const [errorMessageVisit, dispatchVisit] = useFormState(addVisit, undefined);
 
 	const handleRead = (result) => {
 		const urlObj = new URL(result.data);
@@ -92,13 +96,12 @@ export const VisitorComp = ({
 		handleClose();
 	};
 
-
-    const handleSubmitVisitor = () => {
-       setTimeout(() => {
-           //we reload the page to update the visitors list using plain js
-           window.location.reload();
-        }, 3000);
-    }
+	const handleSubmitVisitor = () => {
+		setTimeout(() => {
+			//we reload the page to update the visitors list using plain js
+			window.location.reload();
+		}, 3000);
+	};
 
 	return (
 		<>
@@ -109,10 +112,16 @@ export const VisitorComp = ({
 				{errorMessageVehicle && (
 					<Alert severity="error">{errorMessageVehicle}</Alert>
 				)}
-                {errorMessageVisit &&  (
-                    <Alert security="success">{errorMessageVisit}</Alert>
-                )}
-				<Grid container sx={{ width: 1 }} spacing={2} component="form" action={dispatchVisit}>
+				{errorMessageVisit && (
+					<Alert security="success">{errorMessageVisit}</Alert>
+				)}
+				<Grid
+					container
+					sx={{ width: 1 }}
+					spacing={2}
+					component="form"
+					action={dispatchVisit}
+				>
 					<Grid xs={12} md={6}>
 						<Autocomplete
 							id="autocomplete-name"
@@ -191,7 +200,7 @@ export const VisitorComp = ({
 					<Grid xs={12} md={6}>
 						<Autocomplete
 							id="autocomplete-rut"
-							sx={{ mt: 2, width: 1}}
+							sx={{ mt: 2, width: 1 }}
 							disablePortal
 							forcePopupIcon={false}
 							noOptionsText={t("no_visitors")}
@@ -256,8 +265,14 @@ export const VisitorComp = ({
 					<Grid xs={12}>
 						{rut && name && (
 							<>
-								<input type="hidden" name="visitor_id" value={ visitorsRut.find((visitor) => visitor.label === rut).id} />
-                                <input type="hidden" name="residence_id" id="residence_id"/>
+								<input
+									type="hidden"
+									name="visitor_id"
+									value={
+										visitorsRut.find((visitor) => visitor.label === rut).id
+									}
+								/>
+								<input type="hidden" name="residence_id" id="residence_id" />
 
 								<Grid container spacing={2}>
 									<Grid xs={12} md={6}>
@@ -271,13 +286,32 @@ export const VisitorComp = ({
 												<TextField
 													{...params}
 													label={t("residence")}
-                                                    inputProps={{ ...params.inputProps, name: "residence" }}
-													InputLabelProps={{ color:"secondary" }}
+													inputProps={{
+														...params.inputProps,
+														name: "residence",
+													}}
+													InputLabelProps={{ color: "secondary" }}
 												/>
 											)}
-                                            onChange={(event, value) => {
-                                                document.getElementById("residence_id").value = value.id;
-                                            }}
+											onChange={(event, value) => {
+												if (!value) {
+													return;
+												}
+												const visitor_id = visitorsRut.find(
+													(visitor) => visitor.label === rut,
+												).id;
+												const fvr = frequentVisitors.filter(
+													(visitor) =>
+														visitor.residence_id === value.id &&
+														visitor.visitor_id === visitor_id,
+												);
+												if (fvr.length > 0) {
+													setFrequentVisitor(true);
+												}
+
+												document.getElementById("residence_id").value =
+													value.id;
+											}}
 										/>
 									</Grid>
 									<Grid xs={12} md={6}>
@@ -292,7 +326,10 @@ export const VisitorComp = ({
 												<TextField
 													{...params}
 													label={t("licence_plate")}
-                                                    inputProps={{ ...params.inputProps, name: "license_plate" }}
+													inputProps={{
+														...params.inputProps,
+														name: "license_plate",
+													}}
 													InputLabelProps={{ color: "secondary" }}
 												/>
 											)}
@@ -303,7 +340,7 @@ export const VisitorComp = ({
 											)}
 											onChange={(event, value) => {
 												if (!value) return;
-							
+
 												let newVisitorLicense = visitorLicense.find(
 													(license) => license.id === value.id,
 												)?.label;
@@ -339,15 +376,27 @@ export const VisitorComp = ({
 											}}
 										/>
 									</Grid>
-
-									<TextField
-										id="visit_reason"
-										name="visit_reason"
-										label={t("visit_reason")}
-										multiline
-										rows={4}
-										sx={{ mt: 2, width: 1 }}
-									></TextField>
+									{frequentVisitor && (
+										<>
+											<Grid xs={12}>
+												<Alert severity="info" color="secondary">
+													<Typography color={"primary"}>
+														{name} es Visita Frequente
+													</Typography>
+												</Alert>
+											</Grid>
+										</>
+									)}
+									<Grid xs={12}>
+										<TextField
+											id="visit_reason"
+											name="visit_reason"
+											label={t("visit_reason")}
+											multiline
+											rows={4}
+											sx={{ mt: 1, width: 1 }}
+										></TextField>
+									</Grid>
 									<Grid
 										xs={12}
 										sx={{
@@ -359,8 +408,8 @@ export const VisitorComp = ({
 										<Button
 											variant="outlined"
 											size="large"
-                                            type="submit"
-                                            onClick={handleSubmitVisitor}
+											type="submit"
+											onClick={handleSubmitVisitor}
 											sx={{
 												mt: 2,
 											}}
@@ -463,13 +512,6 @@ export const VisitorComp = ({
 				>
 					<Box sx={style}>
 						<QrReader handleRead={handleRead} />
-						<Button
-							onClick={handleClose}
-							sx={{ alignSelf: "center", m: 2 }}
-							variant="outlined"
-						>
-							{t("close")}
-						</Button>
 					</Box>
 				</Modal>
 				<Modal

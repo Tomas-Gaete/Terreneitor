@@ -5,7 +5,7 @@ import { VisitorComp } from "@components/VisitorComp";
 
 import Link from "next/link";
 import { auth } from "@/auth";
-import { sql } from "@vercel/postgres";
+import { db } from "@vercel/postgres";
 import initTranslations from "@/app/i18n";
 import { logger } from "@/logger";
 
@@ -22,19 +22,18 @@ export default async function ConciergeVisitors({ locale }) {
     let visitorLicensePlates;
     let alert;
     let residences;
+    let frequentVisitors;
+
+    const client = await db.connect();
 
 	try {
-		visitors = await sql`WITH community_id_query AS (
-            SELECT community_id
-            FROM user_info
-            WHERE email = ${session.user.email}
-        )
+		visitors = await client.sql`
         SELECT 
             id,
             rut, 
             firstname ||' '|| lastname AS name
         FROM visitor
-        WHERE community_id = (SELECT community_id FROM community_id_query)
+        WHERE community_id = (SELECT community_id FROM user_info WHERE id = ${session.user.id})
       `;
 
 		visitorsRut = visitors.rows.map((visitor) => ({
@@ -46,17 +45,14 @@ export default async function ConciergeVisitors({ locale }) {
 			id: visitor.id,
 		}));
 
-        residences = await sql`WITH community_id_query AS (
-        SELECT community_id
-        FROM user_info
-        WHERE email = ${session.user.email})
+        residences = await client.sql`
         SELECT
             id,
             community_address
         FROM 
             residence
         WHERE
-            community_id = (SELECT community_id FROM community_id_query)
+            community_id = (SELECT community_id FROM user_info WHERE id = ${session.user.id})
         `;
         residences = residences.rows.map((residence) => ({
             label: residence.community_address,
@@ -64,10 +60,7 @@ export default async function ConciergeVisitors({ locale }) {
         }));
 
 
-        visitorLicensePlates = await sql`WITH community_id_query AS (
-        SELECT community_id
-        FROM user_info
-        WHERE email = ${session.user.email})
+        visitorLicensePlates = await client.sql`
         SELECT
             vv.id,
             vv.license_plate
@@ -76,12 +69,29 @@ export default async function ConciergeVisitors({ locale }) {
         JOIN
             visitor v ON v.id = vv.visitor_id
         WHERE
-            v.community_id = (SELECT community_id FROM community_id_query)
+            v.community_id = (SELECT community_id FROM user_info WHERE id = ${session.user.id})
         `;
         visitorLicensePlates = visitorLicensePlates.rows.map((visitor) => ({
             label: visitor.license_plate,
             id: visitor.id
         }));
+
+        frequentVisitors = await client.sql`
+        SELECT
+            fv.visitor_id,
+            fv.residence_id
+        FROM
+            frequent_visitor fv
+        inner join
+                residence r on fv.residence_id = r.id
+        WHERE
+            r.community_id = (SELECT community_id FROM user_info WHERE id = ${session.user.id})
+        `;
+        frequentVisitors = frequentVisitors.rows.map((visitor) => ({
+            visitor_id: visitor.visitor_id,
+            residence_id: visitor.residence_id
+        }));
+
 
 	} catch (error) {
         alert = "Error loading visitors."
@@ -90,6 +100,9 @@ export default async function ConciergeVisitors({ locale }) {
 		visitorsName = [];
         residences = [];
         visitorLicensePlates = [];
+        frequentVisitors = [];
+	} finally {
+		client.release();
 	}
     logger.debug(`(${visitors?.fields?.length ?? 0}) visitors loaded.`);
     return (
@@ -100,7 +113,9 @@ export default async function ConciergeVisitors({ locale }) {
                     visitorsRut={visitorsRut}
                     visitorsName={visitorsName}
                     residences={residences}
-                    visitorLicense={visitorLicensePlates}/>
+                    visitorLicense={visitorLicensePlates}
+                    frequentVisitors={frequentVisitors}
+                />
 
 				<Grid item="true" xs={12} md={6} sx={{ height: "100%" }}>
 					<Link
