@@ -62,9 +62,15 @@ export default async function ConciergeDashboard() {
             parking_space ps ON ps.id = psu.parking_space_id
         WHERE 
             vtr.departure is null 
-            AND NOW() - vtr.arrival > INTERVAL '1 day'`;
+            AND NOW() - vtr.arrival > (
+                SELECT 
+                    CAST(value AS INTERVAL) 
+                FROM
+                    config 
+                WHERE 
+                    name = 'max_park_time' 
+                    AND  community_id = ${session.user.community_id})`;
 
-		//TODO: the interval should come from the config not the code
 		latestVisitors = await client.sql`
         SELECT
             vtr.id,

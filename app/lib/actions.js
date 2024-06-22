@@ -5,41 +5,41 @@ import { sql } from "@vercel/postgres";
 import { logger } from "@/logger";
 
 function validateRut(rut) {
-    // Despejar puntos y guion
-    var valor = rut.replace(/\./g, '').replace('-', '');
-    
-    // Separar RUT y dígito verificador
-    var cuerpo = valor.slice(0, -1);
-    var digitoVerificador = valor.slice(-1).toUpperCase();
+	// Despejar puntos y guion
+	var valor = rut.replace(/\./g, "").replace("-", "");
 
-    // Validar que el RUT contiene solo números
-    if (!/^\d+$/.test(cuerpo)) {
-        return false;
-    }
+	// Separar RUT y dígito verificador
+	var cuerpo = valor.slice(0, -1);
+	var digitoVerificador = valor.slice(-1).toUpperCase();
 
-    // Calcular dígito verificador
-    const arrRut = cuerpo.split('').reverse();
-    let sum = 0;
-    let multiplo = 2;
+	// Validar que el RUT contiene solo números
+	if (!/^\d+$/.test(cuerpo)) {
+		return false;
+	}
 
-    for (let i = 0; i < arrRut.length; i++) {
-        sum += parseInt(arrRut[i]) * multiplo;
-        multiplo = multiplo < 7 ? multiplo + 1 : 2;
-    }
+	// Calcular dígito verificador
+	const arrRut = cuerpo.split("").reverse();
+	let sum = 0;
+	let multiplo = 2;
 
-    const digvCalculado = 11 - (sum % 11);
-    let digv;
+	for (let i = 0; i < arrRut.length; i++) {
+		sum += parseInt(arrRut[i]) * multiplo;
+		multiplo = multiplo < 7 ? multiplo + 1 : 2;
+	}
 
-    if (digvCalculado === 11) {
-        digv = '0';
-    } else if (digvCalculado === 10) {
-        digv = 'K';
-    } else {
-        digv = digvCalculado.toString();
-    }
+	const digvCalculado = 11 - (sum % 11);
+	let digv;
 
-    // Comparar dígito verificador calculado con el ingresado
-    return (digv === digitoVerificador) ? cuerpo+"-"+digv : false;
+	if (digvCalculado === 11) {
+		digv = "0";
+	} else if (digvCalculado === 10) {
+		digv = "K";
+	} else {
+		digv = digvCalculado.toString();
+	}
+
+	// Comparar dígito verificador calculado con el ingresado
+	return digv === digitoVerificador ? cuerpo + "-" + digv : false;
 }
 
 // * This function authenticates the user with the email and password provided.
@@ -88,7 +88,6 @@ export async function LogOut() {
 	await signOut({ redirectTo: "/login" });
 }
 
-
 export async function thenewUser(data) {
 	const bcrypt = require("bcryptjs");
 
@@ -136,18 +135,17 @@ export async function addNewFrequentVisitor(prevState, formData) {
 	let resident_rut = formData.get("resident-rut");
 
 	if (
-		!visitor_rut
-        || !visitor_firstname 
-        || !visitor_lastname
-        || !resident_rut
+		!visitor_rut ||
+		!visitor_firstname ||
+		!visitor_lastname ||
+		!resident_rut
 	) {
 		return true;
 	}
 	visitor_rut = validateRut(visitor_rut);
-    if (!visitor_rut) return "invalid_rut"; 
-    resident_rut = validateRut(resident_rut);
-    if (!resident_rut) return "invalid_rut"; 
-
+	if (!visitor_rut) return "invalid_rut";
+	resident_rut = validateRut(resident_rut);
+	if (!resident_rut) return "invalid_rut";
 
 	try {
 		console.log("Creando nuevo visitante frecuente");
@@ -164,84 +162,94 @@ export async function addNewFrequentVisitor(prevState, formData) {
 	}
 }
 
-export async function addVisit(prevState, formData){
-    const residence_id = formData.get("residence_id");
-    const visitor_id = formData.get("visitor_id");
-    const reason = formData.get("visit_reason");
+export async function addVisit(prevState, formData) {
+	const residence_id = formData.get("residence_id");
+	const visitor_id = formData.get("visitor_id");
+	const reason = formData.get("visit_reason");
 
-    //TODO: considerar el estacionamiento dps
-    const license_plate = formData.get("license_plate");
+	//TODO: considerar el estacionamiento dps
+	const license_plate = formData.get("license_plate");
 
-    try{
-        await sql`INSERT INTO visit_to_residence (residence_id,visitor_id,arrival, departure, reason)
+	try {
+		await sql`INSERT INTO visit_to_residence (residence_id,visitor_id,arrival, departure, reason)
         VALUES (${residence_id}, ${visitor_id},current_timestamp AT TIME ZONE 'America/Santiago', NULL, ${reason})`;
-    } catch (error){
-        return "error_adding_visit";
-    }
-    return "success";
-} 
+	} catch (error) {
+		return "error_adding_visit";
+	}
+	return "success";
+}
 
-export async function addVisitor(prevState, formData){
+export async function addVisitor(prevState, formData) {
 	const firstname = formData.get("firstName");
 	const lastname = formData.get("lastName");
 	let rut = formData.get("rut");
 	const community_id = 1;
-    //TODO: validate that the visitor doesn't exist and show an error message if it does
-    //also consider community id
-    //maybe add it to the session
+	//TODO: validate that the visitor doesn't exist and show an error message if it does
+	//also consider community id
+	//maybe add it to the session
 
-    rut = validateRut(rut);
-    if (!rut) return "invalid_rut";
+	rut = validateRut(rut);
+	if (!rut) return "invalid_rut";
 
-	try{
+	try {
 		await sql`INSERT INTO visitor (rut, community_id, firstname, lastname)
 			 VALUES (${rut},${community_id},${firstname}, ${lastname});`;
-	}
-	catch (error){
-
-		return 	logger.error(`following error:'${error.message}' has occurred while creating the new visitor.`);
+	} catch (error) {
+		return logger.error(
+			`following error:'${error.message}' has occurred while creating the new visitor.`,
+		);
 	}
 }
 
+export async function addVisitorVehicle(prevState, formData) {
+	const visitor_id = formData.get("visitor_id");
+	const license_plate = formData.get("license_plate");
+	const brand = formData.get("brand");
+	const model = formData.get("model");
+	const color = formData.get("color");
 
-export async function addVisitorVehicle(prevState, formData){
-    const visitor_id = formData.get("visitor_id");
-    const license_plate = formData.get("license_plate");
-    const brand = formData.get("brand");
-    const model = formData.get("model");
-    const color = formData.get("color");
-    
-    try{
-        await sql`INSERT INTO visitor_vehicle (visitor_id, license_plate, brand, model, color)
+	try {
+		await sql`INSERT INTO visitor_vehicle (visitor_id, license_plate, brand, model, color)
         VALUES (${visitor_id}, ${license_plate}, ${brand}, ${model}, ${color})`;
-    } catch (error){
-        //TODO: add lang
-        return "error adding vehicle";
-    }
-    return false;
+	} catch (error) {
+		//TODO: add lang
+		return "error adding vehicle";
+	}
+	return false;
 }
 
+export async function searchParking() {
+	const session = await auth();
+	//const user_community_id = session?.user?.community_id; Este seria el ideal, pero hay usuarios que no tienen definido el community_id para el estacionamientod de cada community
 
-	export async function searchParking() {
-		const session = await auth();
-		//const user_community_id = session?.user?.community_id; Este seria el ideal, pero hay usuarios que no tienen definido el community_id para el estacionamientod de cada community
-	
-		const db_parking_space= await sql`SELECT * FROM parking_space`;
-		logger.info(`Total parking spaces: ${db_parking_space.rows.count}`);
-		const parking_spaces_list = db_parking_space.rows
+	const db_parking_space = await sql`SELECT * FROM parking_space`;
+	logger.info(`Total parking spaces: ${db_parking_space.rows.count}`);
+	const parking_spaces_list = db_parking_space.rows;
 
-		return parking_spaces_list[0].id;	
+	return parking_spaces_list[0].id;
+}
+
+export async function removeFrequentVisitor(prevState, formData) {
+	console.log("Eliminando visitante");
+	const fv_id = formData.get("frequent_visitor_id");
+	console.log(fv_id);
+	try {
+		await sql`DELETE FROM frequent_visitor where id = ${fv_id}`;
+	} catch (error) {
+		return "error_removing_visitor";
 	}
+	return true;
+}
 
+export async function updateSettings(prevState, formData) {
+	const session = await auth();
+	const user_community_id = session?.user?.community_id;
+	const duration = formData.get("duration");
 
-    export async function removeFrequentVisitor(prevState, formData){
-        console.log("Eliminando visitante");
-        const fv_id = formData.get("frequent_visitor_id");
-        console.log(fv_id);
-        try{
-            await sql`DELETE FROM frequent_visitor where id = ${fv_id}`;
-        } catch (error){
-            return "error_removing_visitor";
-        }
-        return true;
-    }
+	try {
+		await sql`UPDATE config SET value = ${duration} WHERE name = 'max_park_time' AND community_id = ${user_community_id}`;
+	} catch (error) {
+		return "error_updating_settings";
+	}
+	console.log("Settings updated");
+}

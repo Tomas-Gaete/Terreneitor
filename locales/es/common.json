@@ -58,7 +58,9 @@
             "title": "Mensajería"
         },
         "parking":{
-            "title":"Estacionamientos"
+            "hours": "Horas",
+            "title":"Estacionamientos",
+            "max": "Duración máxima de estacionamiento"
         }
     },
     "deliverys":{

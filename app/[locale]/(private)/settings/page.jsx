@@ -1,58 +1,32 @@
-"use client";
+import Settings from "./Settings";
+import { sql } from"@vercel/postgres";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
-import AccordionActions from "@mui/material/AccordionActions";
-import { Container, Typography, Card, Box } from "@mui/material";
-import Button from "@mui/material/Button";
-import { useTranslation } from "react-i18next";
+export default async function Page() {
 
-export default function Page() {
-	const { t } = useTranslation("common", { keyPrefix: "settings" });
+    const session = await auth();
+	if (!session) {
+		redirect("/dashboard");
+	}
 
-	return (
-		<Container
-			sx={{
-				maxWidth: { md: "65%", xs: "100%" },
-			}}
-		>
-			<Box
-				sx={{
-					display: "flex",
-					flexDirection: "column",
-					m: "auto",
-					mt: 5,
-				}}
-			>
-				<Typography variant="h3" color="primary" gutterBottom>
-					{t("messaging.title")}
-				</Typography>
-				<Card sx={{ p: 2 }}>
-					<Typography variant="p" alignSelf="flex-start">
-						AQUI PONER SETTINGS CUANDO LAS TENGA
-					</Typography>
-				</Card>
-			</Box>
+    let hours;
+    try {
+        hours = await sql`
+        SELECT 
+            value
+        FROM
+            config 
+        WHERE 
+            name = 'max_park_time' 
+            AND  community_id = ${session.user.community_id} `;
+            
+            hours = hours.rows[0].value
+            hours = parseInt(hours.split(" ")[0], 10)
+            console.log(hours)
+    } catch (error) {
+        console.error(error)
+    }
 
-			<Box
-				sx={{
-					display: "flex",
-					flexDirection: "column",
-					m: "auto",
-					mt: 5,
-				}}
-			>
-				<Typography variant="h3" color="primary" gutterBottom>
-					{t("parking.title")}
-				</Typography>
-				<Card sx={{ p: 2 }}>
-					<Typography variant="p" alignSelf="flex-start">
-						AQUI PONER SETTINGS CUANDO LAS TENGA
-					</Typography>
-				</Card>
-			</Box>
-			<AccordionActions>
-				<Button>{t("save")}</Button>
-				<Button color="secondary">{t("cancel")}</Button>
-			</AccordionActions>
-		</Container>
-	);
+    return <Settings db_duration={hours}/>;
 }

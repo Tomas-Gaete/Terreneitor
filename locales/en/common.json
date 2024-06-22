@@ -58,7 +58,9 @@
             "title": "Messaging"
         },
         "parking":{
-            "title":"Parking"
+            "hours": "Hours",
+            "title":"Parking",
+            "max": "Max parking duration"
         }
     },
     "deliverys":{
