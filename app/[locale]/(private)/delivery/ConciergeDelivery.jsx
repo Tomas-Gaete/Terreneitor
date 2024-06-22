@@ -37,7 +37,8 @@ JOIN community_id_query cq ON ui.community_id = cq.community_id;
       names = result.rows.map(row => ({
         id: row.id,
         label: `${row.firstname} ${row.lastname}`,
-        address:  `${row.community_address}`
+        address:  `${row.community_address}`,
+        cellphone: `${row.cellphone}`
     }));
     
     } catch (error) {

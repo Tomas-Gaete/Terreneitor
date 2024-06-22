@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Box, Container, Grid, Typography, List, ListItem, TextField, Button, Autocomplete } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { send_message } from "@components/whatsapp_component";
 import { createFilterOptions } from "@mui/material/Autocomplete";
 import PropTypes from 'prop-types';
+import { string } from "zod";
 
 const filter = createFilterOptions();
 
@@ -27,6 +27,40 @@ export const Deliverycomponent = ({ residentName = [],}) => {
     cellphone: "",
   });
 
+  function send_message() {
+    var botId = '337115706152549';
+    var phoneNbr = resident.cellphone;
+    var phoneNbr = String(phoneNbr);
+    var bearerToken = 'EAASfq36BeLUBO6mhZBVbwq7ku2thStJOJZAe30UXtYBZCNQ3rUl8eXojNlK0ADqKvqkfj205qUbJjFjaymz2gP21IwkDPx3KKukYHGcrUierrNyMDoY1Ii3EPB7uoZAMBZA4CG4ZA5VCscsUjvzyBE1WfZAoZAtctGQhaYiUoYEZBahAYZAZBshtDom2TbU9iUBpiwmKH6RfW4RsdVnSw6GXF4ZD';
+    var url = 'https://graph.facebook.com/v15.0/' + botId + '/messages';
+    var data = {
+      messaging_product: 'whatsapp',
+      to: phoneNbr,
+      type: 'template',
+      template: {
+        name:'confirmacion',
+        language:{ code: 'en_US' }
+      }
+    };
+    
+    var postReq = {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + bearerToken,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+      json: true
+    };
+    fetch(url, postReq)
+      .then(data => {
+        return data.json()
+      })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(error => console.log(error));
+  }
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh">
       <Box component="main" flex="1" py={12} px={6}>
@@ -130,6 +164,9 @@ export const Deliverycomponent = ({ residentName = [],}) => {
                         user_id: exists.id,
                         firstname: exists.label.split(' ')[0],
                         lastname: exists.label.split(' ')[1],
+                        residence_id: exists.residence_id,
+                        community_address: exists.address,
+                        cellphone: exists.cellphone,
                       });
                     } else {
                       setTimeout(() => {
@@ -229,7 +266,8 @@ export const Deliverycomponent = ({ residentName = [],}) => {
                     return filtered;
                   }}
                 />
-                <Button  
+                <Button 
+                  type= "submit" 
                   variant="contained" 
                   fullWidth 
                   onClick={send_message}
