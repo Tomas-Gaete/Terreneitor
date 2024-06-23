@@ -39,7 +39,8 @@
         "is_frequent": "{{name}} is a frequent visitor.",
         "error_missing_parking_space": "Error: Missing parking space",
         "error_missing_license_plate": "Error: Missing license plate",
-        "error_adding_visitor": "Error adding visitor"
+        "error_adding_visitor": "Error adding visitor",
+        "no_parking_space": "No parking space available"
     },
     "resident_visitors": {
         "welcome": "Visitor Management",
