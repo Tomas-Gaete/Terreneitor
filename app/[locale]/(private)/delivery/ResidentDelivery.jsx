@@ -59,8 +59,6 @@ export default  async function ResidentDelivery() {
         }));
 
     const userFullname = fullname.length > 0 ? fullname[0].result : '';
-
-    //console.log(pendingPackages);
   return (
       <ResidentDeliveryComponent
       pendingPackages={pendingPackages}

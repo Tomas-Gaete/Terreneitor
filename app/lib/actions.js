@@ -161,16 +161,7 @@ function send_message(resident) {
       .catch(error => console.log(error));
   }
 export async function addPackage(resident, sender, description){
-    console.log("holaaaaaaaaaaaaa :)")
-    console.log(resident.residence_id);
-      console.log(resident.lastname);
-      console.log(resident.firstname);
     try{
-      console.log("holaaaaaaaaaaaaaee :(")
-
-      console.log(resident.residence_id);
-      console.log(resident.lastname);
-      console.log(resident.firstname);
     const query = await sql`
 INSERT INTO package (residence_id, sender, recipient, description, drop_off, pick_up, picked_up_by)
       VALUES (${resident.residence_id}, ${sender}, ${resident.firstname} || ' ' || ${resident.lastname}, ${description}, NOW(), NULL, NULL)
