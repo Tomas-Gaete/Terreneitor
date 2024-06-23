@@ -79,5 +79,10 @@
         "owner_apartment":"Número de departamento",
         "apartment_instruction":"Ingrese el número de departamento",
         "button":"enviar"
-        }
+        },
+        "resident_delivery": {
+        "welcome": " Bienvenido a la página de manejo de paquetes",
+        "subtitle": "Administra ygestiona los paquetes pendientes o revisa la información de paquetes histórica de tu residencia.",
+        "pending_packages": "Listo para su retiro"
+    }
 }

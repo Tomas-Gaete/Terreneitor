@@ -79,5 +79,11 @@
         "owner_apartment":"Apartment number",
         "apartment_instruction":"Enter apartment number",
         "button":"submit"
+    },
+    "resident_delivery": {
+        "welcome": " Welcome to the package delivery handler",
+        "subtitle": "Administer pending packages or review historic packaging information of your residence.",
+        "pending_packages": "Ready to retrieve"
     }
+    
 }

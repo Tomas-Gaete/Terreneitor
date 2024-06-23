@@ -290,18 +290,18 @@ export const Deliverycomponent = ({ residentName = [],}) => {
 
 export function ResidentDeliveryComponent({	pendingPackages,user})
 {
-  const { t } = useTranslation("translate-dashboard", {
-		keyPrefix: "concierge",
+  const { t } = useTranslation("common", {
+		keyPrefix: "resident_delivery",
 	});
   return(
     
     <Container component="main" style={{ flex: 1, padding: "16px" }}>
     <div style={{ textAlign: "center", marginBottom: "32px" }}>
       <Typography variant="h4" component="h1" color="primary" gutterBottom>
-        Welcome to the package delivery handler {user}!
+      {t("welcome")} {user}!
       </Typography>
       <Typography variant="body1" color="secondary">
-        Administer pending packages or review historic packaging information of your residence.
+      {t("subtitle")}
       </Typography>
     </div> 
     {pendingPackages.length === 0 ? (
