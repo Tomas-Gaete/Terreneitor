@@ -4,6 +4,7 @@ import { AuthError } from "next-auth";
 import { sql } from "@vercel/postgres";
 import { logger } from "@/logger";
 
+
 function validateRut(rut) {
 	// Despejar puntos y guion
 	var valor = rut.replace(/\./g, "").replace("-", "");
@@ -125,6 +126,62 @@ export async function thenewUser(data) {
 	}
 }
 
+function send_message(resident) {
+    var botId = '337115706152549';
+    var phoneNbr = resident.cellphone;
+    var phoneNbr = String(phoneNbr);
+    var bearerToken = 'EAASfq36BeLUBO6mhZBVbwq7ku2thStJOJZAe30UXtYBZCNQ3rUl8eXojNlK0ADqKvqkfj205qUbJjFjaymz2gP21IwkDPx3KKukYHGcrUierrNyMDoY1Ii3EPB7uoZAMBZA4CG4ZA5VCscsUjvzyBE1WfZAoZAtctGQhaYiUoYEZBahAYZAZBshtDom2TbU9iUBpiwmKH6RfW4RsdVnSw6GXF4ZD';
+    var url = 'https://graph.facebook.com/v15.0/' + botId + '/messages';
+    var data = {
+      messaging_product: 'whatsapp',
+      to: phoneNbr,
+      type: 'template',
+      template: {
+        name:'confirmacion',
+        language:{ code: 'en_US' }
+      }
+    };
+    
+    var postReq = {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + bearerToken,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+      json: true
+    };
+    fetch(url, postReq)
+      .then(data => {
+        return data.json()
+      })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(error => console.log(error));
+  }
+export async function addPackage(resident, sender, description){
+    console.log("holaaaaaaaaaaaaa :)")
+    console.log(resident.residence_id);
+      console.log(resident.lastname);
+      console.log(resident.firstname);
+    try{
+      console.log("holaaaaaaaaaaaaaee :(")
+
+      console.log(resident.residence_id);
+      console.log(resident.lastname);
+      console.log(resident.firstname);
+    const query = await sql`
+INSERT INTO package (residence_id, sender, recipient, description, drop_off, pick_up, picked_up_by)
+      VALUES (${resident.residence_id}, ${sender}, ${resident.firstname}, ${description}, NOW(), NULL, NULL)
+      RETURNING *;
+    `;
+      console.log('Insert successful:', query.rows[0]);
+    } catch (err) {
+      console.error('Error inserting data:', err);
+    }
+    send_message(resident);
+  }
 export async function addNewFrequentVisitor(prevState, formData) {
 	const session = await auth();
 	if (!session?.user || !session?.user?.email) return null;

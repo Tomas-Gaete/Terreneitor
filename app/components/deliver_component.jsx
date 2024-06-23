@@ -7,6 +7,9 @@ import { useTranslation } from "react-i18next";
 import { createFilterOptions } from "@mui/material/Autocomplete";
 import PropTypes from 'prop-types';
 import { string } from "zod";
+import { sql } from '@vercel/postgres';
+import { addPackage } from "@/app/lib/actions";
+
 
 const filter = createFilterOptions();
 
@@ -27,40 +30,17 @@ export const Deliverycomponent = ({ residentName = [],}) => {
     cellphone: "",
   });
 
-  function send_message() {
-    var botId = '337115706152549';
-    var phoneNbr = resident.cellphone;
-    var phoneNbr = String(phoneNbr);
-    var bearerToken = 'EAASfq36BeLUBO6mhZBVbwq7ku2thStJOJZAe30UXtYBZCNQ3rUl8eXojNlK0ADqKvqkfj205qUbJjFjaymz2gP21IwkDPx3KKukYHGcrUierrNyMDoY1Ii3EPB7uoZAMBZA4CG4ZA5VCscsUjvzyBE1WfZAoZAtctGQhaYiUoYEZBahAYZAZBshtDom2TbU9iUBpiwmKH6RfW4RsdVnSw6GXF4ZD';
-    var url = 'https://graph.facebook.com/v15.0/' + botId + '/messages';
-    var data = {
-      messaging_product: 'whatsapp',
-      to: phoneNbr,
-      type: 'template',
-      template: {
-        name:'confirmacion',
-        language:{ code: 'en_US' }
-      }
-    };
-    
-    var postReq = {
-      method: 'POST',
-      headers: {
-        'Authorization': 'Bearer ' + bearerToken,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data),
-      json: true
-    };
-    fetch(url, postReq)
-      .then(data => {
-        return data.json()
-      })
-      .then(res => {
-        console.log(res)
-      })
-      .catch(error => console.log(error));
-  }
+  const handleAddPackage = async () => {
+    const sender = "Amazon"; // Example sender
+    const description = "Package from Amazon"; // Example description
+    await addPackage(resident, sender, description);
+  };
+  //const sender = "amazon";
+  //const description = "televisor"
+
+  
+  
+ 
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh">
       <Box component="main" flex="1" py={12} px={6}>
@@ -111,7 +91,6 @@ export const Deliverycomponent = ({ residentName = [],}) => {
                 <Autocomplete
                   id="residentName"
                   name="residentName"
-                  inputProps={{ name: "residentName" }}
                   sx={{ mt: 2, width: 1 }}
                   disablePortal
                   freeSolo
@@ -125,6 +104,7 @@ export const Deliverycomponent = ({ residentName = [],}) => {
                     <TextField
                       {...params}
                       label={t("owner_name")}
+                      inputProps={{ ...params.inputProps,name: "residentName" }}
                       id="name"
                       placeholder={t("name_instruction")}
                       InputLabelProps={{ color: "secondary" }}
@@ -190,7 +170,6 @@ export const Deliverycomponent = ({ residentName = [],}) => {
                 <Autocomplete
                   id="apartment"
                   name="residentapartment"
-                  inputProps={{ name: "residentName" }}
                   sx={{ mt: 2, width: 1 }}
                   disablePortal
                   freeSolo
@@ -204,6 +183,7 @@ export const Deliverycomponent = ({ residentName = [],}) => {
                     <TextField
                       {...params}
                       label={t("owner_apartment")}
+                      inputProps={{ ...params.inputProps,name: "residentName" }}
                       id="name"
                       placeholder={t("apartment_instruction")}
                       InputLabelProps={{ color: "secondary" }}
@@ -267,10 +247,10 @@ export const Deliverycomponent = ({ residentName = [],}) => {
                   }}
                 />
                 <Button 
-                  type= "submit" 
+                   
                   variant="contained" 
                   fullWidth 
-                  onClick={send_message}
+                  onClick={handleAddPackage}
                 >
                   {t("button")}
                 </Button>
@@ -317,6 +297,4 @@ Deliverycomponent.propTypes = {
   ),
 };
 
-Deliverycomponent.defaultProps = {
-  residentName: [],
-};
+
