@@ -101,8 +101,13 @@ function ResponsiveAppBar({ role, community }) {
 	];
 
 	if (role === "admin" || role === "concierge") {
-		pages.push([t("settings.title"), "/settings"]);
+        pages.push([t("settings.parking.title"), "/parking"]);
 	}
+
+    //Only admins can access the settings page
+    if (role === "admin") {
+		pages.push([t("settings.title"), "/settings"]);
+    }
 
 	const [anchorElNav, setAnchorElNav] = useState(null);
 
