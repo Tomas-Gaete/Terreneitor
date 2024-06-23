@@ -173,7 +173,7 @@ export async function addPackage(resident, sender, description){
       console.log(resident.firstname);
     const query = await sql`
 INSERT INTO package (residence_id, sender, recipient, description, drop_off, pick_up, picked_up_by)
-      VALUES (${resident.residence_id}, ${sender}, ${resident.firstname}, ${description}, NOW(), NULL, NULL)
+      VALUES (${resident.residence_id}, ${sender}, ${resident.firstname} || ' ' || ${resident.lastname}, ${description}, NOW(), NULL, NULL)
       RETURNING *;
     `;
       console.log('Insert successful:', query.rows[0]);

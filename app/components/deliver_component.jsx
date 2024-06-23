@@ -2,13 +2,15 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Box, Container, Grid, Typography, List, ListItem, TextField, Button, Autocomplete } from "@mui/material";
+import { Box, Container, Grid, Typography, List, ListItem, TextField, Button, Autocomplete, Card, CardHeader, CardContent } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { createFilterOptions } from "@mui/material/Autocomplete";
 import PropTypes from 'prop-types';
 import { string } from "zod";
 import { sql } from '@vercel/postgres';
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { addPackage } from "@/app/lib/actions";
+
 
 
 const filter = createFilterOptions();
@@ -35,8 +37,6 @@ export const Deliverycomponent = ({ residentName = [],}) => {
     const description = "Package from Amazon"; // Example description
     await addPackage(resident, sender, description);
   };
-  //const sender = "amazon";
-  //const description = "televisor"
 
   
   
@@ -247,7 +247,7 @@ export const Deliverycomponent = ({ residentName = [],}) => {
                   }}
                 />
                 <Button 
-                   
+                   type = "submit"
                   variant="contained" 
                   fullWidth 
                   onClick={handleAddPackage}
@@ -288,6 +288,75 @@ export const Deliverycomponent = ({ residentName = [],}) => {
   );
 };
 
+export function ResidentDeliveryComponent({	pendingPackages,user})
+{
+  const { t } = useTranslation("translate-dashboard", {
+		keyPrefix: "concierge",
+	});
+  return(
+    
+    <Container component="main" style={{ flex: 1, padding: "16px" }}>
+    <div style={{ textAlign: "center", marginBottom: "32px" }}>
+      <Typography variant="h4" component="h1" color="primary" gutterBottom>
+        Welcome to the package delivery handler {user}!
+      </Typography>
+      <Typography variant="body1" color="secondary">
+        Administer pending packages or review historic packaging information of your residence.
+      </Typography>
+    </div> 
+    {pendingPackages.length === 0 ? (
+  <Typography variant="body2" color="textSecondary">
+    {t("no_packages")}
+  </Typography>
+) : (
+  <Grid container spacing={2}>
+    {pendingPackages.map((packageitem) => (
+      <Grid item xs={12} sm={6} md={4} key={packageitem.id}>
+        <Card>
+          <CardHeader title={t("pending_packages")} />
+          <CardContent
+            sx={{
+              minHeight: "22vh",
+              maxHeight: "50vh",
+            }}
+          >
+            <PackageItem data={packageitem} />
+          </CardContent>
+        </Card>
+      </Grid>
+    ))}
+  </Grid>
+)}   
+      </Container>
+  )
+}
+function PackageItem({ data }) {
+	const { t } = useTranslation("translate-dashboard", {
+		keyPrefix: "concierge",
+	});
+	return (
+		<div
+			style={{
+				display: "flex",
+				alignItems: "center",
+				marginBottom: "8px",
+			}}
+		>
+			<LocalShippingIcon style={{ marginRight: "8px" }} />
+			<div>
+				<Typography variant="body1">
+					{t("package_for")} {data.recipient}
+				</Typography>
+				<Typography variant="body2" color="textSecondary">
+					{t("sent_by")} {data.sender}
+				</Typography>
+				<Typography variant="body2" color="textSecondary">
+					{t("arrived_on")} {data.drop_off}
+				</Typography>
+			</div>
+		</div>
+	);
+}
 Deliverycomponent.propTypes = {
   residentName: PropTypes.arrayOf(
     PropTypes.shape({
