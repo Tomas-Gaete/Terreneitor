@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
 	Button,
 	Autocomplete,
@@ -8,12 +8,16 @@ import {
 	Modal,
 	Box,
 	Alert,
+	Accordion,
+	AccordionSummary,
+	AccordionDetails,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { useTranslation } from "react-i18next";
 import QrReader from "@/app/components/QrReader";
 import { createFilterOptions } from "@mui/material/Autocomplete";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormState } from "react-dom";
 import { addVisitor, addVisitorVehicle, addVisit } from "@/app/lib/actions";
 
 const style = {
@@ -39,6 +43,7 @@ export const VisitorComp = ({
 	residences,
 	visitorLicense,
 	frequentVisitors,
+	availableParkingSpaces,
 }) => {
 	const { t } = useTranslation("common", { keyPrefix: "visitors" });
 	//Autocomplete values
@@ -68,6 +73,8 @@ export const VisitorComp = ({
 		setLicense(visitorVehicle.license_plate);
 		setOpenLicenseModal(false);
 	};
+	//state for the selected parking space
+	const [selectedParkingSpace, setSelectedParkingSpace] = useState("");
 	//Frequewnt Visitor state
 	const [frequentVisitor, setFrequentVisitor] = useState(false);
 	//form handlers
@@ -103,6 +110,15 @@ export const VisitorComp = ({
 		}, 3000);
 	};
 
+	const handleSelectParkingSpace = (event) => {
+		const value = event.target.value;
+		if (selectedParkingSpace == value) {
+			setSelectedParkingSpace("");
+			return;
+		}
+		setSelectedParkingSpace(value);
+	};
+
 	return (
 		<>
 			<Grid xs={12}>
@@ -112,8 +128,11 @@ export const VisitorComp = ({
 				{errorMessageVehicle && (
 					<Alert severity="error">{errorMessageVehicle}</Alert>
 				)}
-				{errorMessageVisit && (
-					<Alert security="success">{errorMessageVisit}</Alert>
+				{errorMessageVisit === true && (
+					<Alert security="success">{t("success")}</Alert>
+				)}
+				{typeof errorMessageVisit == "string" && (
+					<Alert security="success">{t(errorMessageVisit)}</Alert>
 				)}
 				<Grid
 					container
@@ -272,8 +291,19 @@ export const VisitorComp = ({
 										visitorsRut.find((visitor) => visitor.label === rut).id
 									}
 								/>
+								<input
+									type="hidden"
+									name="parking_space_id"
+									value={selectedParkingSpace}
+								/>
 								<input type="hidden" name="residence_id" id="residence_id" />
-
+								<input
+									type="hidden"
+									name="vehicle_id"
+									value={
+										visitorLicense?.find((lp) => lp.label === license)?.id ?? ""
+									}
+								/>
 								<Grid container spacing={2}>
 									<Grid xs={12} md={6}>
 										<Autocomplete
@@ -314,74 +344,130 @@ export const VisitorComp = ({
 											}}
 										/>
 									</Grid>
-									<Grid xs={12} md={6}>
-										<Autocomplete
-											id="autocomplete-license"
-											fullWidth
-											disablePortal
-											forcePopupIcon={false}
-											value={license}
-											options={visitorLicense}
-											renderInput={(params) => (
-												<TextField
-													{...params}
-													label={t("licence_plate")}
-													inputProps={{
-														...params.inputProps,
-														name: "license_plate",
-													}}
-													InputLabelProps={{ color: "secondary" }}
-												/>
-											)}
-											renderOption={(props, option) => (
-												<li {...props} key={props.key}>
-													{option.label}
-												</li>
-											)}
-											onChange={(event, value) => {
-												if (!value) return;
 
-												let newVisitorLicense = visitorLicense.find(
-													(license) => license.id === value.id,
-												)?.label;
-												if (!newVisitorLicense) {
-													setTimeout(() => {
-														setOpenLicenseModal(true);
-														setLicense(value.inputValue);
-														setVisitorVehicle({
-															license_plate: value.inputValue,
-															visitor_id: visitorsRut.find(
-																(visitor) => visitor.label === rut,
-															).id,
-															brand: "",
-															model: "",
-															color: "",
-														});
-													});
-												} else {
-													setLicense(newVisitorLicense);
-												}
+									<Grid xs={12} md={6}>
+										<TextField fullWidth>wea</TextField>
+									</Grid>
+									<Grid xs={12}>
+										<Accordion
+											sx={{
+												width: 1,
+												borderRadius: 2,
+												backgroundColor: "transparent",
+												border: "none",
+												"&::before": {
+													display: "none",
+												},
 											}}
-											filterOptions={(options, params) => {
-												let filtered = filter(options, params);
-												//TODO:
-												//filter licence plates that dont belong to the visit
-												if (params.inputValue !== "") {
-													filtered.push({
-														inputValue: params.inputValue,
-														label: t("add", { input: params.inputValue }),
-													});
-												}
-												return filtered;
-											}}
-										/>
+										>
+											<AccordionSummary
+												expandIcon={<ArrowDownwardIcon />}
+												aria-controls="panel1-content"
+												id="panel1-header"
+											>
+												<Typography>Parking</Typography>
+											</AccordionSummary>
+											<AccordionDetails>
+												<Grid container spacing={2}>
+													<Grid xs={12}>
+														<Autocomplete
+															id="autocomplete-license"
+															disablePortal
+															forcePopupIcon={false}
+															value={license}
+															options={visitorLicense}
+															sx={{
+																width: { xs: "100%", md: "50%" },
+																margin: "auto",
+															}}
+															renderInput={(params) => (
+																<TextField
+																	{...params}
+																	label={t("licence_plate")}
+																	InputLabelProps={{ color: "secondary" }}
+																/>
+															)}
+															renderOption={(props, option) => (
+																<li {...props} key={props.key}>
+																	{option.label}
+																</li>
+															)}
+															onChange={(event, value) => {
+																if (!value) {
+																	setLicense("");
+																	return;
+																}
+
+																let newVisitorLicense = visitorLicense.find(
+																	(license) => license.id === value.id,
+																)?.label;
+																if (!newVisitorLicense) {
+																	setTimeout(() => {
+																		setOpenLicenseModal(true);
+																		setLicense(value.inputValue);
+																		setVisitorVehicle({
+																			license_plate: value.inputValue,
+																			visitor_id: visitorsRut.find(
+																				(visitor) => visitor.label === rut,
+																			).id,
+																			brand: "",
+																			model: "",
+																			color: "",
+																		});
+																	});
+																} else {
+																	setLicense(newVisitorLicense);
+																}
+															}}
+															filterOptions={(options, params) => {
+																let filtered = filter(options, params);
+																//TODO:
+																//filter licence plates that dont belong to the visit
+																if (params.inputValue !== "") {
+																	filtered.push({
+																		inputValue: params.inputValue,
+																		label: t("add", {
+																			input: params.inputValue,
+																		}),
+																	});
+																}
+																return filtered;
+															}}
+														/>
+													</Grid>
+													<Grid
+														container
+														gap={1}
+														sx={{
+															display: "flex",
+															justifyContent: "center",
+															alignItems: "center",
+															margin: "0 auto",
+															width: 1,
+														}}
+													>
+														{availableParkingSpaces.map((space) => (
+															<ParkingSpace
+																key={space.id}
+																number={space.number}
+																id={space.id}
+																selected={selectedParkingSpace}
+																handleSelectParkingSpace={
+																	handleSelectParkingSpace
+																}
+															/>
+														))}
+													</Grid>
+												</Grid>
+											</AccordionDetails>
+										</Accordion>
 									</Grid>
 									{frequentVisitor && (
 										<>
 											<Grid xs={12}>
 												<Alert severity="info" color="secondary">
 													<Typography color={"primary"}>
-														{t("is_frequent", {name: name})}
+														{t("is_frequent", { name: name })}
 													</Typography>
 												</Alert>
 											</Grid>
@@ -598,3 +684,38 @@ export const VisitorComp = ({
 		</>
 	);
 };
+
+function ParkingSpace({ number, id, selected, handleSelectParkingSpace }) {
+	return (
+		<Grid
+			xs={3}
+			sm={2}
+			md={1}
+			sx={{
+				display: "flex",
+				justifyContent: "center",
+				alignItems: "center",
+			}}
+		>
+			{selected == id ? (
+				<Button
+					onClick={handleSelectParkingSpace}
+					color="secondary"
+					value={id}
+					variant="contained"
+				>
+					{number}
+				</Button>
+			) : (
+				<Button
+					onClick={handleSelectParkingSpace}
+					color="primary"
+					value={id}
+					variant="outlined"
+				>
+					{number}
+				</Button>
+			)}
+		</Grid>
+	);
+}

@@ -36,7 +36,10 @@
         "color": "Color",
         "visit_reason": "Motivo de visita (opcional)",
         "visitor_info": "Información del visitante",
-        "is_frequent": "{{name}} es una visita frecuente."
+        "is_frequent": "{{name}} es una visita frecuente.",
+        "error_missing_parking_space": "Error: Estacionamiento no seleccionado",
+        "error_missing_license_plate": "Error: Patente no ingresada",
+        "error_adding_visitor": "Error al ingresar visita"
     },
     "resident_visitors":{
         "welcome": "Gestión de Visitas",

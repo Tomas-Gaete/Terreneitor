@@ -23,6 +23,7 @@ export default async function ConciergeVisitors({ locale }) {
     let alert;
     let residences;
     let frequentVisitors;
+    let availableParkingSpaces;
 
     const client = await db.connect();
 
@@ -91,8 +92,43 @@ export default async function ConciergeVisitors({ locale }) {
             visitor_id: visitor.visitor_id,
             residence_id: visitor.residence_id
         }));
+        
+        availableParkingSpaces = await client.sql`WITH occupied_spaces AS (
+                SELECT
+                    psu.parking_space_id,
+                    vv.brand,
+                    vv.model,
+                    v.firstname,
+                    v.lastname,
+                    MAX(vtr.arrival) AS last_arrival
+                FROM
+                    parking_space_usage psu
+                JOIN
+                    visit_to_residence vtr ON psu.visit_id = vtr.id
+                JOIN
+                    visitor_vehicle vv ON psu.vehicle_id = vv.id
+                join
+                    visitor v on vv.visitor_id = v.id
+                WHERE
+                    vtr.departure IS NULL
+                GROUP BY
+                    psu.parking_space_id, vv.brand, vv.model, v.firstname, v.lastname
+            )
+            SELECT
+                ps.id,
+                ps.number
+            FROM
+                parking_space ps
+            LEFT JOIN
+                occupied_spaces os ON ps.id = os.parking_space_id
+            WHERE
+                ps.community_id = ${session.user.community_id}
+                AND os.parking_space_id IS NULL
+            ORDER BY
+                ps.number;`;
 
-
+        availableParkingSpaces = availableParkingSpaces.rows;
+        
 	} catch (error) {
         alert = "Error loading visitors."
 		visitors = [];
@@ -101,8 +137,9 @@ export default async function ConciergeVisitors({ locale }) {
         residences = [];
         visitorLicensePlates = [];
         frequentVisitors = [];
+        availableParkingSpaces = [];
 	} finally {
-		client.release();
+        client.release();
 	}
     logger.debug(`(${visitors?.fields?.length ?? 0}) visitors loaded.`);
     return (
@@ -115,6 +152,7 @@ export default async function ConciergeVisitors({ locale }) {
                     residences={residences}
                     visitorLicense={visitorLicensePlates}
                     frequentVisitors={frequentVisitors}
+                    availableParkingSpaces={availableParkingSpaces}
                 />
 
 				<Grid item="true" xs={12} md={6} sx={{ height: "100%" }}>
