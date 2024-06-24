@@ -8,18 +8,28 @@ import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import Typography from "@mui/material/Typography";
+import SpotConfigPopover from '@/app/components/ChangeTime';
+
+function NOW() {
+	return new Date();
+  }
+
 
 const ParkingManagement = ({ parking_state, parking_DB }) => {
-	const [parkingSpaces, setParkingSpaces] = useState(
-		Object.entries(parking_DB).map(([id, parking]) => ({
-			id: id,
-			visitor: parking.firstname + " " + parking.lastname,
-			car: parking.brand + "/" + parking.model,
-			resident: parking.resident_firstname + " " + parking.resident_lastname,
-			number: parking.number,
-			status: "available",
-		})),
-	);
+  const [parkingSpaces, setParkingSpaces] = useState(
+
+
+
+
+    Object.entries(parking_DB).map(([id, parking]) => {
+      if (parking.parking_used_id == null || parking.salida < NOW()){
+        return { id: parking.id,  visitor: "N/A", car: "N/A",  departure: "N/A", number: parking.number, status: "available" };
+      } else {
+		const departureString = parking.salida.toLocaleString(); 
+        return { id: parking.id, used_space_id: parking.parking_used_id, visitor: parking.firstname + " " + parking.lastname, car: parking.brand +"/" + parking.model,  departure: departureString, number: parking.number, status: "occupied" };
+      }
+    })
+  );
 
 	const [sortBy, setSortBy] = useState("number");
 	const [sortDirection, setSortDirection] = useState("asc");
@@ -62,39 +72,42 @@ const ParkingManagement = ({ parking_state, parking_DB }) => {
 	return (
 		<div className="max-w-6xl mx-auto p-4 sm:p-6 md:p-8">
 			<Typography variant="h4" component="h1" gutterBottom>
-				Parking Space Management
+				Administración de Estacionamiento
 			</Typography>
+
+			
 
 			<div className="flex items-center justify-between mb-4">
 				<div className="flex items-center gap-2">
+					
 					<Button
 						variant={filterStatus === "all" ? "contained" : "outlined"}
 						onClick={() => handleFilterStatus("all")}
 					>
-						All
+						Todos
 					</Button>
 					<Button
 						variant={filterStatus === "available" ? "contained" : "outlined"}
 						onClick={() => handleFilterStatus("available")}
 					>
-						Available
+						Disponible
 					</Button>
 					<Button
 						variant={filterStatus === "occupied" ? "contained" : "outlined"}
 						onClick={() => handleFilterStatus("occupied")}
 					>
-						Occupied
+						Ocupado
 					</Button>
 				</div>
 				<div className="flex items-center gap-2">
 					<Typography variant="body2" color="textSecondary">
-						Sort by:
+						Ordenar por:
 					</Typography>
 					<Button
 						variant={sortBy === "number" ? "contained" : "outlined"}
 						onClick={() => handleSort("number")}
 					>
-						Number{" "}
+						Numero{" "}
 						{sortBy === "number" &&
 							(sortDirection === "asc" ? "\u2191" : "\u2193")}
 					</Button>
@@ -102,7 +115,7 @@ const ParkingManagement = ({ parking_state, parking_DB }) => {
 						variant={sortBy === "status" ? "contained" : "outlined"}
 						onClick={() => handleSort("status")}
 					>
-						Status{" "}
+						Estado{" "}
 						{sortBy === "status" &&
 							(sortDirection === "asc" ? "\u2191" : "\u2193")}
 					</Button>
@@ -112,13 +125,13 @@ const ParkingManagement = ({ parking_state, parking_DB }) => {
 				<div className="flex items-center gap-2">
 					<div className="w-4 h-4 rounded-full bg-green-500" />
 					<span className="text-gray-500 dark:text-gray-400">
-						Available: {parking_state.available_spaces}
+						Disponible: {parking_state.available_spaces}
 					</span>
 				</div>
 				<div className="flex items-center gap-2">
 					<div className="w-4 h-4 rounded-full bg-red-500" />
 					<span className="text-gray-500 dark:text-gray-400">
-						Occupied: {parking_state.ocupied_spaces}
+						Ocupado: {parking_state.ocupied_spaces}
 					</span>
 				</div>
 				<div className="flex items-center gap-2">
@@ -129,15 +142,16 @@ const ParkingManagement = ({ parking_state, parking_DB }) => {
 				</div>
 			</div>
 			<div className="overflow-x-auto">
+				
 				<Table>
 					<TableHead>
 						<TableRow>
-							<TableCell>Number</TableCell>
-							<TableCell>Visitor</TableCell>
-							<TableCell>Car</TableCell>
-							<TableCell>Resident</TableCell>
-							<TableCell>Status</TableCell>
-							<TableCell>Action</TableCell>
+							<TableCell>Numero</TableCell>
+							<TableCell>Visitante</TableCell>
+							<TableCell>Auto</TableCell>
+							<TableCell>Estado</TableCell>
+							<TableCell>Salida</TableCell>
+							<TableCell>Acción</TableCell>
 							<TableCell></TableCell>
 						</TableRow>
 					</TableHead>
@@ -147,7 +161,6 @@ const ParkingManagement = ({ parking_state, parking_DB }) => {
 								<TableCell>{space.number}</TableCell>
 								<TableCell>{space.visitor}</TableCell>
 								<TableCell>{space.car}</TableCell>
-								<TableCell>{space.resident}</TableCell>
 								<TableCell>
 									<div
 										className={`px-3 py-1 rounded-full text-xs font-medium ${
@@ -159,6 +172,7 @@ const ParkingManagement = ({ parking_state, parking_DB }) => {
 										{space.status}
 									</div>
 								</TableCell>
+								<TableCell>{space.departure}</TableCell>
 								<TableCell>
 									<Button
 										variant="outlined"
@@ -171,11 +185,13 @@ const ParkingManagement = ({ parking_state, parking_DB }) => {
 										}
 									>
 										{space.status === "available"
-											? "Mark as Occupied"
-											: "Mark as Available"}
+											? "Marcar como Ocupado"
+											: "Marcar como Disponible"}
 									</Button>
 								</TableCell>
-								<TableCell>Configuracion</TableCell>
+								<TableCell>
+								{space.status === "occupied" && <SpotConfigPopover />}
+								</TableCell>
 							</TableRow>
 						))}
 					</TableBody>

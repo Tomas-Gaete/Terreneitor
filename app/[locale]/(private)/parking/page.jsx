@@ -24,7 +24,7 @@ export default async function Parking() {
 	//then, make a database of all the parking spaces from the community of the user
 	try {
 		parking_DB =
-			await sql`SELECT parking_space.id, parking_space.number, visitor_vehicle.brand, visitor_vehicle.model, visitor.firstname, visitor.lastname, user_info.firstname as resident_firstname, user_info.lastname as resident_lastname
+			await sql`SELECT parking_space.id, parking_space.number, visitor_vehicle.brand, visitor_vehicle.model, visitor.firstname, visitor.lastname, user_info.firstname as resident_firstname, parking_space_usage.id as parking_used_id, user_info.lastname as resident_lastname, visit_to_residence.arrival as llegada, visit_to_residence.departure as salida
                              FROM parking_space 
 							LEFT JOIN parking_space_usage ON parking_space.id = parking_space_usage.parking_space_id 
                             LEFT JOIN visitor_vehicle ON parking_space_usage.vehicle_id = visitor_vehicle.id 
@@ -68,6 +68,7 @@ export default async function Parking() {
 
 	return (
 		<div>
+			
 			<Parking_Component
 				db_parking_space={db_parking_space}
 				db_parking_space_usage={db_parking_space_usage}
