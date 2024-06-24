@@ -26,13 +26,14 @@ export default async function Parking() {
 		parking_DB =
 			await sql`SELECT parking_space.id, parking_space.number, visitor_vehicle.brand, visitor_vehicle.model, visitor.firstname, visitor.lastname, user_info.firstname as resident_firstname, user_info.lastname as resident_lastname
                              FROM parking_space 
-                            LEFT JOIN parking_space_usage ON parking_space.id = parking_space_usage.parking_space_id 
+							LEFT JOIN parking_space_usage ON parking_space.id = parking_space_usage.parking_space_id 
                             LEFT JOIN visitor_vehicle ON parking_space_usage.vehicle_id = visitor_vehicle.id 
-                            LEFT JOIN visitor ON parking_space_usage.visitor_id = visitor.id
                             LEFT JOIN visit_to_residence ON parking_space_usage.visit_id = visit_to_residence.id
+                            LEFT JOIN visitor ON visit_to_residence.visitor_id = visitor.id
                             LEFT JOIN residence ON visit_to_residence.residence_id = residence.id
                             LEFT JOIN resident ON residence.id = resident.residence_id
                             LEFT JOIN user_info ON resident.user_id = user_info.id
+
 
                             WHERE parking_space.community_id = ${user_community_id}`;
 		parking_DB = parking_DB.rows;
