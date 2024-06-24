@@ -63,9 +63,13 @@ function NavbarSettings({ text }) {
 				onClose={handleCloseUserMenu}
 			>
 				<MenuItem onClick={handleCloseUserMenu}>
-					<Typography color="primary" sx={{ m: "auto" }} textAlign="center">
+				<Link href={"/profile"}style={{ textDecoration: "none" ,textAlign:"center",margin: "auto"  }} >
+					<Typography color="primary" sx={{ m: "auto" }} textAlign="center" >
+					
 						{text.profile}
+					
 					</Typography>
+				</Link>
 				</MenuItem>
 				<MenuItem onClick={handleCloseUserMenu}>
 					<LanguageChanger />

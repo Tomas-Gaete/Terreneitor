@@ -88,6 +88,11 @@
         "welcome": " Welcome to the package delivery handler",
         "subtitle": "Administer pending packages or review historic packaging information of your residence.",
         "pending_packages": "Ready to retrieve"
+    },
+    "profile_view": {
+        "role": " Role",
+        "residence": "Residence",
+        "phone": "Phone number"
     }
     
 }

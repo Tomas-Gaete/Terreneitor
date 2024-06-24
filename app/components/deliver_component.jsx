@@ -1,13 +1,10 @@
 "use client"; // This is necessary for client-side components in Next.js 13+
 
 import React, { useState } from "react";
-import Link from "next/link";
 import { Box, Container, Grid, Typography, List, ListItem, TextField, Button, Autocomplete, Card, CardHeader, CardContent } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { createFilterOptions } from "@mui/material/Autocomplete";
 import PropTypes from 'prop-types';
-import { string } from "zod";
-import { sql } from '@vercel/postgres';
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { addPackage } from "@/app/lib/actions";
 
@@ -264,24 +261,6 @@ export const Deliverycomponent = ({ residentName = [],}) => {
           <Typography variant="body2" color="inherit">
             &copy; 2024 Terreneitor. All rights reserved.
           </Typography>
-          <nav>
-            <List sx={{ display: 'flex', flexDirection: 'row', padding: 0 }}>
-              <ListItem sx={{ width: 'auto' }}>
-                <Link href="#" prefetch={false} passHref>
-                  <Typography variant="body2" color="inherit" sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
-                    Privacy Policy
-                  </Typography>
-                </Link>
-              </ListItem>
-              <ListItem sx={{ width: 'auto' }}>
-                <Link href="#" prefetch={false} passHref>
-                  <Typography variant="body2" color="inherit" sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
-                    Terms of Service
-                  </Typography>
-                </Link>
-              </ListItem>
-            </List>
-          </nav>
         </Container>
       </Box>
     </Box>
