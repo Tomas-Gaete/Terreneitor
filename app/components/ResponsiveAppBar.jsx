@@ -63,9 +63,11 @@ function NavbarSettings({ text }) {
 				onClose={handleCloseUserMenu}
 			>
 				<MenuItem onClick={handleCloseUserMenu}>
-					<Typography color="primary" sx={{ m: "auto" }} textAlign="center">
-						{text.profile}
-					</Typography>
+					<Link href="/profile" style={{ textDecoration: "none", width:"100%"}}>
+						<Typography color="primary" sx={{ m: "auto" }} textAlign="center">
+							{text.profile}
+						</Typography>
+					</Link>
 				</MenuItem>
 				<MenuItem onClick={handleCloseUserMenu}>
 					<LanguageChanger />
@@ -101,13 +103,13 @@ function ResponsiveAppBar({ role, community }) {
 	];
 
 	if (role === "admin" || role === "concierge") {
-        pages.push([t("settings.parking.title"), "/parking"]);
+		pages.push([t("settings.parking.title"), "/parking"]);
 	}
 
-    //Only admins can access the settings page
-    if (role === "admin") {
+	//Only admins can access the settings page
+	if (role === "admin") {
 		pages.push([t("settings.title"), "/settings"]);
-    }
+	}
 
 	const [anchorElNav, setAnchorElNav] = useState(null);
 
