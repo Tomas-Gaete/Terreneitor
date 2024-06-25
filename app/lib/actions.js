@@ -129,8 +129,7 @@ function send_message(resident) {
 	var botId = "337115706152549";
 	var phoneNbr = resident.cellphone;
 	var phoneNbr = String(phoneNbr);
-	var bearerToken =
-		"EAASfq36BeLUBO6mhZBVbwq7ku2thStJOJZAe30UXtYBZCNQ3rUl8eXojNlK0ADqKvqkfj205qUbJjFjaymz2gP21IwkDPx3KKukYHGcrUierrNyMDoY1Ii3EPB7uoZAMBZA4CG4ZA5VCscsUjvzyBE1WfZAoZAtctGQhaYiUoYEZBahAYZAZBshtDom2TbU9iUBpiwmKH6RfW4RsdVnSw6GXF4ZD";
+	var bearerToken ="EAASfq36BeLUBOzxssBoZB1ZA60ZCaboo5AsRkUTNINJ0jwfO29aWdxgLbJed0u9LFzms77pS4IansJIWBZAOfV6nMEsZCrmcPr5eRSYkqu991EzUbHbGZA95yXW9xZBrixavzPZAwZBgyCE3XqoUNglhtiqpjBtNll9vvrjeFEZAzRmcKE44io3Ph7VZA4Xuz529KIblU8lXWsVGl94evU5tRoZD";
 	var url = "https://graph.facebook.com/v15.0/" + botId + "/messages";
 	var data = {
 		messaging_product: "whatsapp",

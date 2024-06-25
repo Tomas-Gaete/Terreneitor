@@ -88,5 +88,10 @@
         "welcome": " Bienvenido a la página de manejo de paquetes",
         "subtitle": "Administra ygestiona los paquetes pendientes o revisa la información de paquetes histórica de tu residencia.",
         "pending_packages": "Listo para su retiro"
+    },
+    "profile_view": {
+        "role": " Rol",
+        "residence": "Residencia",
+        "phone": "Número de teléfono"
     }
 }
